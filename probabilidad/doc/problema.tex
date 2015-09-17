@@ -1,0 +1,69 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{listings}
+\usepackage[margin=0.3in]{geometry}
+\title{Aplicación en R de conceptos de la materia}
+\author{García Luis \and Mena Manuel}
+\begin{document}
+
+\maketitle
+
+Estimar el valor de $\pi$ mediante la técnica sugerida en el ejercicio de la Práctica 5, 12 b.
+¿Cuántos valores se deben tomar si se quiere un error menor a 0.001 con probabilidad mayor que 0.9?
+
+Calculemos primero cuantos valores se deben tomar para aproximar $\pi$ con un error a 0.001 y con probabilidad mayor que 0.9
+
+Haciendo la referencia al ejercicio correspondiente: Tenemos $U_1, ..., U_n$ una muestra aleatoria con distribución U[0,1].
+Por la Ley de Los Grandes Números se debía demostrar que para una función continua $h$ vale que:
+
+\begin{equation}
+	\frac{1}{n}\sum_{i=1}^{n}{h(U_i)} \longrightarrow \int_0^1{h(x) dx}
+\end{equation}
+
+cuando $n \to \infty$.
+
+Pensemos en un arco de circunferencia de radio uno en el primer cuadrante del plano cartesiano y llamemos a la región denotada $A$.
+
+\[
+	Area(A) = \frac{\pi * \phi^2}{4} \iff 4 Area(A) = \pi
+\]
+
+donde $\phi = radio\ de\ la\ circunferencia = 1$
+
+Sabemos bien que entonces $\pi = 4 Area(A) = 4 \int_0^1{h(x) dx}$ donde $h(x) = \sqrt{1-x^2}$. Por (1) Tenemos que $\pi \approx 4\frac{1}{n}\sum_{i=1}^{n}{\sqrt{1-U_i^2}}$. Llamemos a la expresión última (del lado derecho) X, entonces:
+
+\[
+	\mathrm{E}(X) = \mathrm{E}(4\frac{1}{n}\sum_{i=1}^{n}{\sqrt{1-U_i^2}}) = 4 \mathrm{E}(\sqrt{1-U^2}) = \frac{4}{4} \pi = \pi
+\]
+
+\begin{equation}
+	\mathrm{Var}(X) = \mathrm{Var}(4\frac{1}{n}\sum_{i=1}^{n}{\sqrt{1-U_i^2}}) = \frac{16n}{n^2} \mathrm{Var}(\sqrt{1-U^2})
+\end{equation}
+
+donde
+
+\[ \mathrm{Var}(\sqrt{1-U^2}) = \mathrm{E}(1-U^2) - \mathrm{E}(\sqrt{1-U^2})^2 = \frac{2}{3} - \frac{\pi^2}{16} \]
+
+y finalmente la expresión (2) queda como
+
+\[
+	\mathrm{Var}(X) = \frac{16}{n} ( \frac{2}{3} - \frac{\pi^2}{16} ) \approx \frac{0.797}{n}
+\]
+
+Luego, tomando un $n$ tal que $\mathrm{E}(X)$ y $\mathrm{Var}(X)$ existan, por Chebyshev tenemos que
+
+\[
+	\Pr( |X - \mathrm{E}(X)| \leq \epsilon ) \geq 1 - \frac{\mathrm{Var}(X)}{\epsilon^2}
+\]
+
+es decir que para $\epsilon = 0.001$
+
+\[
+	\Pr( |X - \pi| \leq 0.001 ) \geq 1 - \frac{0.797}{n 0.001^2} \geq 0.9 \iff 7970000 \leq n
+\]
+
+Y el código propuesto en su versión vectorizada para R es
+
+\lstinputlisting[language=R]{../aproximarPi.R}
+
+\end{document}
