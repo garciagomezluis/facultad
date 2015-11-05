@@ -1,0 +1,11 @@
+Algunos usos de "const": http://duramecho.com/ComputerInformation/WhyHowCppConst.html
+
+Sobrecarga de operadores: http://www.learncpp.com/cpp-tutorial/911-the-copy-constructor-and-overloading-the-assignment-operator/
+
+Diferencia entre & y *: http://faq.cprogramming.com/cgi-bin/smartfaq.cgi?id=1043284376&answer=1047588532
+
+Stack vs. Heap: http://gribblelab.org/CBootcamp/7_Memory_Stack_vs_Heap.html
+
+Tp2 en shareLatex: https://es.sharelatex.com/project/560fd2b1a110d7003168ed3e
+
+git vs svn: http://stackoverflow.com/questions/871/why-is-git-better-than-subversion

@@ -1,0 +1,17 @@
+La idea de como se debería proceder supongo es:
+
+Escribir el código del módulo en el siguiente orden: modulo.h, modulo.cpp, test.cpp
+
+	Para probar el módulo se deberían utilizar los test.
+
+	make run_modulo
+
+Una vez que todos los módulos ya estén listos entonces escribir el código del driver en el siguiente orden: Driver.h, Driver.cpp
+
+	Para probar el driver hay que hacerlo a través de test.cpp
+
+Y por último escribir test en test.cpp **utilizando el driver**, este archivo es el que se compila y el que se muestra en la evaluación.
+
+	Para probar test.cpp
+
+	make test
