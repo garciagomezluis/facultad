@@ -1,0 +1,87 @@
+El concepto de git es similar al de svn (es un gestor de versiones). Es útil para hacer proyectos colaborativos entre muchas personas eliminando la necesidad de estar mandando los cambios por mail (por ejemplo) y luego "juntándolos" todos para tener un único trabajo.
+
+Una de las diferencias entre git y svn es que git es descentralizado (todos tienen una copia del proyecto en local), mientras que en svn no (para hacer un cambio en el proyecto es necesario enviarlo al servidor que tiene el repositorio). En nuestro caso particular los servidores que están hosteando nuestro repositorio son los servidores de github, y para ver el estado de la copia remota con una linda interfaz gráfica se puede entrar a la dirección que les mandé por ws.
+
+Dado que son los servidores de github los que hostean nuestro repositorio, para poder actualizar la copia remota es necesario estar autenticado. El primer paso es crearse una cuenta en http://www.github.com, luego en la computadora donde se va a hacer el trabajo hay que crear una clave ssh y registrarla en el sitio (esto se debe hacer por cada computadora en la que se quiera trabajar). Como los pasos varian dependiendo del sistema operativo, se puede ver con más detalle en https://help.github.com/articles/generating-ssh-keys/ , una vez hecho esto, instalar git en la computadora donde se va a trabajar. Ubuntu guarda en sus repositorios locales una versión de git (que puede no ser la más reciente), la serie de comandos sería:
+
+sudo apt-get update
+sudo apt-get install git
+[Yes]
+
+Una vez instalado git se debe registrar el usuario localmente, se realiza por única vez:
+
+git config --global user.name "John Doe"
+git config --global user.email johndoe@example.com
+
+(más información en https://git-scm.com/book/en/v2/Getting-Started-First-Time-Git-Setup)
+
+El esquema básico de trabajo con git es:
+.) entrar en la copia local del proyecto
+.) actualizar la copia local con los posibles cambios que otros pudieron haber hecho en la copia remota
+.) hacer los cambios que necesitemos
+.) pasar todos los cambios que hicimos y tienen relación entre si de la zona de "cambiados" a la zona de "a commitear"
+.) pasar todos los cambios que hicimos de la zona de "a commitear" a la pila de commits
+.) actualizar nuevamente la copia local con los posibles cambios que otros pudieron haber hecho en la copia remota
+.) resolver los conflictos de merge si es que los hubieron
+.) actualizar la copia remota con nuestros cambios
+
+Algunos puntos
+.) al momento de actualizar la copia local con los cambios que hayan en la copia remota, puede pasar que, por ejemplo localmente se haya editado file1 en la linea 50 y que remotamente también se haya editado file1 en la linea 50, por lo que hal querer actualizar los cambios localmente, git no va a saber a que cambio darle prioridad, por lo que hay un problema de merge y nos va a pedir que nosotros decidamos que cambio debe quedar. En ese caso, entramos a file1 en la linea 50 y vemos que git diferencia entre dos bloques con comentarios que agregó, en un bloque están nuestros cambios, y en el otro los cambios remotos: miramos bien que debe quedar y entonces borramos lo que sobre y dejamos lo que corresponde, una vez hecho eso, el archivo pasa a estar en zona de "cambiados" y se debe pasar a zona de "a commitear". El proceso se imita para todos los archivos que hayan tirado conflictos. Una vez solucionados todos los problemas de merge, entonces pasan todos de la zona de "a commitear" a la pila de commits mediante el comando 'git commit -m "un mensaje describiendo la situación, por ejemplo: commit solucionando conflictos de merge"'.
+.) zona de "cambiados": es una lista de archivos que fueron cambiados, pero no se pasaron a la zona de "a commitear".
+.) zona de "a commitear": es una lista de archivos que son próximos a agregar a la lista de commits y no están en la zona de cambiados.
+.) lista o cola de commits: es una lista con todos los cambios que fuimos haciendo, son los cambios con los que se van a actualizar la copia remota.
+.) para ver el estado de la zona de "cambiados" y de la zona de "a commitear" se utiliza el comando "git status", para ver la lista de commits hechos se utiliza el comando "git log" (ver abajo)
+
+Sintaxis de algunos comandos básicos:
+
+#hace una copia local del proyecto en el directorio en el que estén metidos (esto sólo se hace la primera vez, después es cuestión de mantener la copia remota actualizada)
+git clone git@github.com:garciagomezluis/facultad.git
+
+#este es el directorio del tp, cualquier otro, corresponde con otro trabajo
+cd facultad/aedii/tp3/
+
+#muestra cual es el estado de la copia local actualmente (si hicimos algún cambio entonces el nombre del archivo deberia aparecer listado en la zona de "cambiados" o bien en la zona de "a commitear", de no haber hecho ningún cambio no debería aparecer ningún archivo listado)
+git status
+
+#pasa todos los archivos que están en la zona de "cambiados" a la zona de "a commitear"
+git add .
+
+#pasa archivos particulares que están en la zona de "cambiados" a la zona de "a commitear"
+git add file1 file2 .. filen
+
+#pasa todos los archivos que están en la zona de "a commitear" a la zona de "cambiados"
+git reset .
+
+#pasa archivos particulares que están en la zona de "a commitear" a la zona de "cambiados"
+git reset file1 file2 .. filen
+
+#deshace un cambio que fue hecho sobre un archivo que está en la zona de "cambiados" (CUIDADO con este porque cualquier cambio que hayamos hecho sobre ese archivo se pierde)
+git checkout -- file1 file2 .. filen (o bien '.' para todos los archivos)
+
+#para pasar el conjunto de archivos de la zona de "a commitear" a la cola de commits
+git commit -m "un mensaje claro que describa que cambios se hicieron"
+
+#para mostrar la cola de commits
+git log
+
+#para actualizar la copia local del proyecto con los cambios que otras personas pudieron haber subido a la copia remota
+git pull origin master
+
+#para actualizar la copia remota con todos los commits que estén en nuestra cola que no estén en la cola de commits de la copia remota (con esto se envian nuestros cambios)
+git push origin master
+
+Ejemplo: los jtp dicen que hay que actualizar el driver porque el que ellos dieron no funciona bien, entonces en la página del dc dicen que tienen el driver nuevo. La secuencia de acciones sería la siguiente (una vez ya en el directorio de la copia local):
+
+git pull origin master #actualizamos la copia local
+git status #vemos que las zonas están vacias
+#en este momento abrimos un editor y actualizamos el nuevo driver
+git status #vemos que la zona de "cambiados" tiene el filename del archivo que fue editado
+git add <<nombre de archivo del driver>> #pasamos el archivo del driver a la zona de "a commitear"
+git status #vemos que efectivamente el cambio de zona fue hecho
+git commit -m "Actualización del driver con versión de la cátedra."#pasamos el archivo de la zona de "a commitear" a la lista de commits
+git status #vemos que efectivamente el archivo desaparece de la zona de "a commitear"
+git log #vemos que el commit aparece en la cola de commits
+git pull origin master #actualizamos la copia local por si alguien subió algún cambio mientras editabamos el archivo
+git push origin master #enviamos el archivo al servidor
+
+Cabe destacar que hay versiones gráficas de git. La citada arriba es git para terminal.
