@@ -39,6 +39,10 @@ class Driver
 		Nombre iesimoHippie(Nat i) const;
 		Nat iesimoAgente(Nat i) const;
  
+  		Nat cantEstudiantes() const;
+ 		Nat cantHippies() const;
+ 		Nat cantAgentes() const;
+
 		Posicion posEstudianteYHippie(Nombre n) const;
 		Posicion posAgente(Agente pl) const;
 		Nat cantSanciones(Agente pl) const;
@@ -46,8 +50,8 @@ class Driver
 
 		/// Otras operaciones de CampusSeguro
 		Agente masVigilante() const;
-		const Conj<Agente>& conMismasSanciones(Agente a) const;
-		const Conj<Agente>& conKSanciones(Nat k);
+		const Conj<Agente> conMismasSanciones(Agente a) const;
+		const Conj<Agente> conKSanciones(Nat k);
 
    
     private:

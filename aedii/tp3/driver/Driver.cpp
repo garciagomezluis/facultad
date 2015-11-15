@@ -17,13 +17,6 @@ Driver::~Driver()
 
 /// Generadores del Campus
 
-void  Driver::comenzarRastrillaje(const Dicc<Agente,Posicion>& d)
-{
-    // TODO
-	assert(false);
-}
-
-
 void Driver::crearCampus(Nat ancho, Nat alto)
 {
     // TODO
@@ -37,7 +30,7 @@ void Driver::agregarObstaculo(Posicion p)
 }
 
 
-/// Observadores del Campus
+/// Observadores del Campus\
 
 Nat Driver::filas() const
 {
@@ -59,6 +52,10 @@ bool Driver::ocupada(Posicion p) const
 
 
 /// Generadores de CampusSeguro
+void  Driver::comenzarRastrillaje(const Dicc<Agente,Posicion>& d) {
+    // TODO
+	assert(false);
+}
 
 void Driver::ingresarEstudiante(Nombre n, Posicion p)
 {
@@ -111,6 +108,22 @@ Nat Driver::iesimoAgente(Nat i) const
 	assert(false);
 }
 
+Nat Driver::cantEstudiantes() const {
+    // TODO
+	assert(false);
+
+}
+
+Nat Driver::cantHippies() const
+{    // TODO
+	assert(false);
+}
+
+Nat Driver::cantAgentes() const
+{
+    // TODO
+	assert(false);
+}
 
 Posicion Driver::posEstudianteYHippie(Nombre n) const
 {
@@ -139,19 +152,19 @@ Nat Driver::cantHippiesAtrapados(Agente pl) const
 
 /// Otras operaciones de CampusSeguro
 
-Agente Driver::masVigilante() const
+Agente Driver::másVigilante() const
 {
     // TODO
 	assert(false);
 }
 
-const Conj<Agente>& Driver::conMismasSanciones(Agente a) const
+const Driver::Conj<Agente> conMismasSanciones(Agente a) const
 {
     // TODO
 	assert(false);
 }
 
-const Conj<Agente>& Driver::conKSanciones(Nat k)
+const Driver::Conj<Agente> conKSanciones(Nat k)
 {
     // TODO
 	assert(false);
@@ -159,4 +172,3 @@ const Conj<Agente>& Driver::conKSanciones(Nat k)
 
 
 } // namespace aed2
-
