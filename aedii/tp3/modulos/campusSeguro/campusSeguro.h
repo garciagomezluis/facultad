@@ -6,6 +6,7 @@
 #include <string>
 #include "../../aed2/Dicc.h"
 #include "../campus/campus.h"
+#include "../../driver/Tipos.h"
 
 using namespace std;
 
@@ -52,7 +53,36 @@ public:
 	~CampusSeguro();
 private:
 
+/*campusseguro se representa con estr
+donde estr es tupla ( 	masVigilante : agente , 
+						hubieronSanciones : bool ,
+						campus : campus ,
+						conKSanciones : vector(agente) ,
+						mismasSanciones : lista(conj(agente)) ,
+						estudiantesAux : conj(nombre) ,
+						hippiesAux : conj(nombre) ,
+						agentesAux : conj(agente) ,
+						matrizDeChabones : vector(vector(infoChabones)) ,
+						estudiantes : diccString(nombre, infoEstudiante) ,
+						hippies : diccString(nombre, infoHippie) ,
+						agentes : diccRapido(agente, infoAgente) )
+donde infoEstudiante es tupla ( posicion : posicion ,
+								itaux : itConj(nombre) )
+donde infoHippies es tupla ( 	posicion : posicion ,
+								itaux : itConj(nombre) , 
+								estudiantesMasCercanos : conj(posicion) )
+donde infoAgente es tupla ( posAgente : posicion ,
+							cantSanciones : nat ,
+							cantHippiesAtrapados : nat ,
+							hippiesMasCercanos : conj(posicion) ,
+							mismasSanciones : itLista(conj(agente)) ,
+							mismaSancion : itConj(agente) ,
+							itAux : itConj(agente) )
 
+donde infoChabones es tupla ( 	esHippieOEstudiante : bool ,
+								esAgente : bool ,
+								nombre : nombre ,
+								agente : agente )*/
 
 };
 
