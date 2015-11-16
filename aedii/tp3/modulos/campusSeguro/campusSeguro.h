@@ -13,7 +13,7 @@ class CampusSeguro {
 
 public:
 
-	CampusSeguro( const CampusSeguro& otro ): // constructor por copia
+	CampusSeguro( const CampusSeguro& otro ); // constructor por copia
 
 	CampusSeguro( const Campus& c, const Dicc<Agente , Posicion >& d ); //comenzarRastrillaje
 
@@ -48,6 +48,8 @@ public:
 	Nat cantEstudiantes() const;
 
 	const Agente& masVigilante() const;
+
+	~CampusSeguro();
 private:
 
 
