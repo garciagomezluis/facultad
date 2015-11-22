@@ -3,8 +3,9 @@
 
 #include <ostream>
 #include <string>
-#include "../aed2/Vector.h"
-#include "../aed2/Conj.h"
+#include "../../aed2/Vector.h"
+#include "../../aed2/Conj.h"
+using namespace std;
 
 namespace aed2{
 
@@ -23,7 +24,7 @@ class DiccString
 		struct valores{
 			T* significado;
 			Vector<valores> vector;
-			Iterador<T*> it;
+			typename Conj<T*>::Iterador it; //TODO. REVISAR POR QUE SE NECESITA TYPENAME ADELANTE
 		};
 		struct estr{
 			Vector<valores> vector;

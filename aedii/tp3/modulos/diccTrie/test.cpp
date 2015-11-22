@@ -1,5 +1,6 @@
 #include <string>
 #include <iostream>
+#include "mini_test.h"
 #include "diccTrie.h"
 
 using namespace aed2;

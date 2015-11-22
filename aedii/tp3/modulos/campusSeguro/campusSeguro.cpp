@@ -24,6 +24,7 @@ CampusSeguro::CampusSeguro( const CampusSeguro& otro ){
 	conKsanciones = new Vector(otro.conKsanciones);
 	campus = new Campus(otro.campus);
 	hubieronSanciones= otro.hubieronSanciones;	
+
 } // constructor por copia
 
 CampusSeguro::CampusSeguro( const Campus& c, const Dicc<Agente , Posicion >& d ){
