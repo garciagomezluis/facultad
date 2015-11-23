@@ -75,11 +75,60 @@ CampusSeguro::CampusSeguro( const Campus& c, const Dicc<Agente , Posicion >& d )
 
 void CampusSeguro::ingresaEstudiante( const Nombre& e , const Posicion& p){
 
+	matrizDeChabones[p.x][p.y].esHippieOEstudiante = true;
+	matrizDeChabones[p.x][p.y].nombre = e;
+	if(cantPersonasAlrrededor(*(campus.vecinos(p))).H > 2 ){
+		infoHippie nuevo = new infoHippie();
+		nuevo.posicion = p;
+		nuevo.itAux = hippiesAux.AgregarAtras(e);
+		hippies.Definir(e,nuevo);
+		modificarVecinos(p,*(campus.vecinos(p)));
+		if(totalOcupados(cantPersonasArededor(*(campus.vecinos(p)))) == longitud(*(campus.vecinos(p))) && cantPersonasArededor(*(campus.vecinos(p))).S == 1){
+			
+			SumarHippieAAgente(*(campus.vecinos(p))));
+			hippies.Significado(e).itAux.EliminarSiguiente();
+			hippies.Eliminar(e);
+			matrizDeChabones[p.x][p.y].esHippieOEstudiante = false;	
+		}
+	}else if(totalOcupados(cantPersonasArededor(*(campus.vecinos(p)))) == longitud(*(campus.vecinos(p))) && cantPersonasArededor(*(campus.vecinos(p))).S == 1){
+
+		infoEstudiante nuevo = new infoinfoEstudiante();
+		nuevo.posicion = p;
+		nuevo.itAux = estudiantesAux.AgregarAtras(e);
+		estudiantes.Definir(e,nuevo);
+		SumarSancion(*(campus.vecinos(p)));
+		modificarVecinos(p,*(campus.vecinos(p)))
+	}
 
 }
 
 void CampusSeguro::ingresaHippie(const Nombre& h , const Posicion& p){
 
+	infoHippie nuevo = new infoHippie();
+	nuevo.posicion = p;
+	nuevo.itAux = hippiesAux.AgregarAtras(h);
+	hippies.Definir(h,nuevo);
+	matrizDeChabones[p.x][p.y].esHippieOEstudiante = true;
+	matrizDeChabones[p.x][p.y].nombre = h;
+	
+	if(totalOcupados(cantPersonasAlrededor(*(campus.vecinos(p)))) < longitud(*(campus.vecinos(p))))){
+		modificarVecinos(p,*(campus.vecinos(p))));
+	}else if(cantPersonasAlrededor(*(campus.vecinos(p))).E + cantPersonasAlrededor(*(campus.vecinos(p))).O == longitud(*(campus.vecinos(p)))){
+			hippies.Significado(h).itAux.EliminarSiguiente;
+			hippies.Borrar(h);
+			infoEstudiante nuevo = new infoEstudiante();
+			nuevo.posicion = p;
+			nuevo.itAux = estudiantesAux.AgregarAtras(h);
+			estudiantes.Definir(h,nuevo);
+			modificarVecinos(p,*(campus.vecinos(p)))
+	      }else if(cantPersonasAlrededor(*(campus.vecinos(p))).S + cantPersonasAlrededor(*(campus.vecinos(p))).O == longitud(*(campus.vecinos(p)))){
+			SumarhippieAAgente(*(campus.vecinos(p)));
+			hippies.Significado(h).itAux.EliminarSiguiente;
+			hippies.Borrar(h);
+			matrizDeChabones[p.x][p.y].esHippieOEstudiante = true;		
+		}else{
+		     	modificarVecinos(p,*(campus.vecinos(p)))
+                     }
 
 }
 
