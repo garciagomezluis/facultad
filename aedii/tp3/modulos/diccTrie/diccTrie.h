@@ -83,9 +83,11 @@ void DiccString<T>::Definir(const string s, /*const*/ T significado){
 		i++;
 	}
 
-	/*aux[ord(s[i-1])].significado = &significado;
+	aux[ord(s[i-1])].significado = &significado;
+	cout<<"ord obtenido: "<<ord(s[i-1])<<endl;
+
 	typename Conj<T*>::Iterador it = significados->Agregar(&significado);
-	aux[ord(s[i-1])].it = it;*/
+	aux[ord(s[i-1])].it = it;
 
 }
 
@@ -133,7 +135,7 @@ bool DiccString<T>::Definido(const string s) const{
 		return false;
 	}
 	Vector<valores> aux = *vec;
-	int i = 0;
+	int i = 1;
 	while(i < s.length() && !aux.EsVacio()){
 		aux = *aux[ord(s[i])].vec;
 		i++;
@@ -142,6 +144,20 @@ bool DiccString<T>::Definido(const string s) const{
 		return true;
 	else
 		return false;
+}
+
+template<typename T>
+T& DiccString<T>::Significado(const string s){
+	if(vec->EsVacio()){
+		return false;
+	}
+	Vector<valores> aux = *vec;
+	int i = 0;
+	while(i < s.length() && !aux.EsVacio()){
+		aux = *aux[ord(s[i])].vec;
+		i++;
+	}
+	return aux[ord(s[i-1])].significado;
 }
 
 template<typename T>

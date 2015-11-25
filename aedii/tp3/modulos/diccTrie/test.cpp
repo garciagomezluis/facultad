@@ -23,6 +23,8 @@ void DefinirValores(){
 	ASSERT_EQ(dicc->Significados().EsVacio(),true)
 
 	dicc->Definir("a",1);
+	ASSERT_EQ(dicc->Definido("S"),false);
+	ASSERT_EQ(dicc->Definido("a"),true);
 
 
 	delete dicc;
