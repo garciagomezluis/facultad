@@ -80,29 +80,29 @@ private:
 	Conj <Agente> agentesAux;
 	Vector <Vector <infoChabones>> matrizDeChabones;
 	DiccString <infoEstudiante> estudiantes ;
-	DiccString <infoHippie> hippies;
+	Dicc <infoHippie> hippies;
 	DiccRapido <Agente , infoAgente> agentes;
 
 	//funciones auxiliares;
 
-	void sancionar(Nat p, Nat cs,)
-	Conj<Agente> conKSanciones(Nat k)
-	void insertarOrdenado(const Vector<Agente>& v,const Agente& a)
-	Conj<Agente> busquedaRapida(Nat n, Vector<Agente> v)
-	Conj<Agente> buscar(Vector<Agente> v,Nat i,Nat s,Nat k)
-	Conj<Posicion> posicionesMasCercanas(const Posicion& p,Conj<Posicion> posiciones)
-	//bool estaOcupada?(Posicion p)
-	void modificarVecinos(const Posicion& p, const Conj<posicion>& c)
-	void modificarAux(const Nombre& n1, const Nombre& n2)
-	void capturadoE(const Posicion& p)
-	void capturadoH(const Nombre& n, const Posicion& p)
-	void corregidoYcapturado(const Nombre& n, const Posicion& p)
-	void convertidoYcapturado(const Nombre& n, const Posicion& p)
-	void sumarSancion(const Conj<Posicion>& c)
-	void sumarHippieAAgente(const Conj<Posicion>& c)
-	//Tupla cantPersonasAlrededor(Conj<Posicion> c)
-	//Nat totalOcupados()
-	Posicion damePos(const Posicion& p1, const Posicion& p2)
+	void sancionar(Nat p, Nat cs,);
+	Conj<Agente> conKSanciones(Nat k);
+	void insertarOrdenado(const Vector<Agente>& v,const Agente& a);
+	Conj<Agente> busquedaRapida(Nat n, Vector<Agente> v);
+	Conj<Agente> buscar(Vector<Agente> v,Nat i,Nat s,Nat k);
+	Conj<Posicion> posicionesMasCercanas(const Posicion& p,Conj<Posicion> posiciones);
+	bool estaOcupada?(Posicion p);
+	void modificarVecinos(const Posicion& p, const Conj<posicion>& c);
+	void modificarAux(const Nombre& n1, const Nombre& n2);
+	void capturadoE(const Posicion& p);
+	void capturadoH(const Nombre& n, const Posicion& p);
+	void corregidoYcapturado(const Nombre& n, const Posicion& p);
+	void convertidoYcapturado(const Nombre& n, const Posicion& p);
+	void sumarSancion(const Conj<Posicion>& c);
+	void sumarHippieAAgente(const Conj<Posicion>& c);
+	tuple cantPersonasAlrededor(Conj<Posicion> c);
+	Nat totalOcupados(tuple t);
+	Posicion damePos(const Posicion& p1, const Posicion& p2);
 }; 
 
 
