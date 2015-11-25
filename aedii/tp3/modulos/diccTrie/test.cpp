@@ -5,15 +5,33 @@
 
 using namespace aed2;
 
-void test_simple()
+void Inicializacion()
 {
-    ASSERT(true);
 
+	DiccString<int>* dicc = new DiccString<int>();
+	
+	ASSERT_EQ(dicc->Significados().EsVacio(),true);
+	ASSERT_EQ(dicc->Definido("S"),false);
+	delete dicc;
+    
+
+}
+
+void DefinirValores(){
+	DiccString<int>* dicc = new DiccString<int>();
+	
+	ASSERT_EQ(dicc->Significados().EsVacio(),true)
+
+	dicc->Definir("a",1);
+
+
+	delete dicc;
 }
 
 int main(int argc, char **argv)
 {
-    RUN_TEST(test_simple);
+    RUN_TEST(Inicializacion);
+    RUN_TEST(DefinirValores);
 	
 	/********************************************************************
 	 * TODO: escribir casos de test exhaustivos para todas              *
