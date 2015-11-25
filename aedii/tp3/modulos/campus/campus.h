@@ -1,3 +1,5 @@
+#ifndef CAMPUS_H_
+#define CAMPUS_H_
 #include "../../aed2/includes.h"
 
 using namespace std;
@@ -43,3 +45,5 @@ class Campus {
 
 		Nat RestaPositiva(const Nat, const Nat) const;
 };
+
+#endif //CAMPUS_H_
