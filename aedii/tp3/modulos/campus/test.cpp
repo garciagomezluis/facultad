@@ -181,41 +181,23 @@ void campus_esIngresoInferior() {
 void campus_vecinos() {
 	Campus c(10, 15);
 	Posicion p1 (0, 0);
-	Conj<Posicion>* cp1 = c.Vecinos(p1);
-	ASSERT_EQ(remove_spaces(to_s(*cp1)), remove_spaces("{ [1, 0], [0, 1] }"));
-	delete cp1;
+	ASSERT_EQ(remove_spaces(to_s(c.Vecinos(p1))), remove_spaces("{ [1, 0], [0, 1] }"));
 	Posicion p2 (9, 0);
-	Conj<Posicion>* cp2 = c.Vecinos(p2);
-	ASSERT_EQ(remove_spaces(to_s(*cp2)), remove_spaces("{ [9, 1], [8, 0] }"));
-	delete cp2;
+	ASSERT_EQ(remove_spaces(to_s(c.Vecinos(p2))), remove_spaces("{ [9, 1], [8, 0] }"));
 	Posicion p3 (0, 14);
-	Conj<Posicion>* cp3 = c.Vecinos(p3);
-	ASSERT_EQ(remove_spaces(to_s(*cp3)), remove_spaces("{ [1, 14], [0, 13] }"));
-	delete cp3;
+	ASSERT_EQ(remove_spaces(to_s(c.Vecinos(p3))), remove_spaces("{ [1, 14], [0, 13] }"));
 	Posicion p4 (9, 14);
-	Conj<Posicion>* cp4 = c.Vecinos(p4);
-	ASSERT_EQ(remove_spaces(to_s(*cp4)), remove_spaces("{ [9, 13], [8, 14] }"));
-	delete cp4;
+	ASSERT_EQ(remove_spaces(to_s(c.Vecinos(p4))), remove_spaces("{ [9, 13], [8, 14] }"));
 	Posicion p5 (7, 7);
-	Conj<Posicion>* cp5 = c.Vecinos(p5);
-	ASSERT_EQ(remove_spaces(to_s(*cp5)), remove_spaces("{ [8, 7], [7, 8], [7, 6], [6, 7] }"));
-	delete cp5;
+	ASSERT_EQ(remove_spaces(to_s(c.Vecinos(p5))), remove_spaces("{ [8, 7], [7, 8], [7, 6], [6, 7] }"));
 	Posicion p6 (3, 0);
-	Conj<Posicion>* cp6 = c.Vecinos(p6);
-	ASSERT_EQ(remove_spaces(to_s(*cp6)), remove_spaces("{ [4, 0], [3, 1], [2, 0] }"));
-	delete cp6;
+	ASSERT_EQ(remove_spaces(to_s(c.Vecinos(p6))), remove_spaces("{ [4, 0], [3, 1], [2, 0] }"));
 	Posicion p7 (3, 14);
-	Conj<Posicion>* cp7 = c.Vecinos(p7);
-	ASSERT_EQ(remove_spaces(to_s(*cp7)), remove_spaces("{ [4, 14], [3, 13], [2, 14] }"));
-	delete cp7;
+	ASSERT_EQ(remove_spaces(to_s(c.Vecinos(p7))), remove_spaces("{ [4, 14], [3, 13], [2, 14] }"));
 	Posicion p8 (0, 3);
-	Conj<Posicion>* cp8 = c.Vecinos(p8);
-	ASSERT_EQ(remove_spaces(to_s(*cp8)), remove_spaces("{ [1, 3], [0, 4], [0, 2] }"));
-	delete cp8;
+	ASSERT_EQ(remove_spaces(to_s(c.Vecinos(p8))), remove_spaces("{ [1, 3], [0, 4], [0, 2] }"));
 	Posicion p9 (9, 3);
-	Conj<Posicion>* cp9 = c.Vecinos(p9);
-	ASSERT_EQ(remove_spaces(to_s(*cp9)), remove_spaces("{ [9, 4], [9, 2], [8, 3] }"));
-	delete cp9;
+	ASSERT_EQ(remove_spaces(to_s(c.Vecinos(p9))), remove_spaces("{ [9, 4], [9, 2], [8, 3] }"));
 }
 
 void campus_distancia() {
@@ -235,70 +217,39 @@ void campus_proxPosicion() {
 	Campus c(10, 15);
 
 	Posicion p1(0, 0);
-	const Posicion* p1Der = c.ProxPosicion(p1, Derecha);
-	const Posicion* p1Arr = c.ProxPosicion(p1, Arriba);
-	ASSERT_EQ(remove_spaces(to_s(*p1Der)), remove_spaces("[1, 0]"));
-	ASSERT_EQ(remove_spaces(to_s(*p1Arr)), remove_spaces("[0, 1]"));
-	delete p1Der;
-	delete p1Arr;
+	ASSERT_EQ(remove_spaces(to_s(c.ProxPosicion(p1, Derecha))), remove_spaces("[1, 0]"));
+	ASSERT_EQ(remove_spaces(to_s(c.ProxPosicion(p1, Arriba))), remove_spaces("[0, 1]"));
+
 	
 	Posicion p2(9, 0);
-	const Posicion* p2Izq = c.ProxPosicion(p2, Izquierda);
-	const Posicion* p2Arr = c.ProxPosicion(p2, Arriba);
-	ASSERT_EQ(remove_spaces(to_s(*p2Izq)), remove_spaces("[8, 0]"));
-	ASSERT_EQ(remove_spaces(to_s(*p2Arr)), remove_spaces("[9, 1]"));
-	delete p2Izq;
-	delete p2Arr;
+	ASSERT_EQ(remove_spaces(to_s(c.ProxPosicion(p2, Izquierda))), remove_spaces("[8, 0]"));
+	ASSERT_EQ(remove_spaces(to_s(c.ProxPosicion(p2, Arriba))), remove_spaces("[9, 1]"));
 	
 	Posicion p3(0, 14);
-	const Posicion* p3Der = c.ProxPosicion(p3, Derecha);
-	const Posicion* p3Aba = c.ProxPosicion(p3, Abajo);
-	ASSERT_EQ(remove_spaces(to_s(*p3Der)), remove_spaces("[1, 14]"));
-	ASSERT_EQ(remove_spaces(to_s(*p3Aba)), remove_spaces("[0, 13]"));
-	delete p3Der;
-	delete p3Aba;
+	ASSERT_EQ(remove_spaces(to_s(c.ProxPosicion(p3, Derecha))), remove_spaces("[1, 14]"));
+	ASSERT_EQ(remove_spaces(to_s(c.ProxPosicion(p3, Abajo))), remove_spaces("[0, 13]"));
 	
 	Posicion p4(9, 14);
-	const Posicion* p4Izq = c.ProxPosicion(p4, Izquierda);
-	const Posicion* p4Aba = c.ProxPosicion(p4, Abajo);
-	ASSERT_EQ(remove_spaces(to_s(*p4Izq)), remove_spaces("[8, 14]"));
-	ASSERT_EQ(remove_spaces(to_s(*p4Aba)), remove_spaces("[9, 13]"));
-	delete p4Izq;
-	delete p4Aba;
+	ASSERT_EQ(remove_spaces(to_s(c.ProxPosicion(p4, Izquierda))), remove_spaces("[8, 14]"));
+	ASSERT_EQ(remove_spaces(to_s(c.ProxPosicion(p4, Abajo))), remove_spaces("[9, 13]"));
 	
 	Posicion p5(7, 7);
-	const Posicion* p5Izq = c.ProxPosicion(p5, Izquierda);
-	const Posicion* p5Der = c.ProxPosicion(p5, Derecha);
-	const Posicion* p5Arr = c.ProxPosicion(p5, Arriba);
-	const Posicion* p5Aba = c.ProxPosicion(p5, Abajo);
-	ASSERT_EQ(remove_spaces(to_s(*p5Izq)), remove_spaces("[6, 7]"));
-	ASSERT_EQ(remove_spaces(to_s(*p5Der)), remove_spaces("[8, 7]"));
-	ASSERT_EQ(remove_spaces(to_s(*p5Arr)), remove_spaces("[7, 8]"));
-	ASSERT_EQ(remove_spaces(to_s(*p5Aba)), remove_spaces("[7, 6]"));
-	delete p5Izq;
-	delete p5Der;
-	delete p5Arr;
-	delete p5Aba;
+	ASSERT_EQ(remove_spaces(to_s(c.ProxPosicion(p5, Izquierda))), remove_spaces("[6, 7]"));
+	ASSERT_EQ(remove_spaces(to_s(c.ProxPosicion(p5, Derecha))), remove_spaces("[8, 7]"));
+	ASSERT_EQ(remove_spaces(to_s(c.ProxPosicion(p5, Arriba))), remove_spaces("[7, 8]"));
+	ASSERT_EQ(remove_spaces(to_s(c.ProxPosicion(p5, Abajo))), remove_spaces("[7, 6]"));
 }
 
 void campus_ingresosMasCercanos() {
 	Campus c(10, 15);
 	Posicion p1 (0, 0);
-	const Conj<Posicion>* cp1 = c.IngresosMasCercanos(p1);
-	ASSERT_EQ(remove_spaces(to_s(*cp1)), remove_spaces("{ [0, 0] }"));
-	delete cp1;
+	ASSERT_EQ(remove_spaces(to_s(c.IngresosMasCercanos(p1))), remove_spaces("{ [0, 0] }"));
 	Posicion p2 (5, 5);
-	const Conj<Posicion>* cp2 = c.IngresosMasCercanos(p2);
-	ASSERT_EQ(remove_spaces(to_s(*cp2)), remove_spaces("{ [5, 0] }"));
-	delete cp2;
+	ASSERT_EQ(remove_spaces(to_s(c.IngresosMasCercanos(p2))), remove_spaces("{ [5, 0] }"));
 	Posicion p3 (8, 7);
-	const Conj<Posicion>* cp3 = c.IngresosMasCercanos(p3);
-	ASSERT_EQ(remove_spaces(to_s(*cp3)), remove_spaces("{ [8, 14], [8, 0] }"));
-	delete cp3;
+	ASSERT_EQ(remove_spaces(to_s(c.IngresosMasCercanos(p3))), remove_spaces("{ [8, 14], [8, 0] }"));
 	Posicion p4 (9, 14);
-	const Conj<Posicion>* cp4 = c.IngresosMasCercanos(p4);
-	ASSERT_EQ(remove_spaces(to_s(*cp4)), remove_spaces("{ [9, 14] }"));
-	delete cp4;
+	ASSERT_EQ(remove_spaces(to_s(c.IngresosMasCercanos(p4))), remove_spaces("{ [9, 14] }"));
 }
 
 int main() {

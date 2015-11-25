@@ -29,19 +29,19 @@ class Campus {
 
 		bool EsIngresoInferior(const Posicion&) const;
 
-		Conj<Posicion>* Vecinos(const Posicion&) const;
+		Conj<Posicion> Vecinos(const Posicion&) const;
 
 		Nat Distancia(const Posicion&, const Posicion&) const;
 
-		const Posicion* ProxPosicion(const Posicion&, const Direccion&) const;
+		const Posicion ProxPosicion(const Posicion&, const Direccion&) const;
 
-		const Conj<Posicion>* IngresosMasCercanos(const Posicion&) const;
+		const Conj<Posicion> IngresosMasCercanos(const Posicion&) const;
 
 	private:
 
 		Nat filas;
 		Nat columnas;
-		Arreglo<Arreglo<bool> >* matriz;
+		Arreglo<Arreglo<bool> > matriz;
 
 		Nat RestaPositiva(const Nat, const Nat) const;
 };
