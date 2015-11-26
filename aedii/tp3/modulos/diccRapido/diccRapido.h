@@ -133,7 +133,17 @@ Nat DiccRapido::CantClaves() const {
 }
 
 Conj<A> DiccRapido::Claves() const {
+  Conj<A> res;
 
+  for(int i = 0; i < dimension; i++) {
+    Lista<Item>::const_Iterador it = tabla[i].CrearIt();
+    while(it.HaySiguiente()) {
+      res.Agregar(it.Siguiente());
+      it.Avanzar();
+    }
+  }
+
+  return res;
 }
 
 Nat DiccRapido::colisiones() const {
