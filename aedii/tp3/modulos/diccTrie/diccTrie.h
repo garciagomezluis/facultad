@@ -74,21 +74,19 @@ template<typename T>
 void DiccString<T>::Definir(const string s, /*const*/ T significado){
 	if(vec->EsVacio())
 		DefinirVec(*vec);
-	Vector<valores> aux = *vec;
+	Vector<valores>* aux = vec;
 	int i = 1;
 	while(i < s.length()){
-		aux = *aux[ord(s[i])].vec;
-		if(aux.EsVacio())
-			DefinirVec(aux);
+		aux = (*aux)[ord(s[i])].vec;
+		if(aux->EsVacio())
+			DefinirVec(*aux);
 		i++;
 	}
 
-	aux[ord(s[i-1])].significado = &significado;
-	cout<<"ord obtenido: "<<ord(s[i-1])<<endl;
-
+	(*aux)[ord(s[i-1])].significado = &significado;
 	typename Conj<T*>::Iterador it = significados->Agregar(&significado);
-	aux[ord(s[i-1])].it = it;
-
+	(*aux)[ord(s[i-1])].it = it;
+	//delete aux;
 }
 
 template<typename T>

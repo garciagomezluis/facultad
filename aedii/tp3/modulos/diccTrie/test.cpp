@@ -25,6 +25,8 @@ void DefinirValores(){
 	dicc->Definir("a",1);
 	ASSERT_EQ(dicc->Definido("S"),false);
 	ASSERT_EQ(dicc->Definido("a"),true);
+	ASSERT_EQ(dicc->Definido("A"),true);
+	ASSERT_EQ(dicc->Significados().EsVacio(),false);
 
 
 	delete dicc;
@@ -32,7 +34,8 @@ void DefinirValores(){
 
 int main(int argc, char **argv)
 {
-    RUN_TEST(Inicializacion);
+
+	RUN_TEST(Inicializacion);
     RUN_TEST(DefinirValores);
 	
 	/********************************************************************
