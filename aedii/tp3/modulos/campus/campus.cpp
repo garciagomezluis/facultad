@@ -21,11 +21,11 @@ Campus::Campus(const Nat columnas, const Nat filas) {
 
 	this->columnas = columnas;
 	this->filas = filas;
-	matriz = new Arreglo<Arreglo<bool> >(columnas);
+	matriz = Arreglo<Arreglo<bool> >(columnas);
 	for(int i = 0; i < columnas; i++) {
-		matriz->Definir(i, Arreglo<bool>(filas));
+		matriz.Definir(i, Arreglo<bool>(filas));
 		for(int j = 0; j < filas; j++) {
-			(*matriz)[i].Definir(j, false);
+			matriz[i].Definir(j, false);
 		}
 	}
 }
@@ -33,12 +33,10 @@ Campus::Campus(const Nat columnas, const Nat filas) {
 void Campus::AgregarObstaculo(const Posicion& p) {
 	assert(PosValida(p) && !EsOcupada(p));
 
-	(*matriz)[p.x][p.y] = true;
+	matriz[p.x][p.y] = true;
 }
 
-Campus::~Campus() {
-	delete matriz;
-}
+Campus::~Campus() {}
 
 Nat Campus::Filas() const {
 	return filas;
@@ -51,7 +49,7 @@ Nat Campus::Columnas() const {
 bool Campus::EsOcupada(const Posicion& p) const {
 	assert(PosValida(p));
 
-	return (*matriz)[p.x][p.y];
+	return matriz[p.x][p.y];
 }
 
 bool Campus::PosValida(const Posicion& p) const {
@@ -76,25 +74,25 @@ bool Campus::EsIngresoInferior(const Posicion& p) const {
 	return p.y == 0;
 }
 
-Conj<Posicion>* Campus::Vecinos(const Posicion& p) const {
+Conj<Posicion> Campus::Vecinos(const Posicion& p) const {
 	assert(PosValida(p));
 
-	Conj<Posicion>* res = new Conj<Posicion>();
+	Conj<Posicion> res;
 
 	if(p.x > 0) {
-		res->Agregar(Posicion(p.x - 1, p.y));
+		res.Agregar(Posicion(p.x - 1, p.y));
 	}
 
 	if(p.y > 0) {
-		res->Agregar(Posicion(p.x, p.y - 1));
+		res.Agregar(Posicion(p.x, p.y - 1));
 	}
 
 	if(p.y < filas - 1) {
-		res->Agregar(Posicion(p.x, p.y + 1));
+		res.Agregar(Posicion(p.x, p.y + 1));
 	}
 
 	if(p.x < columnas - 1) {
-		res->Agregar(Posicion(p.x + 1, p.y));
+		res.Agregar(Posicion(p.x + 1, p.y));
 	}
 
 	return res;
@@ -108,7 +106,7 @@ Nat Campus::RestaPositiva(const Nat a, const Nat b) const {
 	return a >= b ? a - b : b - a;
 }
 
-const Posicion* Campus::ProxPosicion(const Posicion& p, const Direccion& d) const {
+const Posicion Campus::ProxPosicion(const Posicion& p, const Direccion& d) const {
 	assert(PosValida(p));
 
 	Nat x = p.x;
@@ -130,22 +128,22 @@ const Posicion* Campus::ProxPosicion(const Posicion& p, const Direccion& d) cons
 		x = x - 1;
 	}
 
-	return new Posicion(x, y);
+	return Posicion(x,y);
 }
 
-const Conj<Posicion>* Campus::IngresosMasCercanos(const Posicion& p) const {
+const Conj<Posicion> Campus::IngresosMasCercanos(const Posicion& p) const {
 	assert(PosValida(p));
 
-	Conj<Posicion>* res = new Conj<Posicion>();
+	Conj<Posicion> res;
 	Posicion p1(p.x, 0);
 	Posicion p2(p.x, filas - 1);
 	if( Distancia(p, p1) < Distancia(p, p2) ) {
-		res->Agregar(p1);
+		res.Agregar(p1);
 	} else if( Distancia(p, p1) > Distancia(p, p2) ) {
-		res->Agregar(p2);
+		res.Agregar(p2);
 	} else {
-		res->Agregar(p1);
-		res->Agregar(p2);
+		res.Agregar(p1);
+		res.Agregar(p2);
 	}
 	return res;
 }
