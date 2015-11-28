@@ -22,7 +22,7 @@ string remove_spaces(const string& s) {
   return out;
 }
 
-void campus_constructor() {
+void campus_constructorFilaColumna() {
 	Campus c (10, 15);
 	//sólo revisa que algunas posiciones aleatorias de la matriz hayan iniciado vacias
 	Posicion p1 (7, 7);
@@ -33,6 +33,29 @@ void campus_constructor() {
 	ASSERT_EQ(c.EsOcupada(p3), false);
 	Posicion p4 (9, 14);
 	ASSERT_EQ(c.EsOcupada(p4), false);
+}
+
+void campus_constructorCopia() {
+	Campus c1 (10, 15);
+	//sólo revisa que algunas posiciones y las dimensiones sean las correctas en la copia
+	Posicion p1 (7, 7);
+	c1.AgregarObstaculo(p1);	
+	Posicion p2 (7, 8);
+	c1.AgregarObstaculo(p2);
+	Posicion p3 (0, 0);
+	c1.AgregarObstaculo(p3);
+	Posicion p4 (9, 14);
+	c1.AgregarObstaculo(p4);
+
+	Campus c2(c1);
+
+	ASSERT_EQ(c1.Filas() == c2.Filas(), true);
+	ASSERT_EQ(c1.Columnas() == c2.Columnas(), true);
+
+	ASSERT_EQ(c2.EsOcupada(p1), true);
+	ASSERT_EQ(c2.EsOcupada(p2), true);
+	ASSERT_EQ(c2.EsOcupada(p3), true);
+	ASSERT_EQ(c2.EsOcupada(p4), true);
 }
 
 void campus_agregarObstaculo() {
@@ -254,7 +277,8 @@ void campus_ingresosMasCercanos() {
 
 int main() {
 	//test interfáz pública de campus
-	RUN_TEST(campus_constructor);
+	RUN_TEST(campus_constructorFilaColumna);
+	RUN_TEST(campus_constructorCopia);
 	RUN_TEST(campus_agregarObstaculo);
 	RUN_TEST(campus_filas);
 	RUN_TEST(campus_columnas);

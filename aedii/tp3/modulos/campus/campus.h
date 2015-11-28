@@ -9,7 +9,9 @@ class Campus {
 
 	public:
 
-		Campus(const Nat columnas, const Nat filas);
+		Campus(const Campus&);
+
+		Campus(const Nat, const Nat);
 
 		void AgregarObstaculo(const Posicion&);
 

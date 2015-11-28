@@ -16,6 +16,13 @@ ostream& aed2::operator<<(ostream& os, const Posicion& p) {
 	return os;
 }
 
+Campus::Campus(const Campus& otro) {
+	filas = otro.filas;
+	columnas = otro.columnas;
+	matriz = Arreglo<Arreglo<bool> >(otro.matriz);
+}
+
+
 Campus::Campus(const Nat columnas, const Nat filas) {
 	assert(0 <= columnas && 0 <= filas);
 
