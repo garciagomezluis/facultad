@@ -16,7 +16,7 @@ class DiccString
 	public: 
 	DiccString();
 	~DiccString();
-	void Definir(const string s, /*const*/ T significado); //Creo que no es const porque se guarda en la estructura interna como referencia no constante.
+	void Definir(const string s, /*const*/ T& significado); //Creo que no es const porque se guarda en la estructura interna como referencia no constante.
 	bool Definido(const string s) const;
 	T& Significado(const string s);
 	Conj<T*> Significados();
@@ -71,7 +71,7 @@ Conj<T*> DiccString<T>::Significados(){
 }
 
 template<typename T>
-void DiccString<T>::Definir(const string s, /*const*/ T significado){
+void DiccString<T>::Definir(const string s, /*const*/ T& significado){
 	if(vec->EsVacio())
 		DefinirVec(*vec);
 	Vector<valores>* aux = vec;
@@ -93,7 +93,7 @@ template<typename T>
 void DiccString<T>::DefinirVec(Vector<valores>& vec){
 	int i = 0;
 	while(i < LONG_ALPH){
-		cout<<i<<endl;
+		//cout<<i<<endl;
 		valores valoresVacios;
 		valoresVacios.vec = new Vector<valores>();
 		valoresVacios.significado = NULL;
@@ -146,16 +146,15 @@ bool DiccString<T>::Definido(const string s) const{
 
 template<typename T>
 T& DiccString<T>::Significado(const string s){
-	if(vec->EsVacio()){
-		return false;
-	}
-	Vector<valores> aux = *vec;
-	int i = 0;
-	while(i < s.length() && !aux.EsVacio()){
-		aux = *aux[ord(s[i])].vec;
+	Vector<valores>* aux = vec;
+	int i = 1;
+	while(i < s.length()){
+		
+		aux = (*aux)[ord(s[i])].vec;
 		i++;
 	}
-	return aux[ord(s[i-1])].significado;
+	
+	return *(*aux)[ord(s[i-1])].significado;
 }
 
 template<typename T>
