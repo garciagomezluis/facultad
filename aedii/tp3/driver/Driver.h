@@ -6,6 +6,8 @@
 #include "../aed2/Conj.h"
 #include "../aed2/Dicc.h"
 
+#include "../modulos/campusSeguro.h"
+#include "../modulos/campus.h"
 //#include ...
 
 namespace aed2 {
@@ -55,6 +57,9 @@ class Driver
 
    
     private:
+
+    Campus campus;
+    CampusSeguro campusSeguro;
 
     /************************************************************************
      * TODO: Va a ser necesario instanciar privadamente el Modulo principal *
