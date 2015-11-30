@@ -25,24 +25,25 @@ class DiccString
 	private:
 		int LONG_ALPH;
 		struct valores{
-			/*valores(){
+			valores(){
+				//cout<<"new valores"<<endl;
 				significado = NULL;
-				vec = new Vector<valores>();
-			}*/
+				vec = new Vector<valores*>();
+			}
 			T* significado;
-			Vector<valores>* vec;
+			Vector<valores*>* vec;
 			typename Conj<T*>::Iterador it; //TODO. REVISAR POR QUE SE NECESITA TYPENAME ADELANTE
 			/*~valores(){
-				delete significado;
-				//delete this->vec;
+				
 			}*/
 		};
 		
-		Vector<valores>* vec;
+		Vector<valores*>* vec;
 		Conj<T*>* significados;
+
 	/*PRE. EsVacio(vec)*/	
-	void DefinirVec(Vector<valores>& vec);
-	void EliminarVec(Vector<valores>* vec);
+	void DefinirVec(Vector<valores*>& vec);
+	void EliminarVec(Vector<valores*>*& vec);
 	int ord(const char c) const;
 
 
@@ -50,7 +51,7 @@ class DiccString
 
 template<typename T>
 DiccString<T>::DiccString(){
-	this->vec = new Vector<valores>();
+	this->vec = new Vector<valores*>();
 	this->significados = new Conj<T*>();
 	LONG_ALPH = 26; //TODO. Ver por que no puedo definir como const.
 }
@@ -59,9 +60,11 @@ DiccString<T>::DiccString(){
 template<typename T>
 DiccString<T>::~DiccString(){
 	cout<<"destructor"<<endl;
-	//EliminarVec(vec);
+	if(!vec->EsVacio())
+		EliminarVec(vec);
+	else
+		delete this->vec;
 
-	delete this->vec;
 	delete this->significados;
 }
 
@@ -74,57 +77,61 @@ template<typename T>
 void DiccString<T>::Definir(const string s, /*const*/ T& significado){
 	if(vec->EsVacio())
 		DefinirVec(*vec);
-	Vector<valores>* aux = vec;
+	Vector<valores*>* aux = vec;
 	int i = 1;
 	while(i < s.length()){
-		aux = (*aux)[ord(s[i])].vec;
+		aux = (*aux)[ord(s[i])]->vec;
 		if(aux->EsVacio())
 			DefinirVec(*aux);
 		i++;
 	}
 
-	(*aux)[ord(s[i-1])].significado = &significado;
+	(*aux)[ord(s[i-1])]->significado = &significado;
 	typename Conj<T*>::Iterador it = significados->Agregar(&significado);
-	(*aux)[ord(s[i-1])].it = it;
+	(*aux)[ord(s[i-1])]->it = it;
 	//delete aux;
 }
 
 template<typename T>
-void DiccString<T>::DefinirVec(Vector<valores>& vec){
+void DiccString<T>::DefinirVec(Vector<valores*>& vec){
 	int i = 0;
 	while(i < LONG_ALPH){
 		//cout<<i<<endl;
-		valores valoresVacios;
-		valoresVacios.vec = new Vector<valores>();
-		valoresVacios.significado = NULL;
-		vec.AgregarAtras(valoresVacios);
+		vec.AgregarAtras(new valores());
 		i++;
 	}
 }
 
 template<typename T>
-void DiccString<T>::EliminarVec(Vector<valores>* vector){
+void DiccString<T>::EliminarVec(Vector<valores*>*& vector){
 	if(vector->EsVacio()){
-		cout<<"deleting vec"<<endl;
+		//cout<<"deleting vec"<<endl;
 		delete vector;
 		return;
 	}
 	int i = 0;
 	while(i < LONG_ALPH){
-		cout<<i<<endl;
-		Vector<valores> v = *vector;
-		valores aux = v[i];
-		delete aux.significado;
+		
+		//cout<<"destructor de struct"<<endl;
+				if((*vector)[i]->significado != NULL){
+					//cout<<"llego?"<<endl;
+					//delete (*vector)[i]->significado;
+					//cout<<"paso?"<<endl;
+				}
+				
+				EliminarVec((*vector)[i]->vec);
+		
 		//delete aux.it;
 		/*if(!aux.vec->EsVacio()){
 			cout<<"Vector lleno. borrando"<<endl;
 			EliminarVec(aux.vec);
 		}*/
-		EliminarVec(aux.vec);
+		//	EliminarVec(aux.vec);
 		
 
 		i++;
 	}	
+	delete vector;
 }
 
 template<typename T>
@@ -132,13 +139,13 @@ bool DiccString<T>::Definido(const string s) const{
 	if(vec->EsVacio()){
 		return false;
 	}
-	Vector<valores> aux = *vec;
+	Vector<valores*> aux = *vec;
 	int i = 1;
 	while(i < s.length() && !aux.EsVacio()){
-		aux = *aux[ord(s[i])].vec;
+		aux = *aux[ord(s[i])]->vec;
 		i++;
 	}
-	if(!aux.EsVacio() && aux[ord(s[i-1])].significado!=NULL)
+	if(!aux.EsVacio() && aux[ord(s[i-1])]->significado!=NULL)
 		return true;
 	else
 		return false;
@@ -146,15 +153,29 @@ bool DiccString<T>::Definido(const string s) const{
 
 template<typename T>
 T& DiccString<T>::Significado(const string s){
-	Vector<valores>* aux = vec;
+	Vector<valores*>* aux = vec;
 	int i = 1;
 	while(i < s.length()){
 		
-		aux = (*aux)[ord(s[i])].vec;
+		aux = (*aux)[ord(s[i])]->vec;
 		i++;
 	}
 	
-	return *(*aux)[ord(s[i-1])].significado;
+	return *(*aux)[ord(s[i-1])]->significado;
+}
+
+template<typename T>
+void DiccString<T>::Borrar(const string s){
+	Vector<valores*>* aux = vec;
+	int i = 1;
+	while(i < s.length()){
+		
+		aux = (*aux)[ord(s[i])]->vec;
+		i++;
+	}
+	
+	(*aux)[ord(s[i-1])]->significado = NULL;
+	((*aux)[ord(s[i-1])]->it).EliminarSiguiente();
 }
 
 template<typename T>
