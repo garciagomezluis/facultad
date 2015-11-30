@@ -10,7 +10,7 @@ void Inicializacion()
 
 	DiccString<int>* dicc = new DiccString<int>();
 	
-	ASSERT_EQ(dicc->Significados().EsVacio(),true);
+	//ASSERT_EQ(dicc->Significados().EsVacio(),true);
 	ASSERT_EQ(dicc->Definido("S"),false);
 	delete dicc;
     
@@ -20,11 +20,13 @@ void Inicializacion()
 void LeakTest(){
 	DiccString<int>* dicc = new DiccString<int>();
 	
-	ASSERT_EQ(dicc->Significados().EsVacio(),true)
+	//ASSERT_EQ(dicc->Significados().EsVacio(),true)
 
-	int uno = 1;
-	dicc->Definir("a",uno);
-	ASSERT_EQ(dicc->Significados().EsVacio(),false);
+	int* uno = new int();
+	*uno = 1;
+	dicc->Definir("a",*uno);
+	//ASSERT_EQ(dicc->Significados().EsVacio(),false);
+	delete uno;
 	delete dicc;
 }
 
@@ -35,8 +37,11 @@ void DefinirValores(){
 	int tres=3;
 
 	ASSERT_EQ(dicc->Significados().EsVacio(),true);
-	
+	ASSERT_EQ(dicc->Significados().Pertenece(&uno),false);
+	ASSERT_EQ(dicc->Significados().Pertenece(&dos),false);
+	ASSERT_EQ(dicc->Significados().Pertenece(&tres),false);
 	dicc->Definir("a",uno);
+	ASSERT_EQ(dicc->Significados().Pertenece(&uno),true);
 	dicc->Definir("ca",dos);
 	ASSERT_EQ(dicc->Definido("S"),false);
 	ASSERT_EQ(dicc->Definido("a"),true);
@@ -47,7 +52,8 @@ void DefinirValores(){
 	dicc->Definir("caaz",tres);
 	ASSERT_EQ(dicc->Definido("caaz"),true);
 
-
+	ASSERT_EQ(dicc->Significados().Pertenece(&dos),true);
+	ASSERT_EQ(dicc->Significados().Pertenece(&tres),true);
 	ASSERT_EQ(dicc->Significados().EsVacio(),false);
 
 
@@ -75,19 +81,34 @@ void ObtenerSignificados(){
 	delete dicc;
 }
 
+void Eliminar(){
+	DiccString<int>* dicc = new DiccString<int>();
+
+	int uno = 1;
+	
+
+	ASSERT_EQ(dicc->Significados().Pertenece(&uno),false);
+	ASSERT_EQ(dicc->Definido("zzzza"),false);
+	dicc->Definir("zzzza",uno);
+	ASSERT_EQ(dicc->Definido("zzzza"),true);
+	ASSERT_EQ(dicc->Significados().Pertenece(&uno),true);
+
+	dicc->Borrar("zzzza");
+	ASSERT_EQ(dicc->Definido("zzzza"),false);
+	ASSERT_EQ(dicc->Significados().Pertenece(&uno),false);
+
+	
+	delete dicc;
+}
+
 int main(int argc, char **argv)
 {
 
 	RUN_TEST(Inicializacion);
 	//RUN_TEST(LeakTest);
-    //RUN_TEST(DefinirValores);
+    RUN_TEST(DefinirValores);
 	RUN_TEST(ObtenerSignificados);
-	/********************************************************************
-	 * TODO: escribir casos de test exhaustivos para todas              *
-	 * las funcionalidades de cada módulo.                              *
-     * La interacción con el TAD principal se debe hacer exclusivamente *
-	 * a través de la interfaz del driver.                              *
-	 ********************************************************************/
+	RUN_TEST(Eliminar);
 
 	return 0;
 }
