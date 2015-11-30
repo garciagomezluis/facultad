@@ -120,6 +120,7 @@ void DiccString<T>::EliminarVec(Vector<valores*>*& vector){
 				}
 				
 				EliminarVec((*vector)[i]->vec);
+				delete (*vector)[i];
 		
 		//delete aux.it;
 		/*if(!aux.vec->EsVacio()){
