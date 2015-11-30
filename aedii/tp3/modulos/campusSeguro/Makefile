@@ -2,7 +2,9 @@ CC=g++
 LDFLAGS=
 CFLAGS=-g -std=c++11 -Wall
 EXECUTABLE=test
-SOURCES=campusSeguro.h \
+SOURCES= campusSeguro.h \
+		campusSeguro.cpp \
+		../campus/campus.cpp \
 		test.cpp
 OBJECTS=$(SOURCES:.cpp=.o)
 

@@ -1,108 +1,126 @@
 #ifndef CAMPUSSEGURO_H_
 #define CAMPUSSEGURO_H_
 
-#include <iostream>
-#include <cassert>
-#include <string>
-#include "../../aed2/Dicc.h"
+
+#include "../diccTrie/diccTrie.h"
+#include "../diccRapido/diccRapido.h"
 #include "../campus/campus.h"
-#include "../../driver/Tipos.h"
+//#include "../../driver/Tipos.h"
+#include "../../aed2/includes.h"
 
 using namespace std;
+using namespace aed2;
 
 class CampusSeguro {
 
 public:
 
-	CampusSeguro( const CampusSeguro& otro ); // constructor por copia
+	//CampusSeguro( const CampusSeguro& otro ); // constructor por copia
 
 	CampusSeguro( const Campus& c, const Dicc<Agente , Posicion >& d ); //comenzarRastrillaje
 
-	void ingresaEstudiante( const Nombre& e , const Posicion& p);
+	void IngresaEstudiante( const Nombre& e , const Posicion& p);
 
-	void ingresaHippie(const Nombre& h , const Posicion& p);
+	void IngresaHippie(const Nombre& h , const Posicion& p);
 
-	void moverEstudiante(const Nombre& e , const Direccion& d );
+	void MoverEstudiante(const Nombre& e , const Direccion& d );
 
-	void moverHippie (const Nombre& h);
+	void MoverHippie (const Nombre& h);
 
-	void moverAgente(const Agente& a);
+	void MoverAgente(const Agente& a);
 
-	const Campus& campus() const;
+	const Campus& DameCampus() const;
 
-	const ItConj<Nombre>& estudiantes() const;
+	const Conj<Nombre>::const_Iterador& Estudiantes() const;
 
-	const ItConj<Nombre>& hippies() const;
+	const Conj<Nombre>::const_Iterador& Hippies() const;
 
-	const ItConj<Agente>& agentes() const;
+	const Conj<Agente>::const_Iterador& Agentes() const;
 
-	const Posicion& posicionEstudianteYHippie(const Nombre& n) const;
+	const Posicion& PosicionEstudianteYHippie(const Nombre& n) const;
 
-	const Posicion& posicionAgente(const Agente& a) const;
+	const Posicion& PosicionAgente(const Agente& a) const;
 
-	Nat cantSanciones(const Agente& a) const;
+	Nat CantSanciones(const Agente& a) const;
 
-	Nat cantHippiesAtrapados(const Agente& a) const;
+	Nat CantHippiesAtrapados(const Agente& a) const;
 
-	Nat cantHippies() const;
+	Nat CantHippies() const;
 
-	Nat cantEstudiantes() const;
+	Nat CantEstudiantes() const;
 
-	const Agente& masVigilante() const;
+	const Agente& MasVigilante() const;
 
 	~CampusSeguro();
 private:
 
-	struct infoChabones {	bool esHippieOEstudiante , 
-							bool esAgente , 
-							Nombre nombre , 
-							Agente agente};
-	struct infoAgente {	Posicion posAgente , 
-						Nat cantSanciones , 
-						Nat cantHippiesAtrapados , 
-						Conj <Posicion> hippiesMasCercanos ,
-						Lista<Conj <Agente>> :: iterator mismasSanciones ,
-						Conj <Agente> :: iterator mismaSancion , 
-						Conj <Agente> :: iterator itAux};
-	struct infoHippie {	Posicion posicion , 
-						Conj <Nombre> :: iterator itAux , 
-						Conj <Posicion> estudiantesMasCercanos
+	struct infoChabones {	
+							infoChabones() {
+								esHippieOEstudiante = false;
+								esAgente = false;
+								nombre = "";
+								agente = 0;
+							}
+
+							bool esHippieOEstudiante;
+							bool esAgente;
+							Nombre nombre; 
+							Agente agente;
 						};
-	struct infoEstudiante {	Posicion posicion , 
-							Conj <Nombre> :: iterator itAux};
+	struct infoAgente {	Posicion posAgente;
+						Nat cantSanciones ; 
+						Nat cantHippiesAtrapados ; 
+						Conj <Posicion> hippiesMasCercanos ;
+						Lista<Conj <Agente> > :: Iterador mismasSanciones ;
+						Conj <Agente> :: Iterador mismaSancion ; 
+						Conj <Agente> :: Iterador itAux;
+					};
+	struct infoHippie {	Posicion posicion ;
+						Conj <Nombre> :: Iterador itAux ; 
+						Conj <Posicion> estudiantesMasCercanos;
+						};
+	struct infoEstudiante {	Posicion posicion;
+							Conj <Nombre> :: Iterador itAux;
+						};
+	struct infoEntorno{
+		Nat Estudiantes;
+		Nat Hippies;
+		Nat Seguridad;
+		Nat Objetos;
+	};
 	Agente masVigilante;
 	bool hubieronSanciones;
 	Campus campus;
 	Vector <Agente> conKSanciones;
-	Lista <Conj <Agente>> mismasSanciones ;
+	Lista <Conj <Agente> > mismasSanciones ;
 	Conj <Nombre> estudiantesAux;
 	Conj <Nombre> hippiesAux;
 	Conj <Agente> agentesAux;
-	Vector <Vector <infoChabones>> matrizDeChabones;
-	DiccString <infoEstudiante> estudiantes ;
-	Dicc <infoHippie> hippies;
+	Vector <Vector <infoChabones> > matrizDeChabones;
+	DiccString <infoEstudiante> estudiantes;
+	DiccString <infoHippie> hippies;
 	DiccRapido <Agente , infoAgente> agentes;
 
 	//funciones auxiliares;
 
-	void sancionar(Nat p, Nat cs,);
-	Conj<Agente> conKSanciones(Nat k);
-	void insertarOrdenado(const Vector<Agente>& v,const Agente& a);
-	Conj<Agente> busquedaRapida(Nat n, Vector<Agente> v);
-	Conj<Agente> buscar(Vector<Agente> v,Nat i,Nat s,Nat k);
-	Conj<Posicion> posicionesMasCercanas(const Posicion& p,Conj<Posicion> posiciones);
-	bool estaOcupada?(Posicion p);
-	void modificarVecinos(const Posicion& p, const Conj<posicion>& c);
-	void modificarAux(const Nombre& n1, const Nombre& n2);
-	void capturadoE(const Posicion& p);
-	void capturadoH(const Nombre& n, const Posicion& p);
-	void corregidoYcapturado(const Nombre& n, const Posicion& p);
-	void convertidoYcapturado(const Nombre& n, const Posicion& p);
-	void sumarSancion(const Conj<Posicion>& c);
-	void sumarHippieAAgente(const Conj<Posicion>& c);
-	tuple cantPersonasAlrededor(Conj<Posicion> c);
-	Nat totalOcupados(tuple t);
-	Posicion damePos(const Posicion& p1, const Posicion& p2);
+	void Sancionar(Nat p, Nat cs);
+	Conj<Agente> ConKSanciones(Nat k);
+	void InsertarOrdenado(const Vector<Agente>& v,const Agente& a);
+	Conj<Agente> BusquedaRapida(Nat n, Vector<Agente> v);
+	Conj<Agente> Buscar(Vector<Agente> v,Nat i,Nat s,Nat k);
+	Conj<Posicion> PosicionesMasCercanas(const Posicion& p,Conj<Posicion> posiciones);
+	bool EstaOcupada(Posicion p);
+	void ModificarVecinos(const Posicion& p, const Conj<Posicion>& c);
+	void ModificarAux(const Nombre& n1, const Nombre& n2);
+	void CapturadoE(const Posicion& p);
+	void CapturadoH(const Nombre& n, const Posicion& p);
+	void CorregidoYcapturado(const Nombre& n, const Posicion& p);
+	void ConvertidoYcapturado(const Nombre& n, const Posicion& p);
+	void SumarSancion(const Conj<Posicion>& c);
+	void SumarHippieAAgente(const Conj<Posicion>& c);
+	infoEntorno CantPersonasAlrededor(Conj<Posicion> c);
+	Nat TotalOcupados(infoEntorno t);
+	Posicion DamePos(const Posicion& p1, const Posicion& p2);
 }; 
 
 
