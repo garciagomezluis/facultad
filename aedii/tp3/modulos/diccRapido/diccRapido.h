@@ -128,18 +128,17 @@ class DiccRapido {
 
     void RedimensionarTabla(const Nat d) {
       Arreglo<Lista<Item> > tabla_vieja(tabla);
-      tabla = Arreglo<Lista<Item> >(d);
-      dimension = d;
       cantidad = 0;
+      tabla = Arreglo<Lista<Item> >(d);
+
       for(int i = 0; i < d; i++) {
         tabla.Definir(i, Lista<Item>());
       }
 
-      for(int i = 0; i < d; i++) {
-        typename Lista<Item>::const_Iterador it = tabla_vieja[i].CrearIt();
-        while(it.HaySiguiente()) {
-          Definir(it.Siguiente().clave, it.Siguiente().valor);
-          it.Avanzar();
+      for(Nat i=0; i < tabla_vieja.Tamanho(); i++){
+        if(tabla_vieja.Definido(i)){
+          for(typename Lista<Item>::const_Iterador it = tabla_vieja[i].CrearIt(); it.HaySiguiente(); it.Avanzar())
+            Definir(it.Siguiente().clave, it.Siguiente().valor);
         }
       }
     }
