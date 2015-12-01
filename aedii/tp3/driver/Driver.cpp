@@ -2,173 +2,136 @@
 
 namespace aed2 {
 
-Driver::Driver() 
-{
-    // TODO
-	assert(false);
-}
+	Driver::Driver()  {}
 
-Driver::~Driver()
-{
-    // TODO
-	assert(false);
-}
+	Driver::~Driver() {}
 
+	/// Generadores del Campus
 
-/// Generadores del Campus
+	void Driver::crearCampus(Nat ancho, Nat alto) {
+	    campus = Campus(ancho, alto);
+	}
 
-void Driver::crearCampus(Nat ancho, Nat alto)
-{
-    // TODO
-	assert(false);
-}
+	void Driver::agregarObstaculo(Posicion p) {
+	    campus.AgregarObstaculo(p);
+	}
 
-void Driver::agregarObstaculo(Posicion p)
-{
-    // TODO
-	assert(false);
-}
+	/// Observadores del Campus\
 
+	Nat Driver::filas() const {
+	    return campus.Filas();
+	}
 
-/// Observadores del Campus\
+	Nat Driver::columnas() const {
+	    return campus.Columnas();
+	}
 
-Nat Driver::filas() const
-{
-    // TODO
-	assert(false);
-}
+	bool Driver::ocupada(Posicion p) const {
+	    return campusSeguro.EsOcupada(p); //publicar en campusSeguro
+	}
 
-Nat Driver::columnas() const
-{
-    // TODO
-	assert(false);
-}
+	/// Generadores de CampusSeguro
+	void  Driver::comenzarRastrillaje(const Dicc<Agente,Posicion>& d) {
+	    campusSeguro = CampusSeguro(campus, d);
+	}
 
-bool Driver::ocupada(Posicion p) const
-{
-    // TODO
-	assert(false);
-}
+	void Driver::ingresarEstudiante(Nombre n, Posicion p) {
+	    campusSeguro.ingresaEstudiante(n, p);
+	}
 
+	void Driver::ingresarHippie(Nombre n, Posicion p) {
+	    campusSeguro.ingresaHippie(n, p);
+	}
 
-/// Generadores de CampusSeguro
-void  Driver::comenzarRastrillaje(const Dicc<Agente,Posicion>& d) {
-    // TODO
-	assert(false);
-}
+	void Driver::moverEstudiante(Nombre n, Direccion d) {
+	    campusSeguro.moverEstudiante(n, d);
+	}
 
-void Driver::ingresarEstudiante(Nombre n, Posicion p)
-{
-    // TODO
-	assert(false);
-}
+	void Driver::moverHippie(Nombre n) {
+	    campusSeguro.moverHippie(n);
+	}
 
-void Driver::ingresarHippie(Nombre n, Posicion p)
-{
-    // TODO
-	assert(false);
-}
+	void Driver::moverAgente(Agente pl) {
+	    campusSeguro.moverAgente(pl);
+	}
 
-void Driver::moverEstudiante(Nombre n, Direccion d)
-{
-    // TODO
-	assert(false);
-}
+	/// Observadores de CampusSeguro
 
-void Driver::moverHippie(Nombre n)
-{
-    // TODO
-	assert(false);
-}
+	Nombre Driver::iesimoEstudiante(Nat i) const {
+	    Conj<Nombre>::Iterador it = campusSeguro.estudiantes();
+	    while(i > 0) {
+	    	it.Avanzar();
+	    	i--;
+	    }
+	    return it.Siguiente();
+	}
 
-void Driver::moverAgente(Agente pl)
-{
-    // TODO
-	assert(false);
-}
+	Nombre Driver::iesimoHippie(Nat i) const {
+	    Conj<Nombre>::Iterador it = campusSeguro.hippies();
+	    while(i > 0) {
+	    	it.Avanzar();
+	    	i--;
+	    }
+	    return it.Siguiente();
+	}
 
+	Nat Driver::iesimoAgente(Nat i) const {
+	    Conj<Nat>::Iterador it = campusSeguro.agentes();
+	    while(i > 0) {
+	    	it.Avanzar();
+	    	i--;
+	    }
+	    return it.Siguiente();
+	}
 
-/// Observadores de CampusSeguro
+	Nat Driver::cantEstudiantes() const {
+	    return campusSeguro.cantEstudiantes();
+	}
 
-Nombre Driver::iesimoEstudiante(Nat i) const
-{
-    // TODO
-	assert(false);
-}
+	Nat Driver::cantHippies() const {
+		return campusSeguro.cantHippies();
+	}
 
-Nombre Driver::iesimoHippie(Nat i) const
-{
-    // TODO
-	assert(false);
-}
+	Nat Driver::cantAgentes() const {
+	    Conj<Agente>::Iterador it = campusSeguro.agentes();
+		Nat cantidad = 0;
+		while(it.HaySiguiente()) {
+			cantidad++;
+			it.Avanzar();
+		}
+		return cantidad;
+	}
 
-Nat Driver::iesimoAgente(Nat i) const
-{
-    // TODO
-	assert(false);
-}
+	Posicion Driver::posEstudianteYHippie(Nombre n) const {
+	    return campusSeguro.posicionEstudianteYHippie(n);
+	}
 
-Nat Driver::cantEstudiantes() const {
-    // TODO
-	assert(false);
+	Posicion Driver::posAgente(Agente pl) const {
+	    return campusSeguro.posicionAgente(pl);
+	}
 
-}
+	Nat Driver::cantSanciones(Agente pl) const {
+	    return campusSeguro.cantSanciones(pl);
+	}
 
-Nat Driver::cantHippies() const
-{    // TODO
-	assert(false);
-}
+	Nat Driver::cantHippiesAtrapados(Agente pl) const {
+	    return campusSeguro.cantHippiesAtrapados(pl);
+	}
 
-Nat Driver::cantAgentes() const
-{
-    // TODO
-	assert(false);
-}
+	/// Otras operaciones de CampusSeguro
 
-Posicion Driver::posEstudianteYHippie(Nombre n) const
-{
-    // TODO
-	assert(false);
-}
+	// son varias las razones por las que te amo :)
 
-Posicion Driver::posAgente(Agente pl) const
-{
-    // TODO
-	assert(false);
-}
+	Agente Driver::másVigilante() const {
+	    return campusSeguro.masVigilante();
+	}
 
-Nat Driver::cantSanciones(Agente pl) const
-{
-    // TODO
-	assert(false);
-}
+	const Driver::Conj<Agente> conMismasSanciones(Agente a) const {
+	    return campusSeguro.conMismasSanciones(a); //publicar en campusSeguro
+	}
 
-Nat Driver::cantHippiesAtrapados(Agente pl) const
-{
-    // TODO
-	assert(false);
-}
-
-
-/// Otras operaciones de CampusSeguro
-
-Agente Driver::másVigilante() const
-{
-    // TODO
-	assert(false);
-}
-
-const Driver::Conj<Agente> conMismasSanciones(Agente a) const
-{
-    // TODO
-	assert(false);
-}
-
-const Driver::Conj<Agente> conKSanciones(Nat k)
-{
-    // TODO
-	assert(false);
-}
-
+	const Driver::Conj<Agente> conKSanciones(Nat k) {
+	    return campusSeguro.conKSanciones(k); //publicar en campusSeguro
+	}
 
 } // namespace aed2

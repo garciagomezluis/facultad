@@ -12,15 +12,22 @@
 namespace aed2{
     typedef unsigned int Nat;
     typedef std::string String;
+<<<<<<< HEAD
     typedef String Nombre;
     typedef Nat Agente;
+=======
+    typedef Nat Agente;
+    typedef String Nombre;
+>>>>>>> cb0a27623b6891e52840a8711a3468abb2278c5a
     
     /*Definimos el tipo Posicion con sus operaciones básicas*/
     struct Posicion {
-        const Nat x;
-        const Nat y;
+        Nat x;
+        Nat y;
 
-        Posicion(const Nat _x, const Nat _y) : x(_x), y(_y) {}
+        Posicion() {}
+
+        Posicion(Nat _x, Nat _y) : x(_x), y(_y) {}
 
         bool operator==(const Posicion& otro) const;
 
