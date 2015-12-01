@@ -16,6 +16,8 @@ ostream& aed2::operator<<(ostream& os, const Posicion& p) {
 	return os;
 }
 
+Campus::Campus() {}
+
 Campus::Campus(const Campus& otro) {
 	filas = otro.filas;
 	columnas = otro.columnas;

@@ -113,44 +113,43 @@ void CampusSeguro::IngresaHippie(const Nombre& h , const Posicion& p){
 	matrizDeChabones[p.x][p.y].esHippieOEstudiante = true;
 	matrizDeChabones[p.x][p.y].nombre = h;
 	
-	if(TotalOcupados(CantPersonasAlrededor(campus.Vecinos(p))) < campus.Vecinos(p).Cardinal()){
+	if(TotalOcupados(CantPersonasAlrededor(campus.Vecinos(p))) < campus.Vecinos(p).Cardinal()) {
 		ModificarVecinos(p,campus.Vecinos(p));
-	}else if(CantPersonasAlrededor(campus.Vecinos(p)).Estudiantes + CantPersonasAlrededor(campus.Vecinos(p)).Objetos == campus.Vecinos(p).Cardinal() ){
+	} else if(CantPersonasAlrededor(campus.Vecinos(p)).Estudiantes + CantPersonasAlrededor(campus.Vecinos(p)).Objetos == campus.Vecinos(p).Cardinal() ) {
 			hippies.Significado(h).itAux.EliminarSiguiente();
 			hippies.Borrar(h);
 			infoEstudiante nuevo = infoEstudiante();
 			nuevo.posicion = p;
 			nuevo.itAux = estudiantesAux.Agregar(h);
 			estudiantes.Definir(h,nuevo);
-			ModificarVecinos(p,campus.Vecinos(p))
-	      }else if(CantPersonasAlrededor(campus.Vecinos(p)).Seguridad + CantPersonasAlrededor(campus.Vecinos(p)).Objetos == campus.Vecinos(p).Cardinal() ){
-			sumarHippieAAgente(campus.Vecinos(p));
-			hippies.Significado(h).itAux.EliminarSiguiente();
-			hippies.Borrar(h);
-			matrizDeChabones[p.x][p.y].esHippieOEstudiante = true;		
-		}else{
-		     	ModificarVecinos(p,campus.Vecinos(p))
-                     }
-
+			ModificarVecinos(p,campus.Vecinos(p));
+	      } else if(CantPersonasAlrededor(campus.Vecinos(p)).Seguridad + CantPersonasAlrededor(campus.Vecinos(p)).Objetos == campus.Vecinos(p).Cardinal() ) {
+					SumarHippieAAgente(campus.Vecinos(p));
+					hippies.Significado(h).itAux.EliminarSiguiente();
+					hippies.Borrar(h);
+					matrizDeChabones[p.x][p.y].esHippieOEstudiante = true;		
+				} else {
+		     		ModificarVecinos(p,campus.Vecinos(p));
+                }
 }
 
 void CampusSeguro::MoverEstudiante(const Nombre& e , const Direccion& d ){
 
-	Posicion viejaPos = estudiantes.Significado(e).posicion,
-	Posicion nuevaPos = proxPosicion(viejaPos,d);
+	Posicion viejaPos(estudiantes.Significado(e).posicion);
+	Posicion nuevaPos(campus.ProxPosicion(viejaPos,d));
 	matrizDeChabones[viejaPos.x][viejaPos.y].esHippieOEstudiante = false;
 	estudiantes.Significado(e).posicion = nuevaPos;	
 	matrizDeChabones[nuevaPos.x][nuevaPos.y].esHippieOEstudiante = true;
 	matrizDeChabones[nuevaPos.x][nuevaPos.y].nombre = e;
-	if(cantPersonasAlrededor(*(campus.Vecinos(nuevaPos))).H >=2){
+	if(CantPersonasAlrededor(campus.Vecinos(nuevaPos)).Hippies >=2){
 		estudiantes.Significado(e).itAux.EliminarSiguiente();
 		estudiantes.Borrar(e);
-		infoHippie nuevo = new infoHippie();
+		infoHippie nuevo = infoHippie();
 		nuevo.posicion = nuevaPos;
-		nuevo.itAux = hippiesAux.AgregarAtras(e);
-		ModificarVecinos(nuevaPos,*(campus.Vecinos(nuevaPos)));	
+		nuevo.itAux = hippiesAux.Agregar(e);
+		ModificarVecinos(nuevaPos, campus.Vecinos(nuevaPos));	
 	}else{
-		ModificarVecinos(nuevaPos,*(campus.Vecinos(nuevaPos)));
+		ModificarVecinos(nuevaPos, campus.Vecinos(nuevaPos));
 	     }
 }
 //revisar
@@ -158,47 +157,48 @@ void CampusSeguro::MoverHippie (const Nombre& h){
 
 	infoHippie datosHippie = hippies.Significado(h);
 	Posicion p = datosHippie.posicion;
-	Conj<infoEstudiante> datosEstudiante = estudiantes.Significado; // no devería tomar las claves?
-	Conj<infoEstudiante> :: iterador itDatosEstudiante = datosEstudiante.CrearIt();
+	Conj<infoEstudiante> datosEstudiante = estudiantes.Significados();
+	Conj<infoEstudiante> :: Iterador itDatosEstudiante = datosEstudiante.CrearIt();
 	Conj<Posicion> posicionesEstudiantes = Conj<Posicion>();
-	while(itDatosEstudiante.haySiguiente()){
+	while(itDatosEstudiante.HaySiguiente()){
 		posicionesEstudiantes.Agregar(itDatosEstudiante.Siguiente());
 	}
-	Conj<Posicion> estudiantesMasCercanos = posicionesMasCercanas(p,posicionesEstudiantes);
-	datosHippies.estudidantesMasCercanos = estudiantesMasCercanos;
-	Posicion proximaPosicion = ingresosMasCercanos(p);
+	Conj<Posicion> estudiantesMasCercanos = PosicionesMasCercanas(p,posicionesEstudiantes);
+	datosHippie.estudiantesMasCercanos = estudiantesMasCercanos;
+	Posicion proximaPosicion = campus.IngresosMasCercanos(p);
 	if(estudiantesMasCercanos.Cardinal() > 0){
-		proximaPosicion = damePos(p,estudiantesMasCercanos.CrearIt().Siguiente());
+		proximaPosicion = DamePos(p,estudiantesMasCercanos.CrearIt().Siguiente());
 	}
 	if(!EstaOcupada(proximaPosicion)){
 		matrizDeChabones[proximaPosicion.x][proximaPosicion.y].esHippieOEstudiante = true;
 		matrizDeChabones[proximaPosicion.x][proximaPosicion.y].nombre = h;
 		matrizDeChabones[p.x][p.y].esHippieOEstudiante = false;
 		datosHippie.posicion = proximaPosicion;
-		ModificarVecinos(proximaPosicion,*(campus.Vecinos(proximaPosicion)))
+		ModificarVecinos(proximaPosicion, campus.Vecinos(proximaPosicion));
 	}
 }
 
 void CampusSeguro::MoverAgente(const Agente& a){
-	infoAgente datosAgente = new agentes.Significado(a);
-	Posicion p = datosAgentes.posicion;
-	Conj<infoHippie>::iterador itDatosHippies = datosHippies.CrearIt();
-	Conj<Posicion> posicionesHippies = new Conj<Posicion>();
+	infoAgente datosAgente = agentes.Significado(a);
+	Posicion p(datosAgente.posAgente);
+	Conj<infoHippie> datosHippies = hippies.Significados();
+	Conj<infoHippie>::Iterador itDatosHippies = datosHippies.CrearIt();
+	Conj<Posicion> posicionesHippies = Conj<Posicion>();
 	while(itDatosHippies.HaySiguiente()){
 		posicionesHippies.Agregar(itDatosHippies.Siguiente().posicion);
-		itDatosHippies.AvanzarIt();
+		itDatosHippies.Avanzar();
 	}
-	Conj<Posicion> hippiesMasCercanos = personasMasCercanas(p,posicionesHippies);
-	datosAgentes.hippiesMasCercanos = hippiesMasCercanos;
-	Posicion proximaPosicion = campus.ingresosMasCercanos(p);
-	if(hippiesMasCercanos.longitud() > 0){
-		proximaPosicion = damePos(p,hippiesMascercanos.CrearIt().Siguiente());
+	Conj<Posicion> hippiesMasCercanos = PersonasMasCercanas(p,posicionesHippies);
+	datosAgente.hippiesMasCercanos = hippiesMasCercanos;
+	Posicion proximaPosicion = campus.IngresosMasCercanos(p);
+	if(hippiesMasCercanos.Cardinal() > 0){
+		proximaPosicion = DamePos(p,hippiesMasCercanos.CrearIt().Siguiente());
 	}
 	if(!EstaOcupada(proximaPosicion)){
 		matrizDeChabones[proximaPosicion.x][proximaPosicion.y].esAgente = true;
 		matrizDeChabones[proximaPosicion.x][proximaPosicion.y].agente = a;
 		datosHippie.posicion = proximaPosicion;
-		ModificarVecinos(proximaPosicion,*(campus.Vecinos(proximaPosicion)));
+		ModificarVecinos(proximaPosicion, campus.Vecinos(proximaPosicion));
 	}
 
 }
@@ -208,17 +208,17 @@ const Campus& CampusSeguro::DameCampus() const{
 
 }
 
-const ItConj<Nombre>& CampusSeguro::Estudiantes() const{
+const Conj<Nombre>::const_Iterador& CampusSeguro::Estudiantes() const{
 	return estudiantesAux.CrearIt();
 
 }
 
-const ItConj<Nombre>& CampusSeguro::Hippies() const{
+const Conj<Nombre>::const_Iterador& CampusSeguro::Hippies() const{
 	return hippiesAux.CrearIt();
 
 }
 
-const ItConj<Agente>& CampusSeguro::Agentes() const{
+const Conj<Agente>::const_Iterador& CampusSeguro::Agentes() const{
 	return agentesAux.CrearIt();
 
 }
@@ -248,12 +248,12 @@ Nat CampusSeguro::CantHippiesAtrapados(const Agente& a) const{
 }
 
 Nat CampusSeguro::CantHippies() const{
-	return longitud(hippiesAux);
+	return hippiesAux.Cardinal();
 
 }
 
 Nat CampusSeguro::CantEstudiantes() const{
-	return longitus(estudiantesAux);
+	return estudiantesAux.Cardinal();
 
 }
 
@@ -265,11 +265,10 @@ const Agente& CampusSeguro::MasVigilante() const{
 
 //funciones auxiliares;
 
-
 void CampusSeguro::Sancionar(Nat p, Nat cs){
 
 	infoAgente agente = agentes.Significado(cs);
-	Lista<Conj<Agente>>::iterador it = agente.mismasSancione;
+	Lista<Conj<Agente>>::Iterador it = agente.mismasSancione;
 	Nat i = 0;
 	while(i < cs){
 		if(!it.HaySiguiente()){
@@ -279,7 +278,7 @@ void CampusSeguro::Sancionar(Nat p, Nat cs){
 		}
 		i++;
 	}
-	Conj<Agente>::iterador itMismasSanciones = it.Agregar(p);
+	Conj<Agente>::Iterador itMismasSanciones = it.Agregar(p);
 	agente.mismaSancion.EliminarSiguiente();
 	agente.cantSanciones + = cs;
 	agente.mismasSanciones = it;
@@ -288,7 +287,7 @@ void CampusSeguro::Sancionar(Nat p, Nat cs){
 }
 
 Conj<Agente> CampusSeguro::ConKSanciones(Nat k){
-	Conj<Agente>::iterador it = agentesAux.CrearIt();
+	Conj<Agente>::Iterador it = agentesAux.CrearIt();
 	if(hubieronSanciones){
 		conKSanciones = Vector<Agente>();
 		while(it.HaySiguiente()){
@@ -296,7 +295,7 @@ Conj<Agente> CampusSeguro::ConKSanciones(Nat k){
 			it.Avanzar();
 		}
 	}
-	return busquesaRapida(k,conKSanciones);
+	return BusquedaRapida(k,conKSanciones);
 }
 
 void CampusSeguro::InsertarOrdenado(Vector<Agente> v, const Agente& a){
@@ -329,48 +328,48 @@ Conj<Agente> CampusSeguro::Buscar(Vector<Agente> v, Nat i ,Nat s ,Nat k){
 	}else {
 		int intermedio = (int)((i+s)/2);
 		if(agentes.Significado(v[intermedio]).cantSanciones < k){
-			buscar(v,i,intermedio,k);
+			Buscar(v,i,intermedio,k);
 		}else{
-			buscar(v,intermedio,s,k);
+			Buscar(v,intermedio,s,k);
 		}
 	}
 }
 
 Conj<Posicion> CampusSeguro::PosicionesMasCercanas(const Posicion& p, Conj<Posicion> c){
 	Conj<Posicion> posicionesMasCercanas = Conj<Posicion>();
-	Conj<Posicion>::iterador itPosiciones = c.CrearIt();
+	Conj<Posicion>::Iterador itPosiciones = c.CrearIt();
 	if(itPosiciones.HaySiguiente()){
 		Nat distanciaMasCercana = itPosiciones.Siguiente();
 		while(itPosiciones.HaySiguiente()){
 			Nat distancia = distancia(itPosiciones.Siguiente(),p);
 			if(distancia < distanciaMasCercana){
 				distanciaMasCercana = distancia;
-				posicionesCercanas.Agregar(it.Siguiente());
+				posicionesMasCercanas.Agregar(itPosiciones.Siguiente());
 			}else if(distancia == distanciaMasCercana){
-					posicionesMasCercanas.Agregar(it.Siguiente());
+					posicionesMasCercanas.Agregar(itPosiciones.Siguiente());
 				}
-			it.Avanzar();
+			itPosiciones.Avanzar();
 		}
 	}
 }
 
-bool CampusSeguro::EstaOcupada(Posicion p){
+bool CampusSeguro::EstaOcupada(Posicion p) {
 	return campus.EstaOcupada(p) || matrizDeChabones[p.x][p.y].esHippieOEstudiante || matrizDeChabones[p.x][p.y].esAgente;
 }
 
 void CampusSeguro::ModificarVecinos(const Posicion& p, const Conj<Posicion>& c){
-	Conj<Posicion>::interador it = c.CrearIt();
-	while( it.HaySiguiente()){
+	Conj<Posicion>::Iterador it = c.CrearIt();
+	while(it.HaySiguiente()){
 		if(matrizDeChabones[it.Siguiente().x][it.Siguiente().y].esHippieOEstudiante){
 			if(matrizDeChabones[p.x][p.y].esHippieOEstudiante){
 				modificarAux(matrizDeChabones[p.x][p.y].nombre,matrizDeChabones[it.Siguiente().x][it.Siguiente().y].nombre);
 			}
 			it.Avanzar();
 		}else if(matrizDeChabones[p.x][p.y].esAgente && hipppies.Definido(matrizDeChabones[it.Siguiente().x][it.Siguiente().y].nombre)){
-				capturadoH(it.Siguiente());
+				CapturadoH(it.Siguiente());
 				it.Avanzar();
 			}else{
-				capturadoE(it.Siguiente());
+				CapturadoE(it.Siguiente());
 				it.Avanzar();
 			}
 		it.Avanzar();
@@ -380,70 +379,69 @@ void CampusSeguro::ModificarVecinos(const Posicion& p, const Conj<Posicion>& c){
 void CampusSeguro::ModificarAux(const Nombre& n1, const Nombre& n2){
 	if(estudiantes.Definido(n2)){
 		if(estudiantes.Definido(n1)){
-			capturadoE(*(campus.Vecinos(estudiantes.Significado(n2).posicion)));
+			CapturadoE(campus.Vecinos(estudiantes.Significado(n2).posicion));
 		}else if(hippies.Definido(n1)){
-				convertidoYCapturado(n2,estudiantes.Significado(n2).posicion);
+				ConvertidoYCapturado(n2,estudiantes.Significado(n2).posicion);
 			}else{
-				capturadoE(*(campus.Vecinos(estudiantes.Significado(n2).posicion)));
+				CapturadoE(campus.Vecinos(estudiantes.Significado(n2).posicion));
 			}
 	}else if(estudiantes.Definido(n1)){
-			corregidoYcapturado(n2,hippies.Significado(n2).posicion);
+			CorregidoYcapturado(n2,hippies.Significado(n2).posicion);
 		}else{
-			capturadoH(n2,hippies.Significado(n2).posicion);
+			CapturadoH(n2,hippies.Significado(n2).posicion);
 		}
 }
 
 void CampusSeguro::CapturadoE(const Posicion& p){
-	if(totalOcupados(cantPersonarAlrededor(*(campus.Vecinos(p)))) == longitud(*(campus.Vecinos(p)))){
-		sumarSancion(*(campus.Vecinos(p)));
+	if(TotalOcupados(CantPersonarAlrededor(campus.Vecinos(p))) == campus.Vecinos(p).Cardinal())
+		SumarSancion(campus.Vecinos(p));
 }
 
 void CampusSeguro::CapturadoH(const Nombre& n,const Posicion& p){
-	if(totalOcupados(cantPersonarAlrededor(*(campus.Vecinos(estudiantes.Significado(p).posicion)))) == longitud(*(campus.Vecinos(estudiantes.Significado(p).posicion))) && cantPersonasAlrededor(*(campus.Vecinos(estudiantes.Significado(p).posicion))).S >= 1){
-		sumarHippieAAgente(*(campus.Vecinos(estudiantes.Significado(p).posicion)));
+	if(TotalOcupados(CantPersonasAlrededor(campus.Vecinos(estudiantes.Significado(p).posicion))) == campus.Vecinos(estudiantes.Significado(p).posicion).Cardinal() && CantPersonasAlrededor(campus.Vecinos(estudiantes.Significado(p).posicion)).Seguridad >= 1){
+		SumarHippieAAgente(campus.Vecinos(estudiantes.Significado(p).posicion));
 		matrizDeChabones[p.x][p.y].esHippieOEstudiante = false;
 		hippies.Significado(n).itAux.EliminarSiguiente();
 		hippies.Borrar(n);
 	}
-
 }
 
 void CampusSeguro::CorregidoYcapturado(const Nombre& n, const Posicion& p){
-	if(cantPersonasAlrededor(*(campus.Vecinos(p))).E + cantPersonasAlrededor(*(campus.Vecinos(p)).O == longitud(*(campus.Vecinos(p)))){
+	if(CantPersonasAlrededor(campus.Vecinos(p)).Estudiantes + CantPersonasAlrededor(campus.Vecinos(p)).Objetos == campus.Vecinos(p).Cardinal()) {
 		hippies.Significado(n).itAux.EliminarSiguiente();
 		hippies.Borrar(n);
-		infoEstudiantes nuevo = new infoEstudiantes();
-		nuevo.posicion = p;
-		nuevo.itAux = estudiantesAux.AgregarAtras(n);
+		infoEstudiante nuevo();
+		nuevo.posicion(p);
+		nuevo.itAux = estudiantesAux.Agregar(n);
 		
-		capturadoH(*(campus.Vecinos(p)));
+		CapturadoH(campus.Vecinos(p));
 	}
 }
 
 void CampusSeguro::ConvertidoYcapturado(const Nombre& n, const Posicion& p){
-	if(cantPersonasAlrededor(*(campus.Vecinos(p))).H >=2){
-		infoHippies nuevo = new infoHippies();
-		nuevo.posicion = p;
-		nuevo.itAux = hippiesAux.AgregarAtras();
-		ModificarVecinos(p,*(campus.Vecinos(p)));
-		if(totalOcupados(cantPersonasAlrededor(*(campus.Vecinos(p)))) == longitud(*(campus.Vecinos(p))) && cantPersonasAlrededor(*(campus.Vecinos(p))).S == 1){
-			sumasHippieAAgente(*(campus.Vecinos(p)));
+	if(CantPersonasAlrededor(campus.Vecinos(p)).Hippies >=2){
+		infoHippie nuevo();
+		nuevo.posicion(p);
+		nuevo.itAux = hippiesAux.Agregar();
+		ModificarVecinos(p,campus.Vecinos(p));
+		if(TotalOcupados(CantPersonasAlrededor(campus.Vecinos(p))) == campus.Vecinos(p).Cardinal() && CantPersonasAlrededor(campus.Vecinos(p)).Seguridad == 1){
+			SumarHippieAAgente(campus.Vecinos(p));
 			hippies.Significado(n).itAux.EliminarSiguiente();
-			hippies.Borrar(n);CampusSeguro
+			hippies.Borrar(n);
 			matrizDeChabones[p.x][p.y].esHippieOEstudiante = false;
 		}
-	}else if(totalOcupados(cantPersonasAlrededor(*(campus.Vecinos(p)))) == longitud(*(campus.Vecinos(p))) && cantPersonasAlrededor(*(campus.Vecinos(p))).S == 1){
-			sumarSancion(*(campus.Vecinos(p));
+	}else if(TotalOcupados(CantPersonasAlrededor(campus.Vecinos(p))) == campus.Vecinos(p).Cardinal() && CantPersonasAlrededor(campus.Vecinos(p)).Seguridad == 1){
+			SumarSancion(campus.Vecinos(p));
 	}
 }
 
 void CampusSeguro::SumarSancion(const Conj<Posicion>& c){
-	Conj<Posicion>::iterador it = c.CrearIt();
-	int n = agentes.Significado(matrizDeChabones[it.Siguiente().x][it.Siguiente().y].placa).cantSanciones;
-	int m = matrizDeChabones[itSiguiente().x][itSiguiente().y].placa;
-	while(it.HaySiguinte()){
-		if(matrizDeChabones[in.Siguiente().x][it.Siguiente.y].esAgente){
-			sancionar(m,1);
+	Conj<Posicion>::const_Iterador it = c.CrearIt();
+	//int n = agentes.Significado(matrizDeChabones[it.Siguiente().x][it.Siguiente().y].placa).cantSanciones;
+	int m = matrizDeChabones[it.Siguiente().x][it.Siguiente().y].agente;
+	while(it.HaySiguiente()){
+		if(matrizDeChabones[it.Siguiente().x][it.Siguiente().y].esAgente){
+			Sancionar(m,1);
 			it.Avanzar();
 		}	
 		it.Avanzar();
@@ -451,21 +449,21 @@ void CampusSeguro::SumarSancion(const Conj<Posicion>& c){
 }
 
 void CampusSeguro::SumarHippieAAgente(const Conj<Posicion>& c){
-	Conj<Posicion>::iterador it = c.CrearIt();
+	Conj<Posicion>::const_Iterador it = c.CrearIt();
 	while(it.HaySiguiente()){
 		if(matrizDeChabones[it.Siguiente().x][it.Siguiente().y].esAgente){
-			infoAgente agente = agentes.Significado(matrizDeChabones[it.Siguiente().x][it.Siguiente().y].placa);
+			infoAgente agente = agentes.Significado(matrizDeChabones[it.Siguiente().x][it.Siguiente().y].agente);
 			agente.cantHippiesAtrapados++;
 			if(agente.cantHippiesAtrapados > agentes.Significado(masVigilante).cantHippiesAtrapados){
-				masVigilante = matrizDeChabones[it.Siguiente().x][it.Siguiente().y].placa;
+				masVigilante = matrizDeChabones[it.Siguiente().x][it.Siguiente().y].agente;
 			}
 		}
 		it.Avanzar();
 	}
 }
 
-/*tuple CampusSeguro::cantPersonasAlrededor(const Conj<Posicion>& c){
-	Conj<Posicion>::iterador it =c.CrearIt();
+/*tuple CampusSeguro::CantPersonasAlrededor(const Conj<Posicion>& c){
+	Conj<Posicion>::Iterador it =c.CrearIt();
 	Nat e = 0;
 	Nat h = 0;
 	Nat s = 0;
@@ -498,27 +496,28 @@ void CampusSeguro::SumarHippieAAgente(const Conj<Posicion>& c){
 	return tup;
 }*/
 
-Nat CampusSeguro::TotalOcupados(tuple t){
-	return t.O+t.H+t.E+t.S;
+Nat CampusSeguro::TotalOcupados(infoEntorno t){
+	return t.Objetos + t.Hippies + t.Estudiantes + t.Seguridad;
 }
 
 Posicion CampusSeguro::DamePos(const Posicion& p1,const Posicion& p2){
+	Posicion p;
+
 	if(p1.x > p2.x){
-		return <p1.x-1,p1.y>;
+		p.x = p1.x - 1; p.y = p1.y;
 	}
 	if(p1.x < p2.x){
-		return <p1.x+1,p1.y>;
+		p.x = p1.x + 1; p.y = p1.y;
 	}
 	if(p1.y > p2.y){
-		return <p1.x,p1.y-1>;
+		p.x = p1.x; p.y = p1.y - 1;
 	}
 	if(p1.y < p2.y){
-		return <p1.x,p1.y+1>;
+		p.x = p1.x; p.y = p1.y + 1;
 	}
+
+	return p;
 }
-
-
-
 
 CampusSeguro::~CampusSeguro(){
 	

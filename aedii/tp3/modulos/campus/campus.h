@@ -9,6 +9,8 @@ class Campus {
 
 	public:
 
+		Campus();
+
 		Campus(const Campus&);
 
 		Campus(const Nat, const Nat);
