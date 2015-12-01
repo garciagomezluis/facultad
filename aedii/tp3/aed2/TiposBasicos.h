@@ -12,6 +12,8 @@
 namespace aed2{
     typedef unsigned int Nat;
     typedef std::string String;
+    typedef String Nombre;
+    typedef Nat Agente;
     
     /*Definimos el tipo Posicion con sus operaciones básicas*/
     struct Posicion {
