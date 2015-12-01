@@ -1,21 +1,6 @@
 Sobre campus:
 ============
 
-Se testean todas las funciones de la interfáz pública.
-Actualmente se entrega sin leaks.
-Respecto a la especificación se asumen los siguientes:
-
-	vecinos pasa de devolver una referencia a un conjunto un puntero a un conjunto
-	proxPosicion pasa de devolver una referencia a una posicion un puntero a una posicion
-	ingresosMasCercanos pasa de devolver una referencia a un conjunto un puntero a un conjunto
-	matriz pasa de ser un arreglo de arreglo de bool a un arreglo * de arreglo de bool
-
-	Los anteriores presuponen que es responsabilidad del usuario liberar la memoria solicitada (ver test campus).
-
-Se entrega sin constructor por copia.
-
-Para correr los test de campus (en el directorio de campus):
-
 	g++ -g test.cpp campus.cpp -o tests
 
 Para correr valgrind (sobre el binario anterior):
@@ -23,3 +8,11 @@ Para correr valgrind (sobre el binario anterior):
 	valgrind --leak-check=full -v ./tests
 
 ====================================================================
+Sobre diccRapido
+================
+
+	g++ -g test.cpp -o test
+
+Para correr valgrind (sobre el binario anterior):
+
+	valgrind --leak-check=full -v ./test
