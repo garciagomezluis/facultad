@@ -31,15 +31,15 @@ public:
 
 	const Campus& DameCampus() const;
 
-	const Conj<Nombre>::const_Iterador& Estudiantes() const;
+	const Conj<Nombre>::const_Iterador Estudiantes() const;
 
-	const Conj<Nombre>::const_Iterador& Hippies() const;
+	const Conj<Nombre>::const_Iterador Hippies() const;
 
-	const Conj<Agente>::const_Iterador& Agentes() const;
+	const Conj<Agente>::const_Iterador Agentes() const;
 
-	const Posicion& PosicionEstudianteYHippie(const Nombre& n) const;
+	const Posicion& PosicionEstudianteYHippie(const Nombre& n) ;
 
-	const Posicion& PosicionAgente(const Agente& a) const;
+	const Posicion& PosicionAgente(const Agente& a) ;
 
 	Nat CantSanciones(const Agente& a) const;
 

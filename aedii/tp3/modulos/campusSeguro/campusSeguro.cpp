@@ -157,15 +157,15 @@ void CampusSeguro::MoverHippie (const Nombre& h){
 
 	infoHippie datosHippie = hippies.Significado(h);
 	Posicion p = datosHippie.posicion;
-	Conj<infoEstudiante> datosEstudiante = estudiantes.Significados();
-	Conj<infoEstudiante> :: Iterador itDatosEstudiante = datosEstudiante.CrearIt();
+	Conj<infoEstudiante*> datosEstudiante = estudiantes.Significados();
+	Conj<infoEstudiante*> :: Iterador itDatosEstudiante = datosEstudiante.CrearIt();
 	Conj<Posicion> posicionesEstudiantes = Conj<Posicion>();
 	while(itDatosEstudiante.HaySiguiente()){
-		posicionesEstudiantes.Agregar(itDatosEstudiante.Siguiente());
+		posicionesEstudiantes.Agregar(itDatosEstudiante.Siguiente()->posicion);
 	}
 	Conj<Posicion> estudiantesMasCercanos = PosicionesMasCercanas(p,posicionesEstudiantes);
 	datosHippie.estudiantesMasCercanos = estudiantesMasCercanos;
-	Posicion proximaPosicion = campus.IngresosMasCercanos(p);
+	Posicion proximaPosicion = campus.IngresosMasCercanos(p).CrearIt().Siguiente(); //TODO. Revisar si esto está bien. Está mal diseñado, no coinciden los tipos. OJO. para que esto ande el conjunto debe ser no vacio
 	if(estudiantesMasCercanos.Cardinal() > 0){
 		proximaPosicion = DamePos(p,estudiantesMasCercanos.CrearIt().Siguiente());
 	}
@@ -181,23 +181,23 @@ void CampusSeguro::MoverHippie (const Nombre& h){
 void CampusSeguro::MoverAgente(const Agente& a){
 	infoAgente datosAgente = agentes.Significado(a);
 	Posicion p(datosAgente.posAgente);
-	Conj<infoHippie> datosHippies = hippies.Significados();
-	Conj<infoHippie>::Iterador itDatosHippies = datosHippies.CrearIt();
+	Conj<infoHippie*> datosHippies = hippies.Significados();
+	Conj<infoHippie*>::Iterador itDatosHippies = datosHippies.CrearIt();
 	Conj<Posicion> posicionesHippies = Conj<Posicion>();
 	while(itDatosHippies.HaySiguiente()){
-		posicionesHippies.Agregar(itDatosHippies.Siguiente().posicion);
+		posicionesHippies.Agregar(itDatosHippies.Siguiente()->posicion);
 		itDatosHippies.Avanzar();
 	}
-	Conj<Posicion> hippiesMasCercanos = PersonasMasCercanas(p,posicionesHippies);
+	Conj<Posicion> hippiesMasCercanos = PosicionesMasCercanas(p,posicionesHippies);
 	datosAgente.hippiesMasCercanos = hippiesMasCercanos;
-	Posicion proximaPosicion = campus.IngresosMasCercanos(p);
+	Posicion proximaPosicion = campus.IngresosMasCercanos(p).CrearIt().Siguiente();//TODO. Revisar si esto está bien. Está mal diseñado, no coinciden los tipos. OJO. para que esto ande el conjunto debe ser no vacio
 	if(hippiesMasCercanos.Cardinal() > 0){
 		proximaPosicion = DamePos(p,hippiesMasCercanos.CrearIt().Siguiente());
 	}
 	if(!EstaOcupada(proximaPosicion)){
 		matrizDeChabones[proximaPosicion.x][proximaPosicion.y].esAgente = true;
 		matrizDeChabones[proximaPosicion.x][proximaPosicion.y].agente = a;
-		datosHippie.posicion = proximaPosicion;
+		//datosHippies.posicion = proximaPosicion; //TODO. No tiene sentido pedirle la posicion a un conjunto. ¿A que hippie hay que actualizarle la posicion?
 		ModificarVecinos(proximaPosicion, campus.Vecinos(proximaPosicion));
 	}
 
@@ -208,22 +208,22 @@ const Campus& CampusSeguro::DameCampus() const{
 
 }
 
-const Conj<Nombre>::const_Iterador& CampusSeguro::Estudiantes() const{
+const Conj<Nombre>::const_Iterador CampusSeguro::Estudiantes() const{
 	return estudiantesAux.CrearIt();
 
 }
 
-const Conj<Nombre>::const_Iterador& CampusSeguro::Hippies() const{
+const Conj<Nombre>::const_Iterador CampusSeguro::Hippies() const{
 	return hippiesAux.CrearIt();
 
 }
 
-const Conj<Agente>::const_Iterador& CampusSeguro::Agentes() const{
+const Conj<Agente>::const_Iterador CampusSeguro::Agentes() const{
 	return agentesAux.CrearIt();
 
 }
 
-const Posicion& CampusSeguro::PosicionEstudianteYHippie(const Nombre& n) const{
+const Posicion& CampusSeguro::PosicionEstudianteYHippie(const Nombre& n) {
 	if(hippies.Definido(n)){
 		return hippies.Significado(n).posicion;
 	}else{
@@ -232,8 +232,8 @@ const Posicion& CampusSeguro::PosicionEstudianteYHippie(const Nombre& n) const{
 
 }
 
-const Posicion& CampusSeguro::PosicionAgente(const Agente& a) const{
-	return agentes.Significado(a).posicion;
+const Posicion& CampusSeguro::PosicionAgente(const Agente& a) {
+	return agentes.Significado(a).posAgente;
 
 }
 
@@ -268,20 +268,21 @@ const Agente& CampusSeguro::MasVigilante() const{
 void CampusSeguro::Sancionar(Nat p, Nat cs){
 
 	infoAgente agente = agentes.Significado(cs);
-	Lista<Conj<Agente>>::Iterador it = agente.mismasSancione;
+	Lista<Conj<Agente>>::Iterador it = agente.mismasSanciones;
 	Nat i = 0;
 	while(i < cs){
 		if(!it.HaySiguiente()){
-			it = Conj().AgregarAtras(mismasSanciones);
+			it = mismasSanciones.AgregarAtras(Conj<Agente>());
 		}else{
 			it.Avanzar();
 		}
 		i++;
 	}
-	Conj<Agente>::Iterador itMismasSanciones = it.Agregar(p);
+	Conj<Agente>::Iterador itMismasSanciones = it.Siguiente().Agregar(p);
 	agente.mismaSancion.EliminarSiguiente();
-	agente.cantSanciones + = cs;
+	agente.cantSanciones = agente.cantSanciones + cs;
 	agente.mismasSanciones = it;
+	agente.mismaSancion = itMismasSanciones;
 	hubieronSanciones = true ;
 
 }
