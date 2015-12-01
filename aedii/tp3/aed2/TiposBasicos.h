@@ -27,6 +27,11 @@ namespace aed2{
 
         Posicion() {}
 
+        Posicion(const Posicion& otro) {
+            x = otro.x;
+            y = otro.y;
+        }
+
         Posicion(Nat _x, Nat _y) : x(_x), y(_y) {}
 
         bool operator==(const Posicion& otro) const;

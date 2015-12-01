@@ -33,7 +33,13 @@ class DiccRapido {
       while(it.HaySiguiente() && it.Siguiente().clave != a) {
         it.Avanzar();
       }
+
       cantidad += it.HaySiguiente() ? 0 : 1;
+      
+      if(it.HaySiguiente()) {
+        it.EliminarSiguiente();
+      }
+
       it.AgregarComoSiguiente(Item(a, b));
     }
 
@@ -47,19 +53,16 @@ class DiccRapido {
       return res;
     }
 
-    /**/
   	const B& Significado(const A& a) const {
       assert(Definido(a));
 
       typename Lista<Item>::const_Iterador it = tabla[FuncionDeHash(a)].CrearIt();
-      while(it.HaySiguiente()) {
-        if(it.Siguiente().clave == a) {
-          return it.Siguiente().valor;
-        }
+      while(it.HaySiguiente() && it.Siguiente().clave != a) {
         it.Avanzar();
       }
+
+      return it.Siguiente().valor;
     }
-    /**/
 
     //Para tests ------------------------------------------------------------------------
 
