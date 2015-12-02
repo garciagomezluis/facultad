@@ -17,7 +17,10 @@ namespace aed2 {
 	}
 
 	void Driver::agregarObstaculo(aed2::Posicion p) {
+		cout<<"hola"<<endl;
+		cout<<campus->EsOcupada(ConversionPosicion(p))<<endl;
 	    campus->AgregarObstaculo(ConversionPosicion(p));
+	    cout<<campus->EsOcupada(ConversionPosicion(p))<<endl;
 	}
 
 	// Observadores del Campus
@@ -31,6 +34,7 @@ namespace aed2 {
 	}
 
 	bool Driver::ocupada(aed2::Posicion p) const {
+		cout<<campus->EsOcupada(ConversionPosicion(p))<<endl;
 	    return campusSeguro->EstaOcupada(ConversionPosicion(p)); 
 	}
 
@@ -137,7 +141,8 @@ namespace aed2 {
 	    return campusSeguro->ConKSanciones(k); 
 	}
 
-	tp::Posicion Driver::ConversionPosicion(aed2::Posicion p) const{		
+	tp::Posicion Driver::ConversionPosicion(aed2::Posicion p) const{	
+		
 		return tp::Posicion(p.x, p.y);
 	}
 

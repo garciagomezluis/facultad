@@ -1,6 +1,6 @@
 #include "campusSeguro.h"
 
-CampusSeguro::CampusSeguro( const Campus& c, const Dicc<Agente , Posicion >& d ){
+CampusSeguro::CampusSeguro( Campus& c, const Dicc<Agente , Posicion >& d ){
 
 	for(Nat i = 0; i < c.Filas(); i++) {
 		matrizDeChabones.Agregar(i, Vector<infoChabones>());
@@ -9,7 +9,7 @@ CampusSeguro::CampusSeguro( const Campus& c, const Dicc<Agente , Posicion >& d )
 		}
 	}
 
-	campus = Campus(c);
+	campus = c;
 
 	mismasSanciones.AgregarAtras(Conj<Agente>());
 	Lista<Conj<Agente> > :: Iterador itMismasSanciones = mismasSanciones.CrearIt();
