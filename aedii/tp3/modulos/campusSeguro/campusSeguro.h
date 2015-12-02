@@ -105,7 +105,7 @@ private:
 
 	void Sancionar(Nat p, Nat cs);
 	Conj<Agente> ConKSanciones(Nat k);
-	void InsertarOrdenado(const Vector<Agente>& v,const Agente& a);
+	void InsertarOrdenado(Vector<Nat>& v,const Nat& a);
 	Conj<Agente> BusquedaRapida(Nat n, Vector<Agente> v);
 	Conj<Agente> Buscar(Vector<Agente> v,Nat i,Nat s,Nat k);
 	Conj<Posicion> PosicionesMasCercanas(const Posicion& p,Conj<Posicion> posiciones);
@@ -115,7 +115,7 @@ private:
 	void CapturadoE(const Posicion& p);
 	void CapturadoH(const Nombre& n, const Posicion& p);
 	void CorregidoYcapturado(const Nombre& n, const Posicion& p);
-	void ConvertidoYcapturado(const Nombre& n, const Posicion& p);
+	void ConvertidoYCapturado(const Nombre& n, const Posicion& p);
 	void SumarSancion(const Conj<Posicion>& c);
 	void SumarHippieAAgente(const Conj<Posicion>& c);
 	infoEntorno CantPersonasAlrededor(Conj<Posicion> c);
