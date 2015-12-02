@@ -5,8 +5,9 @@
 #include <string>
 #include "../../aed2/Vector.h"
 #include "../../aed2/Conj.h"
-#include "../../aed2/TiposBasicos.h"
+#include "../../aed2/TiposBasicos_TP.h"
 using namespace std;
+using namespace tp;
 
 namespace aed2{
 

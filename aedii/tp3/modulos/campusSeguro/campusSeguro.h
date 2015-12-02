@@ -9,18 +9,19 @@
 
 using namespace std;
 using namespace aed2;
+using namespace tp;
 
 class CampusSeguro {
 
 public:
 
-	CampusSeguro( const Campus& c, const Dicc<Agente , Posicion >& d );
+	CampusSeguro( const Campus& c, const Dicc<Agente , tp::Posicion >& d );
 
-	void IngresaEstudiante( const Nombre& e , const Posicion& p);
+	void IngresaEstudiante( const Nombre& e , const tp::Posicion& p);
 
-	void IngresaHippie(const Nombre& h , const Posicion& p);
+	void IngresaHippie(const Nombre& h , const tp::Posicion& p);
 
-	void MoverEstudiante(const Nombre& e , const Direccion& d );
+	void MoverEstudiante(const Nombre& e , const tp::Direccion& d );
 
 	void MoverHippie (const Nombre& h);
 
@@ -34,9 +35,9 @@ public:
 
 	const Conj<Agente>::const_Iterador Agentes() const;
 
-	const Posicion& PosicionEstudianteYHippie(const Nombre& n) ;
+	const tp::Posicion& PosicionEstudianteYHippie(const Nombre& n) ;
 
-	const Posicion& PosicionAgente(const Agente& a) ;
+	const tp::Posicion& PosicionAgente(const Agente& a) ;
 
 	Nat CantSanciones(const Agente& a) const;
 
@@ -67,23 +68,23 @@ private:
 	};
 
 	struct infoAgente {	
-		Posicion posAgente;
+		tp::Posicion posAgente;
 		Nat cantSanciones ; 
 		Nat cantHippiesAtrapados ; 
-		Conj <Posicion> hippiesMasCercanos ;
+		Conj <tp::Posicion> hippiesMasCercanos ;
 		Lista<Conj <Agente> > :: Iterador mismasSanciones ;
 		Conj <Agente> :: Iterador mismaSancion ; 
 		Conj <Agente> :: Iterador itAux;
 	};
 
 	struct infoHippie {	
-		Posicion posicion ;
+		tp::Posicion posicion ;
 		Conj <Nombre> :: Iterador itAux ; 
-		Conj <Posicion> estudiantesMasCercanos;
+		Conj <tp::Posicion> estudiantesMasCercanos;
 	};
 
 	struct infoEstudiante {	
-		Posicion posicion;
+		tp::Posicion posicion;
 		Conj <Nombre> :: Iterador itAux;
 	};
 
@@ -114,19 +115,19 @@ private:
 	void InsertarOrdenado(Vector<Nat>& v,const Nat& a);
 	Conj<Agente> BusquedaRapida(Nat n, Vector<Agente> v);
 	Conj<Agente> Buscar(Vector<Agente> v,Nat i,Nat s,Nat k);
-	Conj<Posicion> PosicionesMasCercanas(const Posicion& p,Conj<Posicion> posiciones);
-	bool EstaOcupada(Posicion p);
-	void ModificarVecinos(const Posicion& p, const Conj<Posicion>& c);
+	Conj<tp::Posicion> PosicionesMasCercanas(const tp::Posicion& p,Conj<tp::Posicion> posiciones);
+	bool EstaOcupada(tp::Posicion p);
+	void ModificarVecinos(const tp::Posicion& p, const Conj<tp::Posicion>& c);
 	void ModificarAux(const Nombre& n1, const Nombre& n2);
-	void CapturadoE(const Posicion& p);
-	void CapturadoH(const Nombre& n, const Posicion& p);
-	void CorregidoYcapturado(const Nombre& n, const Posicion& p);
-	void ConvertidoYCapturado(const Nombre& n, const Posicion& p);
-	void SumarSancion(const Conj<Posicion>& c);
-	void SumarHippieAAgente(const Conj<Posicion>& c);
-	infoEntorno CantPersonasAlrededor(const Conj<Posicion>& c);
+	void CapturadoE(const tp::Posicion& p);
+	void CapturadoH(const Nombre& n, const tp::Posicion& p);
+	void CorregidoYcapturado(const Nombre& n, const tp::Posicion& p);
+	void ConvertidoYCapturado(const Nombre& n, const tp::Posicion& p);
+	void SumarSancion(const Conj<tp::Posicion>& c);
+	void SumarHippieAAgente(const Conj<tp::Posicion>& c);
+	infoEntorno CantPersonasAlrededor(const Conj<tp::Posicion>& c);
 	Nat TotalOcupados(infoEntorno t);
-	Posicion DamePos(const Posicion& p1, const Posicion& p2);
+	tp::Posicion DamePos(const tp::Posicion& p1, const tp::Posicion& p2);
 }; 
 
 #endif

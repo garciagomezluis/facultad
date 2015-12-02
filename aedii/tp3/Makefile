@@ -1,31 +1,33 @@
-# Compilador que será utilizado
 CC=g++
-
-# flags de compilación
-CFLAGS=-g -Wall
-
-# flags de linkeo
 LDFLAGS=
-
-# Agrear acá los directorios a incluir en la compilación [COMPLETAR]
-INCDIR=
-
-# Agregar acá los archivos .cpp a compilar [COMPLETAR]
-SOURCES=test.cpp Driver.cpp 
-
-# Objetos que serán generados (no tocar)
+CFLAGS=-g -std=c++11 -Wall
+EXECUTABLE=test
+SOURCES= driver/Driver.h \
+		driver/Driver.cpp \
+		test.cpp
 OBJECTS=$(SOURCES:.cpp=.o)
 
-# Nombre del ejecutable a generar
-EXECUTABLE=test
+
 
 all: $(SOURCES) $(EXECUTABLE)
-	
+    
 $(EXECUTABLE): $(OBJECTS) 
 	$(CC) $(LDFLAGS) $(OBJECTS) -o $@
 
-clean:
-	rm -rf $(EXECUTABLE) $(OBJECTS)
-
 .cpp.o:
-	$(CC) -I$(INCDIR) $(CFLAGS) $< -c -o $@
+	$(CC) $(CFLAGS) -c $< -o $@
+
+#http://valgrind.org/docs/manual/quick-start.html
+valgrind: $(EXECUTABLE)
+	valgrind --leak-check=full -v ./$(EXECUTABLE)
+
+clean:
+	rm -rf *.o
+	make all
+reset:
+	reset
+	rm -rf *.o
+	make all
+
+
+

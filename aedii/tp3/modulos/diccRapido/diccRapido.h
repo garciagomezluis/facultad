@@ -5,6 +5,7 @@
 
 using namespace std;
 using namespace aed2;
+using namespace tp;
 #define TAM_TABLA_INI 10
 #define UMBRAL_FC   0.3
 

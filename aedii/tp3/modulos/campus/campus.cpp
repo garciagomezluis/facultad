@@ -2,6 +2,7 @@
 
 using namespace std;
 using namespace aed2;
+using namespace tp;
 
 bool Posicion::operator==(const Posicion& otro) const {
 	return x == otro.x && y == otro.y;
@@ -11,7 +12,7 @@ bool Posicion::operator!=(const Posicion& otro) const {
 	return !(x == otro.x && y == otro.y);
 }
 
-ostream& aed2::operator<<(ostream& os, const Posicion& p) {
+ostream& tp::operator<<(ostream& os, const Posicion& p) {
 	os << "[" << p.x << ", " << p.y << "]";
 	return os;
 }

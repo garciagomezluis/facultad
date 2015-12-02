@@ -2,12 +2,12 @@
 #define DRIVER_H_
 
 #include "Tipos.h"
-#include "../aed2/TiposBasicos.h"
+//#include "../aed2/TiposBasicos.h"
 #include "../aed2/Conj.h"
 #include "../aed2/Dicc.h"
 
-#include "../modulos/campusSeguro.h"
-#include "../modulos/campus.h"
+#include "../modulos/campusSeguro/campusSeguro.h"
+#include "../modulos/campus/campus.h"
 //#include ...
 
 namespace aed2 {

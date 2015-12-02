@@ -2,21 +2,25 @@
 
 namespace aed2 {
 
-	Driver::Driver()  {}
+	Driver::Driver()  {
 
-	Driver::~Driver() {}
+	}
 
-	/// Generadores del Campus
+	Driver::~Driver() {
+		
+	}
+
+	// Generadores del Campus
 
 	void Driver::crearCampus(Nat ancho, Nat alto) {
 	    campus = Campus(ancho, alto);
 	}
 
-	void Driver::agregarObstaculo(Posicion p) {
+	void Driver::agregarObstaculo(aed2::Posicion p) {
 	    campus.AgregarObstaculo(p);
 	}
 
-	/// Observadores del Campus\
+	// Observadores del Campus
 
 	Nat Driver::filas() const {
 	    return campus.Filas();
@@ -26,20 +30,20 @@ namespace aed2 {
 	    return campus.Columnas();
 	}
 
-	bool Driver::ocupada(Posicion p) const {
+	bool Driver::ocupada(aed2::Posicion p) const {
 	    return campusSeguro.EsOcupada(p); //publicar en campusSeguro
 	}
 
-	/// Generadores de CampusSeguro
-	void  Driver::comenzarRastrillaje(const Dicc<Agente,Posicion>& d) {
+	// Generadores de CampusSeguro
+	void  Driver::comenzarRastrillaje(const Dicc<Agente,aed2::Posicion>& d) {
 	    campusSeguro = CampusSeguro(campus, d);
 	}
 
-	void Driver::ingresarEstudiante(Nombre n, Posicion p) {
+	void Driver::ingresarEstudiante(Nombre n, aed2::Posicion p) {
 	    campusSeguro.ingresaEstudiante(n, p);
 	}
 
-	void Driver::ingresarHippie(Nombre n, Posicion p) {
+	void Driver::ingresarHippie(Nombre n, aed2::Posicion p) {
 	    campusSeguro.ingresaHippie(n, p);
 	}
 
@@ -55,7 +59,7 @@ namespace aed2 {
 	    campusSeguro.moverAgente(pl);
 	}
 
-	/// Observadores de CampusSeguro
+	// Observadores de CampusSeguro
 
 	Nombre Driver::iesimoEstudiante(Nat i) const {
 	    Conj<Nombre>::Iterador it = campusSeguro.estudiantes();
@@ -102,11 +106,11 @@ namespace aed2 {
 		return cantidad;
 	}
 
-	Posicion Driver::posEstudianteYHippie(Nombre n) const {
+	aed2::Posicion Driver::posEstudianteYHippie(Nombre n) const {
 	    return campusSeguro.posicionEstudianteYHippie(n);
 	}
 
-	Posicion Driver::posAgente(Agente pl) const {
+	aed2::Posicion Driver::posAgente(Agente pl) const {
 	    return campusSeguro.posicionAgente(pl);
 	}
 
@@ -118,11 +122,9 @@ namespace aed2 {
 	    return campusSeguro.cantHippiesAtrapados(pl);
 	}
 
-	/// Otras operaciones de CampusSeguro
+	// Otras operaciones de CampusSeguro
 
-	// son varias las razones por las que te amo :)
-
-	Agente Driver::másVigilante() const {
+	Agente Driver::masVigilante() const {
 	    return campusSeguro.masVigilante();
 	}
 

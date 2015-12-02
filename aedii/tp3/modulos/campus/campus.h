@@ -4,6 +4,7 @@
 
 using namespace std;
 using namespace aed2;
+using namespace tp;
 
 class Campus {
 
@@ -15,7 +16,7 @@ class Campus {
 
 		Campus(const Nat, const Nat);
 
-		void AgregarObstaculo(const Posicion&);
+		void AgregarObstaculo(const tp::Posicion&);
 
 		~Campus();
 
@@ -23,23 +24,23 @@ class Campus {
 
 		Nat Columnas() const;
 
-		bool EsOcupada(const Posicion&) const;
+		bool EsOcupada(const tp::Posicion&) const;
 
-		bool PosValida(const Posicion&) const;
+		bool PosValida(const tp::Posicion&) const;
 
-		bool EsIngreso(const Posicion&) const;
+		bool EsIngreso(const tp::Posicion&) const;
 
-		bool EsIngresoSuperior(const Posicion&) const;
+		bool EsIngresoSuperior(const tp::Posicion&) const;
 
-		bool EsIngresoInferior(const Posicion&) const;
+		bool EsIngresoInferior(const tp::Posicion&) const;
 
-		Conj<Posicion> Vecinos(const Posicion&) const;
+		Conj<tp::Posicion> Vecinos(const tp::Posicion&) const;
 
-		Nat Distancia(const Posicion&, const Posicion&) const;
+		Nat Distancia(const tp::Posicion&, const tp::Posicion&) const;
 
-		const Posicion ProxPosicion(const Posicion&, const Direccion&) const;
+		const tp::Posicion ProxPosicion(const tp::Posicion&, const tp::Direccion&) const;
 
-		const Conj<Posicion> IngresosMasCercanos(const Posicion&) const;
+		const Conj<tp::Posicion> IngresosMasCercanos(const tp::Posicion&) const;
 
 	private:
 

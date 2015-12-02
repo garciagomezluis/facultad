@@ -6,7 +6,7 @@
 #include "ConjAcotado.h"
 #include "Dicc.h"
 #include "Lista.h"
-#include "TiposBasicos.h"
+#include "TiposBasicos_TP.h"
 #include "Vector.h"
 
 #endif //AED2_INCLUDES
