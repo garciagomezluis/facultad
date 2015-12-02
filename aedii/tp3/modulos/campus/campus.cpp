@@ -24,7 +24,6 @@ Campus::Campus(const Campus& otro) {
 	matriz = Arreglo<Arreglo<bool> >(otro.matriz);
 }
 
-
 Campus::Campus(const Nat columnas, const Nat filas) {
 	assert(0 <= columnas && 0 <= filas);
 

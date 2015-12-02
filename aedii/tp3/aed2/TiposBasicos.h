@@ -12,13 +12,8 @@
 namespace aed2{
     typedef unsigned int Nat;
     typedef std::string String;
-<<<<<<< HEAD
     typedef String Nombre;
     typedef Nat Agente;
-=======
-    typedef Nat Agente;
-    typedef String Nombre;
->>>>>>> cb0a27623b6891e52840a8711a3468abb2278c5a
     
     /*Definimos el tipo Posicion con sus operaciones básicas*/
     struct Posicion {
@@ -42,7 +37,6 @@ namespace aed2{
     std::ostream& operator<<(std::ostream& os, const Posicion& p);
 
     typedef enum { Izquierda, Derecha, Arriba, Abajo } Direccion;
-    /**/
 
     template<class T>
     std::ostream& Mostrar(std::ostream& os, const T& t, char izq, char der, char sep = ',') {
