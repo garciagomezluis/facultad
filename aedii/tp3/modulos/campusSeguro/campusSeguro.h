@@ -84,12 +84,12 @@ private:
 	struct infoEstudiante {	Posicion posicion;
 							Conj <Nombre> :: Iterador itAux;
 						};
-	struct infoEntorno{
+	/*struct infoEntorno{
 		Nat Estudiantes;
 		Nat Hippies;
 		Nat Seguridad;
 		Nat Objetos;
-	};
+	};*/
 	Agente masVigilante;
 	bool hubieronSanciones;
 	Campus campus;
