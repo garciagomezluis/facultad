@@ -411,7 +411,7 @@ void CampusSeguro::CorregidoYcapturado(const Nombre& n, const Posicion& p){
 	if(CantPersonasAlrededor(campus.Vecinos(p)).Estudiantes + CantPersonasAlrededor(campus.Vecinos(p)).Objetos == campus.Vecinos(p).Cardinal()) {
 		hippies.Significado(n).itAux.EliminarSiguiente();
 		hippies.Borrar(n);
-		infoEstudiante nuevo();
+		infoEstudiante nuevo;
 		nuevo.posicion = Posicion(p);
 		nuevo.itAux = estudiantesAux.Agregar(n);
 		
@@ -421,7 +421,7 @@ void CampusSeguro::CorregidoYcapturado(const Nombre& n, const Posicion& p){
 
 void CampusSeguro::ConvertidoYCapturado(const Nombre& n, const Posicion& p){
 	if(CantPersonasAlrededor(campus.Vecinos(p)).Hippies >=2){
-		infoHippie nuevo();
+		infoHippie nuevo;
 		nuevo.posicion = Posicion(p);
 		nuevo.itAux = hippiesAux.Agregar();
 		ModificarVecinos(p,campus.Vecinos(p));
