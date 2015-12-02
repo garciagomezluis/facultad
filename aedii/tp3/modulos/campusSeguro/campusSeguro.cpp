@@ -375,7 +375,7 @@ void CampusSeguro::ModificarVecinos(const Posicion& p, const Conj<Posicion>& c){
 			}
 			it.Avanzar();
 		}else if(matrizDeChabones[p.x][p.y].esAgente && hippies.Definido(matrizDeChabones[it.Siguiente().x][it.Siguiente().y].nombre)) {
-				CapturadoH(it.Siguiente());
+				CapturadoH(matrizDeChabones[it.Siguiente().x][it.Siguiente().y].nombre, it.Siguiente());
 				it.Avanzar();
 			}else{
 				CapturadoE(it.Siguiente());
@@ -388,11 +388,11 @@ void CampusSeguro::ModificarVecinos(const Posicion& p, const Conj<Posicion>& c){
 void CampusSeguro::ModificarAux(const Nombre& n1, const Nombre& n2){
 	if(estudiantes.Definido(n2)){
 		if(estudiantes.Definido(n1)){
-			CapturadoE(campus.Vecinos(estudiantes.Significado(n2).posicion));
+			CapturadoE(estudiantes.Significado(n2).posicion); //TODO PREGUNTAR A SOFIA!
 		}else if(hippies.Definido(n1)){
 				ConvertidoYCapturado(n2,estudiantes.Significado(n2).posicion);
 			}else{
-				CapturadoE(campus.Vecinos(estudiantes.Significado(n2).posicion));
+				CapturadoE(estudiantes.Significado(n2).posicion); // TODO Preguntar a SOFIA!
 			}
 	}else if(estudiantes.Definido(n1)){
 			CorregidoYcapturado(n2,hippies.Significado(n2).posicion);
