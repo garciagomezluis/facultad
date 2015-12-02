@@ -474,6 +474,7 @@ void CampusSeguro::SumarHippieAAgente(const Conj<Posicion>& c){
 	}
 }
 
+
 infoEntorno CampusSeguro::CantPersonasAlrededor(const Conj<Posicion>& c){
 	Conj<Posicion>::Iterador it =c.CrearIt();
 	infoEntorno res;
@@ -508,7 +509,7 @@ infoEntorno CampusSeguro::CantPersonasAlrededor(const Conj<Posicion>& c){
 
 		it.Avanzar();
 	}
-
+	
 	return res;
 }
 
