@@ -298,6 +298,14 @@ Conj<Agente> CampusSeguro::ConKSanciones(Nat k){
 	return BusquedaRapida(k,conKSanciones);
 }
 
+const Conj<Agente> CampusSeguro::ConMismasSanciones(Agente a) const{
+	infoAgente info = agentes.Significado(a);
+	if(info.mismasSanciones.HaySiguiente())
+		return info.mismasSanciones.Siguiente();
+	else
+		return Conj<Agente>();
+}
+
 void CampusSeguro::InsertarOrdenado(Vector<Nat>& v, const Nat& a){
 	Nat i = 1;
 	bool posicionEncontrada = false;

@@ -51,6 +51,8 @@ public:
 
 	const Agente& MasVigilante() const;
 
+	const Conj<Agente> ConMismasSanciones(Agente a) const;
+
 	~CampusSeguro();
 private:
 
