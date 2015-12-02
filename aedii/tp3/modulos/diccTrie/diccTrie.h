@@ -61,6 +61,7 @@ DiccString<T>::DiccString(){
 
 template<typename T>
 DiccString<T>::~DiccString(){
+	cout<<"destructor"<<endl;
 	if(!vec->EsVacio())
 		EliminarVec(vec);
 	else

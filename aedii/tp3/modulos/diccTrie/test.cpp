@@ -134,18 +134,23 @@ void LetsBreakYou(){
 
 }
 
+void Varios(){
+	int uno = 1;
+	int dos = 2;
+	DiccString<int> d = DiccString<int>();
+	d.Definir("lu",uno);
+	d.Definir("luis",dos);
+}
+
 int main(int argc, char **argv)
 {
-	DiccString<int> d;
-
-	d = DiccString<int>();
-
-	//RUN_TEST(Inicializacion);
-	////RUN_TEST(LeakTest);
-    //RUN_TEST(DefinirValores);
-	//RUN_TEST(ObtenerSignificados);
-	//RUN_TEST(Eliminar);
-	//RUN_TEST(LetsBreakYou);
-
+	
+	RUN_TEST(Inicializacion);
+	//RUN_TEST(LeakTest);
+    RUN_TEST(DefinirValores);
+	RUN_TEST(ObtenerSignificados);
+	RUN_TEST(Eliminar);
+	RUN_TEST(LetsBreakYou);
+	RUN_TEST(Varios);
 	return 0;
 }

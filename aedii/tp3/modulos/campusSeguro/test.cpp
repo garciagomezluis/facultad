@@ -17,20 +17,60 @@ void Inicializacion()
 
 	CampusSeguro* c = new CampusSeguro(campus,agentes);
 
-	c->IngresaEstudiante("lu", Posicion(0,2));
-	c->IngresaHippie("sofia", Posicion(2, 0));
-
-	cout << "hippie: " << c->Hippies().Siguiente();
+	
 
 	delete c;
 }
 
+void IngresarEstudiantes(){
+	Nat filas = 3;
+	Nat columnas = 3;
+	Campus campus(filas, columnas);
+	Dicc<Agente, Posicion> agentes;
+	agentes.Definir(1,Posicion(0,0));
+	agentes.Definir(2,Posicion(2,2));
 
+	CampusSeguro* c = new CampusSeguro(campus,agentes);
+
+	c->IngresaEstudiante("lu", Posicion(0,2));
+	c->IngresaEstudiante("luis", Posicion(2,1));
+	c->IngresaEstudiante("julian", Posicion(1,1));
+	
+
+	
+
+	delete c;	
+}
+
+void IngresarHippies(){
+	Nat filas = 3;
+	Nat columnas = 3;
+	Campus campus(filas, columnas);
+	Dicc<Agente, Posicion> agentes;
+	agentes.Definir(1,Posicion(0,0));
+	agentes.Definir(2,Posicion(2,2));
+
+	CampusSeguro* c = new CampusSeguro(campus,agentes);
+	cout<<"1"<<endl;
+	c->IngresaHippie("lu", Posicion(0,2));
+	cout<<"2"<<endl;
+	c->IngresaHippie("luis", Posicion(2,1));
+	cout<<"3"<<endl;
+	c->IngresaHippie("julian", Posicion(1,1));
+	cout<<"4"<<endl;
+	
+
+	
+
+	delete c;	
+}
 
 int main(int argc, char **argv)
 {
 
 	RUN_TEST(Inicializacion);
+	RUN_TEST(IngresarEstudiantes);
+	RUN_TEST(IngresarHippies);
 	
 	return 0;
 }

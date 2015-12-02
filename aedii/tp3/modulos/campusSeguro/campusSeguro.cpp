@@ -70,10 +70,13 @@ void CampusSeguro::IngresaHippie(const Nombre& h , const Posicion& p){
 	hippies.Definir(h,nuevo);
 	matrizDeChabones[p.x][p.y].esHippieOEstudiante = true;
 	matrizDeChabones[p.x][p.y].nombre = h;
-	
+	//cout<<"i0"<<endl;
 	if(TotalOcupados(CantPersonasAlrededor(campus.Vecinos(p))) < campus.Vecinos(p).Cardinal()) {
+		//cout<<"i1"<<endl;
 		ModificarVecinos(p,campus.Vecinos(p));
+		//cout<<"i2"<<endl;
 	} else if(CantPersonasAlrededor(campus.Vecinos(p)).Estudiantes + CantPersonasAlrededor(campus.Vecinos(p)).Objetos == campus.Vecinos(p).Cardinal() ) {
+		//cout<<"i3"<<endl;
 			hippies.Significado(h).itAux.EliminarSiguiente();
 			hippies.Borrar(h);
 			infoEstudiante nuevo = infoEstudiante();
@@ -82,11 +85,13 @@ void CampusSeguro::IngresaHippie(const Nombre& h , const Posicion& p){
 			estudiantes.Definir(h,nuevo);
 			ModificarVecinos(p,campus.Vecinos(p));
 	      } else if(CantPersonasAlrededor(campus.Vecinos(p)).Seguridad + CantPersonasAlrededor(campus.Vecinos(p)).Objetos == campus.Vecinos(p).Cardinal() ) {
+	      			//cout<<"i4"<<endl;
 					SumarHippieAAgente(campus.Vecinos(p));
 					hippies.Significado(h).itAux.EliminarSiguiente();
 					hippies.Borrar(h);
 					matrizDeChabones[p.x][p.y].esHippieOEstudiante = true;		
 				} else {
+					//cout<<"i5"<<endl;
 		     		ModificarVecinos(p,campus.Vecinos(p));
                 }
 }
@@ -327,44 +332,61 @@ bool CampusSeguro::EstaOcupada(Posicion p) {
 void CampusSeguro::ModificarVecinos(const Posicion& p, const Conj<Posicion>& c){
 	Conj<Posicion>::const_Iterador it = c.CrearIt();
 	while(it.HaySiguiente()){
+		//cout<<"v1"<<endl;
 		if(matrizDeChabones[it.Siguiente().x][it.Siguiente().y].esHippieOEstudiante){
 			if(matrizDeChabones[p.x][p.y].esHippieOEstudiante){
+				//cout<<"v2"<<endl;
 				ModificarAux(matrizDeChabones[p.x][p.y].nombre,matrizDeChabones[it.Siguiente().x][it.Siguiente().y].nombre);
 			}
-			it.Avanzar();
+			//it.Avanzar();
 		}else if(matrizDeChabones[p.x][p.y].esAgente && hippies.Definido(matrizDeChabones[it.Siguiente().x][it.Siguiente().y].nombre)) {
+				//cout<<"v3"<<endl;
 				CapturadoH(matrizDeChabones[it.Siguiente().x][it.Siguiente().y].nombre, it.Siguiente());
-				it.Avanzar();
+				//it.Avanzar();
 			}else{
+				//cout<<"v4"<<endl;
 				CapturadoE(it.Siguiente());
-				it.Avanzar();
+				//it.Avanzar();
 			}
 		it.Avanzar();
 	}
 }
 
 void CampusSeguro::ModificarAux(const Nombre& n1, const Nombre& n2){
+	//cout<<"aux1"<<endl;
 	if(estudiantes.Definido(n2)){
 		if(estudiantes.Definido(n1)){
+			//cout<<"aux2"<<endl;
 			CapturadoE(estudiantes.Significado(n2).posicion); //Sofi asegura que n2 esta bien
 		}else if(hippies.Definido(n1)){
+				//cout<<"aux3"<<endl;
 				ConvertidoYCapturado(n2,estudiantes.Significado(n2).posicion);
 			}else{
+				//cout<<"aux4"<<endl;
 				CapturadoE(estudiantes.Significado(n2).posicion); //Sofi asegura que n2 esta bien
 			}
 	}else if(estudiantes.Definido(n1)){
+			//cout<<"aux5"<<endl;
 			CorregidoYcapturado(n2,hippies.Significado(n2).posicion);
 		}else{
+			cout<<"aux6"<<endl;
 			CapturadoH(n2,hippies.Significado(n2).posicion);
 		}
 }
 
 void CampusSeguro::CapturadoE(const Posicion& p){
-	if(TotalOcupados(CantPersonasAlrededor(campus.Vecinos(p))) == campus.Vecinos(p).Cardinal())
+	//cout<<"e0"<<endl;
+	if(TotalOcupados(CantPersonasAlrededor(campus.Vecinos(p))) == campus.Vecinos(p).Cardinal()){
+		//cout<<"e1"<<endl;
 		SumarSancion(campus.Vecinos(p));
+//		cout<<"e2"<<endl;
+	}
 }
 
 void CampusSeguro::CapturadoH(const Nombre& n,const Posicion& p){
+	if(!estudiantes.Definido(n))
+		cout<<"ESTUDIANTE NO DEFINIDO "<<n<<endl;
+	//TODO. REVISAR ESTA FUNCION CON SOFIA O ALGUIEN QUE LA ENTIENDA.
 	if(TotalOcupados(CantPersonasAlrededor(campus.Vecinos(estudiantes.Significado(n).posicion))) == campus.Vecinos(estudiantes.Significado(n).posicion).Cardinal() 
 		&& 
 		CantPersonasAlrededor(campus.Vecinos(estudiantes.Significado(n).posicion)).Seguridad >= 1)
@@ -468,7 +490,6 @@ infoEntorno CampusSeguro::CantPersonasAlrededor(const Conj<Posicion>& c){
 
 		it.Avanzar();
 	}
-
 	return res;
 }
 
