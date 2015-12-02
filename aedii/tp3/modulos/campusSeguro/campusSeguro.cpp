@@ -388,11 +388,11 @@ void CampusSeguro::ModificarVecinos(const Posicion& p, const Conj<Posicion>& c){
 void CampusSeguro::ModificarAux(const Nombre& n1, const Nombre& n2){
 	if(estudiantes.Definido(n2)){
 		if(estudiantes.Definido(n1)){
-			CapturadoE(estudiantes.Significado(n2).posicion); //TODO PREGUNTAR A SOFIA!
+			CapturadoE(estudiantes.Significado(n2).posicion); //Sofi asegura que n2 esta bien
 		}else if(hippies.Definido(n1)){
 				ConvertidoYCapturado(n2,estudiantes.Significado(n2).posicion);
 			}else{
-				CapturadoE(estudiantes.Significado(n2).posicion); // TODO Preguntar a SOFIA!
+				CapturadoE(estudiantes.Significado(n2).posicion); //Sofi asegura que n2 esta bien
 			}
 	}else if(estudiantes.Definido(n1)){
 			CorregidoYcapturado(n2,hippies.Significado(n2).posicion);
@@ -425,8 +425,8 @@ void CampusSeguro::CorregidoYcapturado(const Nombre& n, const Posicion& p){
 		infoEstudiante nuevo;
 		nuevo.posicion = Posicion(p);
 		nuevo.itAux = estudiantesAux.Agregar(n);
-		
-		CapturadoH(campus.Vecinos(p));
+		estudiantes.Definir(n,nuevo);
+		CapturadoH(n,p);
 	}
 }
 
