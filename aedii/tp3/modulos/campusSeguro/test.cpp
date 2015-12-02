@@ -20,7 +20,7 @@ void Inicializacion()
 	ASSERT_EQ(true,true);
 	
     
-	delete c;
+	//delete c;
 }
 
 

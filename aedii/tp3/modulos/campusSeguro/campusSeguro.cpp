@@ -476,7 +476,7 @@ void CampusSeguro::SumarHippieAAgente(const Conj<Posicion>& c){
 
 
 infoEntorno CampusSeguro::CantPersonasAlrededor(const Conj<Posicion>& c){
-	Conj<Posicion>::Iterador it =c.CrearIt();
+	Conj<Posicion>::const_Iterador it =c.CrearIt();
 	infoEntorno res;
 	res.Estudiantes = 0;
 	res.Hippies = 0;
@@ -485,7 +485,7 @@ infoEntorno CampusSeguro::CantPersonasAlrededor(const Conj<Posicion>& c){
 
 	while(it.HaySiguiente()){
 
-		if(campus.EsOcupada(it.Siguiente().x, it.Siguiente().y)) {
+		if(campus.EsOcupada(it.Siguiente())) {
 			res.Objetos++;
 		}
 
@@ -503,13 +503,13 @@ infoEntorno CampusSeguro::CantPersonasAlrededor(const Conj<Posicion>& c){
 
 		}
 
-		if(agentes.matrizDeChabones[it.Siguiente().x][it.Siguiente().y].esAgente ) {
+		if(matrizDeChabones[it.Siguiente().x][it.Siguiente().y].esAgente ) {
 			res.Seguridad++;
 		}
 
 		it.Avanzar();
 	}
-	
+
 	return res;
 }
 
