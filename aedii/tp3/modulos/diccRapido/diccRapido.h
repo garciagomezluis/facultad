@@ -18,7 +18,7 @@ class DiccRapido {
       cantidad = 0;
       tabla = Arreglo<Lista<Item> >(dimension);
 
-      for(int i = 0; i < dimension; i++) {
+      for(Nat i = 0; i < dimension; i++) {
         tabla.Definir(i, Lista<Item>());
       }
     }
@@ -72,7 +72,7 @@ class DiccRapido {
 
     Conj<A> Claves() const {
       Conj<A> res;
-      for(int i = 0; i < dimension; i++) {
+      for(Nat i = 0; i < dimension; i++) {
         typename Lista<Item>::const_Iterador it = tabla[i].CrearIt();
         while(it.HaySiguiente()) {
           res.Agregar(it.Siguiente().clave);
@@ -85,7 +85,7 @@ class DiccRapido {
     
     Nat Colisiones() const {
       Nat ret = 0;
-      for(int i=0; i < tabla.Tamanho(); i++){
+      for(Nat i=0; i < tabla.Tamanho(); i++){
           ret = ret + (tabla[i].Longitud() == 0 ? 0 : tabla[i].Longitud() - 1);
       }
       return ret;
@@ -99,7 +99,7 @@ class DiccRapido {
 
       os << "\n{\n";
 
-      for(int i = 0; i < dimension; i++) {
+      for(Nat i = 0; i < dimension; i++) {
         typename Lista<Item>::const_Iterador it = tabla[i].CrearIt();
         while(it.HaySiguiente()) {
           os << "\t" << it.Siguiente().clave << ": " << it.Siguiente().valor << "\n";
@@ -134,7 +134,7 @@ class DiccRapido {
       cantidad = 0;
       tabla = Arreglo<Lista<Item> >(d);
 
-      for(int i = 0; i < d; i++) {
+      for(Nat i = 0; i < d; i++) {
         tabla.Definir(i, Lista<Item>());
       }
 

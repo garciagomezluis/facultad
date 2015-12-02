@@ -80,7 +80,7 @@ void DiccString<T>::Definir(const string s, /*const*/ T& significado){
 	if(vec->EsVacio())
 		DefinirVec(*vec);
 	Vector<valores*>* aux = vec;
-	int i = 1;
+	Nat i = 1;
 	while(i < s.length()){
 		aux = (*aux)[ord(s[i])]->vec;
 		if(aux->EsVacio())
@@ -143,7 +143,7 @@ bool DiccString<T>::Definido(const string s) const{
 		return false;
 	}
 	Vector<valores*> aux = *vec;
-	int i = 1;
+	Nat i = 1;
 	while(i < s.length() && !aux.EsVacio()){
 		aux = *aux[ord(s[i])]->vec;
 		i++;
@@ -157,7 +157,7 @@ bool DiccString<T>::Definido(const string s) const{
 template<typename T>
 T& DiccString<T>::Significado(const string s){
 	Vector<valores*>* aux = vec;
-	int i = 1;
+	Nat i = 1;
 	while(i < s.length()){
 		
 		aux = (*aux)[ord(s[i])]->vec;
@@ -170,7 +170,7 @@ T& DiccString<T>::Significado(const string s){
 template<typename T>
 void DiccString<T>::Borrar(const string s){
 	Vector<valores*>* aux = vec;
-	int i = 1;
+	Nat i = 1;
 	while(i < s.length()){
 		
 		aux = (*aux)[ord(s[i])]->vec;

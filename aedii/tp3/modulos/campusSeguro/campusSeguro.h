@@ -5,7 +5,6 @@
 #include "../diccTrie/diccTrie.h"
 #include "../diccRapido/diccRapido.h"
 #include "../campus/campus.h"
-//#include "../../driver/Tipos.h"
 #include "../../aed2/includes.h"
 
 using namespace std;
@@ -15,7 +14,7 @@ class CampusSeguro {
 
 public:
 
-	CampusSeguro( const Campus& c, const Dicc<Agente , Posicion >& d ); //comenzarRastrillaje
+	CampusSeguro( const Campus& c, const Dicc<Agente , Posicion >& d );
 
 	void IngresaEstudiante( const Nombre& e , const Posicion& p);
 
@@ -54,39 +53,47 @@ public:
 private:
 
 	struct infoChabones {	
-							infoChabones() {
-								esHippieOEstudiante = false;
-								esAgente = false;
-								nombre = "";
-								agente = 0;
-							}
+		infoChabones() {
+			esHippieOEstudiante = false;
+			esAgente = false;
+			nombre = "";
+			agente = 0;
+		}
 
-							bool esHippieOEstudiante;
-							bool esAgente;
-							Nombre nombre; 
-							Agente agente;
-						};
-	struct infoAgente {	Posicion posAgente;
-						Nat cantSanciones ; 
-						Nat cantHippiesAtrapados ; 
-						Conj <Posicion> hippiesMasCercanos ;
-						Lista<Conj <Agente> > :: Iterador mismasSanciones ;
-						Conj <Agente> :: Iterador mismaSancion ; 
-						Conj <Agente> :: Iterador itAux;
-					};
-	struct infoHippie {	Posicion posicion ;
-						Conj <Nombre> :: Iterador itAux ; 
-						Conj <Posicion> estudiantesMasCercanos;
-						};
-	struct infoEstudiante {	Posicion posicion;
-							Conj <Nombre> :: Iterador itAux;
-						};
+		bool esHippieOEstudiante;
+		bool esAgente;
+		Nombre nombre; 
+		Agente agente;
+	};
+
+	struct infoAgente {	
+		Posicion posAgente;
+		Nat cantSanciones ; 
+		Nat cantHippiesAtrapados ; 
+		Conj <Posicion> hippiesMasCercanos ;
+		Lista<Conj <Agente> > :: Iterador mismasSanciones ;
+		Conj <Agente> :: Iterador mismaSancion ; 
+		Conj <Agente> :: Iterador itAux;
+	};
+
+	struct infoHippie {	
+		Posicion posicion ;
+		Conj <Nombre> :: Iterador itAux ; 
+		Conj <Posicion> estudiantesMasCercanos;
+	};
+
+	struct infoEstudiante {	
+		Posicion posicion;
+		Conj <Nombre> :: Iterador itAux;
+	};
+
 	/*struct infoEntorno{
 		Nat Estudiantes;
 		Nat Hippies;
 		Nat Seguridad;
 		Nat Objetos;
 	};*/
+
 	Agente masVigilante;
 	bool hubieronSanciones;
 	Campus campus;
@@ -121,8 +128,5 @@ private:
 	Nat TotalOcupados(infoEntorno t);
 	Posicion DamePos(const Posicion& p1, const Posicion& p2);
 }; 
-
-
-
 
 #endif
