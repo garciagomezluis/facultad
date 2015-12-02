@@ -14,6 +14,13 @@ namespace aed2{
     typedef std::string String;
     typedef String Nombre;
     typedef Nat Agente;
+
+    struct infoEntorno{
+        Nat Estudiantes;
+        Nat Hippies;
+        Nat Seguridad;
+        Nat Objetos;
+    };
     
     /*Definimos el tipo Posicion con sus operaciones básicas*/
     struct Posicion {
