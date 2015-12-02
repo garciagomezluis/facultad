@@ -425,6 +425,7 @@ void CampusSeguro::CorregidoYcapturado(const Nombre& n, const Posicion& p){
 		nuevo.posicion = Posicion(p);
 		nuevo.itAux = estudiantesAux.Agregar(n);
 		estudiantes.Definir(n,nuevo);
+	} else {
 		CapturadoH(n,p);
 	}
 }
