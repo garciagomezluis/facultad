@@ -407,8 +407,11 @@ void CampusSeguro::CapturadoE(const Posicion& p){
 }
 
 void CampusSeguro::CapturadoH(const Nombre& n,const Posicion& p){
-	if(TotalOcupados(CantPersonasAlrededor(campus.Vecinos(estudiantes.Significado(p).posicion))) == campus.Vecinos(estudiantes.Significado(p).posicion).Cardinal() && CantPersonasAlrededor(campus.Vecinos(estudiantes.Significado(p).posicion)).Seguridad >= 1){
-		SumarHippieAAgente(campus.Vecinos(estudiantes.Significado(p).posicion));
+	if(TotalOcupados(CantPersonasAlrededor(campus.Vecinos(estudiantes.Significado(n).posicion))) == campus.Vecinos(estudiantes.Significado(n).posicion).Cardinal() 
+		&& 
+		CantPersonasAlrededor(campus.Vecinos(estudiantes.Significado(n).posicion)).Seguridad >= 1)
+	{
+		SumarHippieAAgente(campus.Vecinos(estudiantes.Significado(n).posicion));
 		matrizDeChabones[p.x][p.y].esHippieOEstudiante = false;
 		hippies.Significado(n).itAux.EliminarSiguiente();
 		hippies.Borrar(n);
