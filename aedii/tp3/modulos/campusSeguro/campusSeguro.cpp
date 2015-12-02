@@ -46,6 +46,7 @@ CampusSeguro::CampusSeguro( const Campus& c, const Dicc<Agente , Posicion >& d )
 	agentes = DiccRapido<Agente,infoAgente>();
 	conKSanciones = Vector<Agente>();
 	mismasSanciones = Lista<Conj<Agente>>();
+	mismasSanciones.AgregarAtras(Conj<Agente>());
 	Lista<Conj<Agente> > :: Iterador itMismasSanciones = mismasSanciones.CrearIt();
 	agentesAux = Conj<Agente>();
 	Dicc<Agente,Posicion>:: const_Iterador it = d.CrearIt();

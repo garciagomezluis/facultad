@@ -16,7 +16,7 @@ void Inicializacion()
 	agentes.Definir(2,Posicion(2,2));
 
 	CampusSeguro* c = new CampusSeguro(campus,agentes);
-	
+	cout<<"Leaving constructor"<<endl;
 	ASSERT_EQ(true,true);
 	
     
