@@ -329,7 +329,7 @@ Conj<Agente> CampusSeguro::BusquedaRapida(Nat n , Vector<Agente> v){
 Conj<Agente> CampusSeguro::Buscar(Vector<Agente> v, Nat i ,Nat s ,Nat k){
 	if(v.Longitud() == 1){
 		if(agentes.Significado(v[0]).cantSanciones == k){
-			return conMismasSanciones(v[0]);
+			return ConMismasSanciones(v[0]);
 		}else{
 			return Conj<Agente>();
 		}
