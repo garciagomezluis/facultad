@@ -18,6 +18,9 @@ void Inicializacion()
 	CampusSeguro* c = new CampusSeguro(campus,agentes);
 
 	c->IngresaEstudiante("lu", Posicion(0,2));
+	c->IngresaHippie("sofia", Posicion(2, 0));
+
+	cout << "hippie: " << c->Hippies().Siguiente();
 
 	delete c;
 }
