@@ -474,8 +474,8 @@ void CampusSeguro::SumarHippieAAgente(const Conj<Posicion>& c){
 	}
 }
 
-/*tuple CampusSeguro::CantPersonasAlrededor(const Conj<Posicion>& c){
-	Conj<Posicion>::Iterador it =c.CrearIt();
+infoEntorno CampusSeguro::CantPersonasAlrededor(const Conj<Posicion> c){
+	Conj<Posicion>::const_Iterador it = c.CrearIt();
 	Nat e = 0;
 	Nat h = 0;
 	Nat s = 0;
@@ -502,10 +502,14 @@ void CampusSeguro::SumarHippieAAgente(const Conj<Posicion>& c){
 		}
 		it.Avanzar();
 	}
-	tup = (s,e,h,o);
-	E,S,H,O = tup;
-	return tup;
-}*/
+	infoEntorno entorno;
+	entorno.Estudiantes = e;
+	entorno.Hippies = h;
+	entorno.Seguridad = s;
+	entorno.Objetos = o;
+	
+	return entorno;
+}
 
 Nat CampusSeguro::TotalOcupados(infoEntorno t){
 	return t.Objetos + t.Hippies + t.Estudiantes + t.Seguridad;
