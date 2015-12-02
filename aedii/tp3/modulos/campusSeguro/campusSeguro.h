@@ -120,7 +120,7 @@ private:
 	void ConvertidoYCapturado(const Nombre& n, const Posicion& p);
 	void SumarSancion(const Conj<Posicion>& c);
 	void SumarHippieAAgente(const Conj<Posicion>& c);
-	infoEntorno CantPersonasAlrededor(Conj<Posicion> c);
+	infoEntorno CantPersonasAlrededor(const Conj<Posicion>& c);
 	Nat TotalOcupados(infoEntorno t);
 	Posicion DamePos(const Posicion& p1, const Posicion& p2);
 }; 
