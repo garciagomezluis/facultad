@@ -434,7 +434,7 @@ void CampusSeguro::ConvertidoYCapturado(const Nombre& n, const Posicion& p){
 	if(CantPersonasAlrededor(campus.Vecinos(p)).Hippies >=2){
 		infoHippie nuevo;
 		nuevo.posicion = Posicion(p);
-		nuevo.itAux = hippiesAux.Agregar();
+		nuevo.itAux = hippiesAux.Agregar(n);
 		ModificarVecinos(p,campus.Vecinos(p));
 		if(TotalOcupados(CantPersonasAlrededor(campus.Vecinos(p))) == campus.Vecinos(p).Cardinal() && CantPersonasAlrededor(campus.Vecinos(p)).Seguridad == 1){
 			SumarHippieAAgente(campus.Vecinos(p));
