@@ -7,62 +7,62 @@ namespace aed2 {
 	}
 
 	Driver::~Driver() {
-		
+
 	}
 
 	// Generadores del Campus
 
 	void Driver::crearCampus(Nat ancho, Nat alto) {
-	    campus = Campus(ancho, alto);
+	    campus = new Campus(ancho, alto);
 	}
 
 	void Driver::agregarObstaculo(aed2::Posicion p) {
-	    campus.AgregarObstaculo(p);
+	    campus->AgregarObstaculo(ConversionPosicion(p));
 	}
 
 	// Observadores del Campus
 
 	Nat Driver::filas() const {
-	    return campus.Filas();
+	    return campus->Filas();
 	}
 
 	Nat Driver::columnas() const {
-	    return campus.Columnas();
+	    return campus->Columnas();
 	}
 
 	bool Driver::ocupada(aed2::Posicion p) const {
-	    return campusSeguro.EsOcupada(p); //publicar en campusSeguro
+	    return campusSeguro->EstaOcupada(ConversionPosicion(p)); 
 	}
 
 	// Generadores de CampusSeguro
 	void  Driver::comenzarRastrillaje(const Dicc<Agente,aed2::Posicion>& d) {
-	    campusSeguro = CampusSeguro(campus, d);
+	    campusSeguro = new CampusSeguro(*campus, ConversionDiccionario(d));
 	}
 
 	void Driver::ingresarEstudiante(Nombre n, aed2::Posicion p) {
-	    campusSeguro.ingresaEstudiante(n, p);
+	    campusSeguro->IngresaEstudiante(n, ConversionPosicion(p));
 	}
 
 	void Driver::ingresarHippie(Nombre n, aed2::Posicion p) {
-	    campusSeguro.ingresaHippie(n, p);
+	    campusSeguro->IngresaHippie(n, ConversionPosicion(p));
 	}
 
-	void Driver::moverEstudiante(Nombre n, Direccion d) {
-	    campusSeguro.moverEstudiante(n, d);
+	void Driver::moverEstudiante(Nombre n, aed2::Direccion d) {
+	    campusSeguro->MoverEstudiante(n, ConversionDireccion(d));
 	}
 
 	void Driver::moverHippie(Nombre n) {
-	    campusSeguro.moverHippie(n);
+	    campusSeguro->MoverHippie(n);
 	}
 
 	void Driver::moverAgente(Agente pl) {
-	    campusSeguro.moverAgente(pl);
+	    campusSeguro->MoverAgente(pl);
 	}
 
 	// Observadores de CampusSeguro
 
 	Nombre Driver::iesimoEstudiante(Nat i) const {
-	    Conj<Nombre>::Iterador it = campusSeguro.estudiantes();
+	    Conj<Nombre>::const_Iterador it = campusSeguro->Estudiantes();
 	    while(i > 0) {
 	    	it.Avanzar();
 	    	i--;
@@ -71,7 +71,7 @@ namespace aed2 {
 	}
 
 	Nombre Driver::iesimoHippie(Nat i) const {
-	    Conj<Nombre>::Iterador it = campusSeguro.hippies();
+	    Conj<Nombre>::const_Iterador it = campusSeguro->Hippies();
 	    while(i > 0) {
 	    	it.Avanzar();
 	    	i--;
@@ -80,7 +80,7 @@ namespace aed2 {
 	}
 
 	Nat Driver::iesimoAgente(Nat i) const {
-	    Conj<Nat>::Iterador it = campusSeguro.agentes();
+	    Conj<Nat>::const_Iterador it = campusSeguro->Agentes();
 	    while(i > 0) {
 	    	it.Avanzar();
 	    	i--;
@@ -89,15 +89,15 @@ namespace aed2 {
 	}
 
 	Nat Driver::cantEstudiantes() const {
-	    return campusSeguro.cantEstudiantes();
+	    return campusSeguro->CantEstudiantes();
 	}
 
 	Nat Driver::cantHippies() const {
-		return campusSeguro.cantHippies();
+		return campusSeguro->CantHippies();
 	}
 
 	Nat Driver::cantAgentes() const {
-	    Conj<Agente>::Iterador it = campusSeguro.agentes();
+	    Conj<Agente>::const_Iterador it = campusSeguro->Agentes();
 		Nat cantidad = 0;
 		while(it.HaySiguiente()) {
 			cantidad++;
@@ -107,33 +107,55 @@ namespace aed2 {
 	}
 
 	aed2::Posicion Driver::posEstudianteYHippie(Nombre n) const {
-	    return campusSeguro.posicionEstudianteYHippie(n);
+		tp::Posicion posicion = campusSeguro->PosicionEstudianteYHippie(n);
+	    return ConversionPosicionVuelta(posicion);
 	}
 
 	aed2::Posicion Driver::posAgente(Agente pl) const {
-	    return campusSeguro.posicionAgente(pl);
+	    return ConversionPosicionVuelta(campusSeguro->PosicionAgente(pl));
 	}
 
 	Nat Driver::cantSanciones(Agente pl) const {
-	    return campusSeguro.cantSanciones(pl);
+	    return campusSeguro->CantSanciones(pl);
 	}
 
 	Nat Driver::cantHippiesAtrapados(Agente pl) const {
-	    return campusSeguro.cantHippiesAtrapados(pl);
+	    return campusSeguro->CantHippiesAtrapados(pl);
 	}
 
 	// Otras operaciones de CampusSeguro
 
 	Agente Driver::masVigilante() const {
-	    return campusSeguro.masVigilante();
+	    return campusSeguro->MasVigilante();
 	}
 
-	const Driver::Conj<Agente> conMismasSanciones(Agente a) const {
-	    return campusSeguro.conMismasSanciones(a); //publicar en campusSeguro
+	const Conj<Agente> Driver::conMismasSanciones(Agente a) const {
+	    return campusSeguro->ConMismasSanciones(a); 
 	}
 
-	const Driver::Conj<Agente> conKSanciones(Nat k) {
-	    return campusSeguro.conKSanciones(k); //publicar en campusSeguro
+	const Conj<Agente> Driver::conKSanciones(Nat k) {
+	    return campusSeguro->ConKSanciones(k); 
+	}
+
+	tp::Posicion Driver::ConversionPosicion(aed2::Posicion p) const{		
+		return tp::Posicion(p.x, p.y);
+	}
+
+	aed2::Posicion Driver::ConversionPosicionVuelta(tp::Posicion p) const{	
+		aed2::Posicion p_;
+		p_.x = p.x;
+		p_.y = p.y;
+		return p_;
+	}
+
+	Dicc<Agente,tp::Posicion> Driver::ConversionDiccionario(Dicc<Agente, aed2::Posicion> dicc) const{
+		//TODO. HACER
+		return Dicc<Agente,tp::Posicion>();
+	}
+
+	tp::Direccion Driver::ConversionDireccion(aed2::Direccion d) const{
+		//TODO. Hacer
+		return Izquierda;
 	}
 
 } // namespace aed2

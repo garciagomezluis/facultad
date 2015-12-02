@@ -58,9 +58,12 @@ class Driver
    
     private:
 
-    Campus campus;
-    CampusSeguro campusSeguro;
-
+    Campus* campus;
+    CampusSeguro* campusSeguro;
+    tp::Posicion ConversionPosicion(aed2::Posicion p) const;
+    Dicc<Agente,tp::Posicion> ConversionDiccionario(Dicc<Agente, aed2::Posicion> dicc) const;
+    tp::Direccion ConversionDireccion(aed2::Direccion d) const;
+    aed2::Posicion ConversionPosicionVuelta(tp::Posicion p) const;
     /************************************************************************
      * TODO: Va a ser necesario instanciar privadamente el Modulo principal *
      * con el cuál interactuar. Además, pueden declarar todas las           *

@@ -340,9 +340,9 @@ Conj<Posicion> CampusSeguro::PosicionesMasCercanas(const Posicion& p, Conj<Posic
 	return posicionesMasCercanas;
 }
 
-bool CampusSeguro::EstaOcupada(Posicion p) {
+/*bool CampusSeguro::EstaOcupada(Posicion p) {
 	return campus.EsOcupada(p) || matrizDeChabones[p.x][p.y].esHippieOEstudiante || matrizDeChabones[p.x][p.y].esAgente;
-}
+}*/
 
 void CampusSeguro::ModificarVecinos(const Posicion& p, const Conj<Posicion>& c){
 	Conj<Posicion>::const_Iterador it = c.CrearIt();
@@ -511,6 +511,10 @@ infoEntorno CampusSeguro::CantPersonasAlrededor(const Conj<Posicion>& c){
 
 Nat CampusSeguro::TotalOcupados(infoEntorno t){
 	return t.Objetos + t.Hippies + t.Estudiantes + t.Seguridad;
+}
+
+bool CampusSeguro::EstaOcupada(tp::Posicion p)  const{
+	return campus.EsOcupada(p) || matrizDeChabones[p.x][p.y].esHippieOEstudiante || matrizDeChabones[p.x][p.y].esAgente;
 }
 
 Posicion CampusSeguro::DamePos(const Posicion& p1,const Posicion& p2){

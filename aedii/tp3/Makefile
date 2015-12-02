@@ -3,6 +3,8 @@ LDFLAGS=
 CFLAGS=-g -std=c++11 -Wall
 EXECUTABLE=test
 SOURCES= driver/Driver.h \
+		modulos/campus/campus.cpp \
+		modulos/campusSeguro/campusSeguro.cpp \
 		driver/Driver.cpp \
 		test.cpp
 OBJECTS=$(SOURCES:.cpp=.o)

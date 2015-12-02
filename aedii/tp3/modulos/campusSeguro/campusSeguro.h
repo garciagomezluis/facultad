@@ -51,6 +51,10 @@ public:
 
 	const Conj<Agente> ConMismasSanciones(Agente a) const;
 
+	Conj<Agente> ConKSanciones(Nat k);
+
+	bool EstaOcupada(tp::Posicion p) const;
+
 private:
 
 	struct infoChabones {	
@@ -111,12 +115,11 @@ private:
 	//funciones auxiliares;
 
 	void Sancionar(Nat p, Nat cs);
-	Conj<Agente> ConKSanciones(Nat k);
+	
 	void InsertarOrdenado(Vector<Nat>& v,const Nat& a);
 	Conj<Agente> BusquedaRapida(Nat n, Vector<Agente> v);
 	Conj<Agente> Buscar(Vector<Agente> v,Nat i,Nat s,Nat k);
 	Conj<tp::Posicion> PosicionesMasCercanas(const tp::Posicion& p,Conj<tp::Posicion> posiciones);
-	bool EstaOcupada(tp::Posicion p);
 	void ModificarVecinos(const tp::Posicion& p, const Conj<tp::Posicion>& c);
 	void ModificarAux(const Nombre& n1, const Nombre& n2);
 	void CapturadoE(const tp::Posicion& p);

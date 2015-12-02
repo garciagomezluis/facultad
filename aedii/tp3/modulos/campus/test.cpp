@@ -36,26 +36,27 @@ void campus_constructorFilaColumna() {
 }
 
 void campus_constructorCopia() {
-	Campus c1 (10, 15);
+	Campus* c1 = new Campus (10, 15);
 	//sólo revisa que algunas posiciones y las dimensiones sean las correctas en la copia
 	Posicion p1 (7, 7);
-	c1.AgregarObstaculo(p1);	
+	c1->AgregarObstaculo(p1);	
 	Posicion p2 (7, 8);
-	c1.AgregarObstaculo(p2);
+	c1->AgregarObstaculo(p2);
 	Posicion p3 (0, 0);
-	c1.AgregarObstaculo(p3);
+	c1->AgregarObstaculo(p3);
 	Posicion p4 (9, 14);
-	c1.AgregarObstaculo(p4);
+	c1->AgregarObstaculo(p4);
 
-	Campus c2(c1);
+	Campus c2(*c1);
 
-	ASSERT_EQ(c1.Filas() == c2.Filas(), true);
-	ASSERT_EQ(c1.Columnas() == c2.Columnas(), true);
+	ASSERT_EQ(c1->Filas() == c2.Filas(), true);
+	ASSERT_EQ(c1->Columnas() == c2.Columnas(), true);
 
 	ASSERT_EQ(c2.EsOcupada(p1), true);
 	ASSERT_EQ(c2.EsOcupada(p2), true);
 	ASSERT_EQ(c2.EsOcupada(p3), true);
 	ASSERT_EQ(c2.EsOcupada(p4), true);
+	delete c1;
 }
 
 void campus_agregarObstaculo() {
@@ -275,11 +276,16 @@ void campus_ingresosMasCercanos() {
 	ASSERT_EQ(remove_spaces(to_s(c.IngresosMasCercanos(p4))), remove_spaces("{ [9, 14] }"));
 }
 
+void testNew(){
+	Campus* campus = new Campus(3,3);
+	delete campus;
+}
+
 int main() {
 	//test interfáz pública de campus
-	RUN_TEST(campus_constructorFilaColumna);
+	//RUN_TEST(campus_constructorFilaColumna);
 	RUN_TEST(campus_constructorCopia);
-	RUN_TEST(campus_agregarObstaculo);
+	/*RUN_TEST(campus_agregarObstaculo);
 	RUN_TEST(campus_filas);
 	RUN_TEST(campus_columnas);
 	RUN_TEST(campus_esOcupada);
@@ -290,7 +296,8 @@ int main() {
 	RUN_TEST(campus_vecinos);
 	RUN_TEST(campus_distancia);
 	RUN_TEST(campus_proxPosicion);
-	RUN_TEST(campus_ingresosMasCercanos);
+	RUN_TEST(campus_ingresosMasCercanos);*/
+	RUN_TEST(testNew);
 
 	return 0;
 }
