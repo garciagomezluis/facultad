@@ -10,14 +10,14 @@ void Inicializacion()
 
 	DiccString<int>* dicc = new DiccString<int>();
 	
-	//ASSERT_EQ(dicc->Significados().EsVacio(),true);
+	ASSERT_EQ(dicc->Significados().EsVacio(),true);
 	ASSERT_EQ(dicc->Definido("S"),false);
 	delete dicc;
     
 
 }
 
-void LeakTest(){
+/*void LeakTest(){
 	DiccString<int>* dicc = new DiccString<int>();
 	
 	//ASSERT_EQ(dicc->Significados().EsVacio(),true)
@@ -28,7 +28,7 @@ void LeakTest(){
 	//ASSERT_EQ(dicc->Significados().EsVacio(),false);
 	delete uno;
 	delete dicc;
-}
+}*/
 
 void DefinirValores(){
 	DiccString<int>* dicc = new DiccString<int>();
@@ -40,13 +40,19 @@ void DefinirValores(){
 	ASSERT_EQ(dicc->Significados().Pertenece(&uno),false);
 	ASSERT_EQ(dicc->Significados().Pertenece(&dos),false);
 	ASSERT_EQ(dicc->Significados().Pertenece(&tres),false);
+	
 	dicc->Definir("a",uno);
+
+	ASSERT_EQ(dicc->Significados().EsVacio(),false);
 	ASSERT_EQ(dicc->Significados().Pertenece(&uno),true);
+
 	dicc->Definir("ca",dos);
+
 	ASSERT_EQ(dicc->Definido("S"),false);
 	ASSERT_EQ(dicc->Definido("a"),true);
 	ASSERT_EQ(dicc->Definido("A"),true);
 	ASSERT_EQ(dicc->Definido("ca"),true);
+	ASSERT_EQ(dicc->Definido("Ca"),true);
 
 	ASSERT_EQ(dicc->Definido("caaz"),false);
 	dicc->Definir("caaz",tres);
@@ -54,7 +60,7 @@ void DefinirValores(){
 
 	ASSERT_EQ(dicc->Significados().Pertenece(&dos),true);
 	ASSERT_EQ(dicc->Significados().Pertenece(&tres),true);
-	ASSERT_EQ(dicc->Significados().EsVacio(),false);
+	
 
 
 	delete dicc;
@@ -96,9 +102,36 @@ void Eliminar(){
 	dicc->Borrar("zzzza");
 	ASSERT_EQ(dicc->Definido("zzzza"),false);
 	ASSERT_EQ(dicc->Significados().Pertenece(&uno),false);
-
+	ASSERT_EQ(dicc->Significados().EsVacio(),true);
 	
 	delete dicc;
+}
+
+void LetsBreakYou(){
+	int uno = 1;
+	DiccString<int>* dicc = new DiccString<int>();
+
+	dicc->Definir("Z",uno);
+	ASSERT_EQ(dicc->Definido("z"),true);
+	ASSERT_EQ(dicc->Significado("z"),1);
+
+	dicc->Definir("Testeando",uno);
+	int uno_ = dicc->Significado("Testeando");
+	ASSERT_EQ(uno_,uno);
+
+	dicc->Definir("Testeanda",uno);
+
+	dicc->Borrar("Testeando");
+	//ASSERT_EQ(dicc->Significados().Pertenece(&uno),true); bug detected
+	ASSERT_EQ(dicc->Definido("Testeando"),false);
+	ASSERT_EQ(dicc->Definido("Testeanda"),true);
+
+	dicc->Definir("ProbandoConUnNombreRealmenteLargoQueVaAOcuparMuchoMemoria",uno);
+	ASSERT_EQ(dicc->Definido("ProbandoConUnNombreRealmenteLargoQueVaAOcuparMuchoMemoria"),true);
+	ASSERT_EQ(dicc->Significados().Cardinal(),1);	
+
+	delete dicc;
+
 }
 
 int main(int argc, char **argv)
@@ -109,6 +142,7 @@ int main(int argc, char **argv)
     RUN_TEST(DefinirValores);
 	RUN_TEST(ObtenerSignificados);
 	RUN_TEST(Eliminar);
+	RUN_TEST(LetsBreakYou);
 
 	return 0;
 }
