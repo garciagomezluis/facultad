@@ -339,9 +339,9 @@ Conj<Posicion> CampusSeguro::PosicionesMasCercanas(const Posicion& p, Conj<Posic
 	Conj<Posicion> posicionesMasCercanas = Conj<Posicion>();
 	Conj<Posicion>::Iterador itPosiciones = c.CrearIt();
 	if(itPosiciones.HaySiguiente()){
-		Nat distanciaMasCercana = Distancia(itPosiciones.Siguiente(), p);
+		Nat distanciaMasCercana = campus.Distancia(itPosiciones.Siguiente(), p);
 		while(itPosiciones.HaySiguiente()){
-			Nat distancia = Distancia(itPosiciones.Siguiente(),p);
+			Nat distancia = campus.Distancia(itPosiciones.Siguiente(), p);
 			if(distancia < distanciaMasCercana){
 				distanciaMasCercana = distancia;
 				posicionesMasCercanas.Agregar(itPosiciones.Siguiente());
