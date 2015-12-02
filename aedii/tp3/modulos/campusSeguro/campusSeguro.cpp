@@ -327,20 +327,19 @@ Conj<Agente> CampusSeguro::BusquedaRapida(Nat n , Vector<Agente> v){
 }
 
 Conj<Agente> CampusSeguro::Buscar(Vector<Agente> v, Nat i ,Nat s ,Nat k){
-	if(v.Longitud() == 1){
-		if(agentes.Significado(v[0]).cantSanciones == k){
-			return ConMismasSanciones(v[0]);
-		}else{
-			return Conj<Agente>();
-		}
-	}else {
+	if(v.Longitud() != 1){
+
 		int intermedio = (int)((i+s)/2);
 		if(agentes.Significado(v[intermedio]).cantSanciones < k){
 			Buscar(v,i,intermedio,k);
 		}else{
 			Buscar(v,intermedio,s,k);
 		}
+
 	}
+
+	return agentes.Significado(v[0]).cantSanciones == k ? ConMismasSanciones(v[0]) : Conj<Agente>();
+
 }
 
 Conj<Posicion> CampusSeguro::PosicionesMasCercanas(const Posicion& p, Conj<Posicion> c){
