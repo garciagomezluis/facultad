@@ -15,8 +15,6 @@ class CampusSeguro {
 
 public:
 
-	//CampusSeguro( const CampusSeguro& otro ); // constructor por copia
-
 	CampusSeguro( const Campus& c, const Dicc<Agente , Posicion >& d ); //comenzarRastrillaje
 
 	void IngresaEstudiante( const Nombre& e , const Posicion& p);
@@ -53,7 +51,6 @@ public:
 
 	const Conj<Agente> ConMismasSanciones(Agente a) const;
 
-	~CampusSeguro();
 private:
 
 	struct infoChabones {	

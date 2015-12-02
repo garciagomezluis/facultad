@@ -136,13 +136,16 @@ void LetsBreakYou(){
 
 int main(int argc, char **argv)
 {
+	DiccString<int> d;
 
-	RUN_TEST(Inicializacion);
-	//RUN_TEST(LeakTest);
-    RUN_TEST(DefinirValores);
-	RUN_TEST(ObtenerSignificados);
-	RUN_TEST(Eliminar);
-	RUN_TEST(LetsBreakYou);
+	d = DiccString<int>();
+
+	//RUN_TEST(Inicializacion);
+	////RUN_TEST(LeakTest);
+    //RUN_TEST(DefinirValores);
+	//RUN_TEST(ObtenerSignificados);
+	//RUN_TEST(Eliminar);
+	//RUN_TEST(LetsBreakYou);
 
 	return 0;
 }

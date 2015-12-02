@@ -10,16 +10,15 @@ void Inicializacion()
 {
 	Nat filas = 3;
 	Nat columnas = 3;
-	Campus campus(filas,columnas);
+	Campus campus(filas, columnas);
 	Dicc<Agente, Posicion> agentes;
 	agentes.Definir(1,Posicion(0,0));
 	agentes.Definir(2,Posicion(2,2));
 
 	CampusSeguro* c = new CampusSeguro(campus,agentes);
-	cout<<"Leaving constructor"<<endl;
-	ASSERT_EQ(true,true);
-	
-    
+
+	c->IngresaEstudiante("lu", Posicion(0,2));
+
 	delete c;
 }
 

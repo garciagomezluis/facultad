@@ -1,84 +1,44 @@
-
 #include "campusSeguro.h"
-
-/*
-CampusSeguro::CampusSeguro( const CampusSeguro& otro ){
-	agentes = new diccRapido(otro.agentes);
-	hippies = new DiccString(otro.hippies);
-	estudiantes = new DiccString(otro.estudiantes);
-	matrizDeChabones = new Vector();
-	int pos = 0;
-	while (pos < otro.matrizDeChabones.longitud) {
-		matrizDeChabones[pos] = new Vector(otro.matrizDeChabones[pos]);
-		pos++;
-	}
-	agentesAux = new Conj(otro.agentesAux);
-	hippiesAux = new Conj(otro.hippiesAux);
-	estudiantesAux = new Conj(otro.estudiantesAux);
-	mismasSanciones = new Lista();
-	Lista <Conj<Agente>> :: Iterador it = otro.mismasSanciones.crearIt();
-	while (it.HaySiguiente()) {
-		mismasSanciones.AgregarAtras(new Conj(it.Siguiente()));
-		it.Avanzar();
-	}
-	conKSanciones = new Vector(otro.conKSanciones);
-	campus = new Campus(otro.campus);
-	hubieronSanciones= otro.hubieronSanciones;	
-} // constructor por copia
-*/
 
 CampusSeguro::CampusSeguro( const Campus& c, const Dicc<Agente , Posicion >& d ){
 
-	matrizDeChabones = Vector<Vector<infoChabones>>();
-	Nat i = 1;
-	Nat j =1;
-	while(i< c.Filas()){
-		while(j < campus.Columnas()){
-			matrizDeChabones[i].Agregar(j, infoChabones());
-			j++;
+	for(Nat i = 0; i < c.Filas(); i++) {
+		matrizDeChabones.Agregar(i, Vector<infoChabones>());
+		for (Nat j = 0; j < c.Columnas(); j++) {
+			matrizDeChabones[i].Agregar(j, infoChabones());			
 		}
-		i++;
-	}	
-	estudiantesAux = Conj<Nombre>();
-	hippiesAux = Conj<Nombre>();
-	estudiantes = DiccString<infoEstudiante>();
-	hippies = DiccString<infoHippie>();
-	agentes = DiccRapido<Agente,infoAgente>();
-	conKSanciones = Vector<Agente>();
-	mismasSanciones = Lista<Conj<Agente>>();
+	}
+
+	campus = Campus(c);
+
 	mismasSanciones.AgregarAtras(Conj<Agente>());
 	Lista<Conj<Agente> > :: Iterador itMismasSanciones = mismasSanciones.CrearIt();
-	agentesAux = Conj<Agente>();
 	Dicc<Agente,Posicion>:: const_Iterador it = d.CrearIt();
 	while(it.HaySiguiente()){
 		Conj<Agente>::Iterador itAgente = agentesAux.Agregar(it.SiguienteClave());
 		Conj<Agente>::Iterador itSancion = itMismasSanciones.Siguiente().Agregar(it.SiguienteClave());
-		
 		infoAgente nuevo;
-		
-		nuevo.posAgente = it.SiguienteSignificado();
-		nuevo.cantSanciones = 0;
-		nuevo.cantHippiesAtrapados = 0;
-		nuevo.hippiesMasCercanos = Conj<Posicion>();
-		nuevo.mismasSanciones = itMismasSanciones;
-		nuevo.mismaSancion = itSancion;
-		nuevo.itAux = itAgente; 
-		
+			nuevo.posAgente = it.SiguienteSignificado();
+			nuevo.cantSanciones = 0;
+			nuevo.cantHippiesAtrapados = 0;
+			nuevo.hippiesMasCercanos = Conj<Posicion>();
+			nuevo.mismasSanciones = itMismasSanciones;
+			nuevo.mismaSancion = itSancion;
+			nuevo.itAux = itAgente; 
 		agentes.Definir(it.SiguienteClave(),nuevo);
-
 		conKSanciones.AgregarAtras(it.SiguienteClave());
-
 		it.Avanzar();
-
 	}
-
-} //comenzarRastrillaje
+}
 
 
 void CampusSeguro::IngresaEstudiante( const Nombre& e , const Posicion& p){
 
+	//REVISAR MUY BIEN INGRESAR ESTUDIANTE. POR EJ: EN QUE MOMENTO SE AGREGA EL ESTUDIANTE SI ES QUE INGRESA SIN PROBLEMAS?
+
 	matrizDeChabones[p.x][p.y].esHippieOEstudiante = true;
 	matrizDeChabones[p.x][p.y].nombre = e;
+
 	if(CantPersonasAlrededor(campus.Vecinos(p)).Hippies > 2 ){
 		infoHippie nuevo = infoHippie();
 		nuevo.posicion = p;
@@ -93,7 +53,6 @@ void CampusSeguro::IngresaEstudiante( const Nombre& e , const Posicion& p){
 			matrizDeChabones[p.x][p.y].esHippieOEstudiante = false;	
 		}
 	}else if(TotalOcupados(CantPersonasAlrededor(campus.Vecinos(p))) == campus.Vecinos(p).Cardinal() && CantPersonasAlrededor(campus.Vecinos(p)).Seguridad == 1){
-
 		infoEstudiante nuevo = infoEstudiante();
 		nuevo.posicion = p;
 		nuevo.itAux = estudiantesAux.Agregar(e);
@@ -101,7 +60,6 @@ void CampusSeguro::IngresaEstudiante( const Nombre& e , const Posicion& p){
 		SumarSancion(campus.Vecinos(p));
 		ModificarVecinos(p, campus.Vecinos(p));
 	}
-
 }
 
 void CampusSeguro::IngresaHippie(const Nombre& h , const Posicion& p){
@@ -536,16 +494,3 @@ Posicion CampusSeguro::DamePos(const Posicion& p1,const Posicion& p2){
 
 	return p;
 }
-
-CampusSeguro::~CampusSeguro(){
-	
-	conKSanciones.~Vector<Agente>();
-	matrizDeChabones.~Vector<Vector<infoChabones>>();
-	agentes.~DiccRapido<Agente,infoAgente>();
-	estudiantes.~DiccString<infoEstudiante>();
-	hippies.~DiccString<infoHippie>();
-
-}
-
-  
-
