@@ -15,12 +15,12 @@ void Inicializacion()
 	agentes.Definir(1,Posicion(0,0));
 	agentes.Definir(2,Posicion(2,2));
 
-	//CampusSeguro* c = new CampusSeguro(campus,agentes);
+	CampusSeguro* c = new CampusSeguro(campus,agentes);
 	
 	ASSERT_EQ(true,true);
 	
     
-	//delete c;
+	delete c;
 }
 
 
