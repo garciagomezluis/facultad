@@ -30,9 +30,9 @@ Campus::Campus(const Nat columnas, const Nat filas) {
 	this->columnas = columnas;
 	this->filas = filas;
 	matriz = Arreglo<Arreglo<bool> >(columnas);
-	for(int i = 0; i < columnas; i++) {
+	for(Nat i = 0; i < columnas; i++) {
 		matriz.Definir(i, Arreglo<bool>(filas));
-		for(int j = 0; j < filas; j++) {
+		for(Nat j = 0; j < filas; j++) {
 			matriz[i].Definir(j, false);
 		}
 	}
