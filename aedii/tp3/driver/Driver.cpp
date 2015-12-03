@@ -139,10 +139,11 @@ namespace aed2 {
 
 	tp::Posicion Driver::ConversionPosicion(aed2::Posicion p) const{
 		return tp::Posicion(p.x - 1, p.y - 1);
-		//OJO. Necesite darlo vuelta para que pase test_ingresa_hippie_y_estudiante
+		
 	}
 
 	aed2::Posicion Driver::ConversionPosicionVuelta(tp::Posicion p) const{	
+		cout<<"Convirtiendo posicion"<<endl;
 		aed2::Posicion p_;
 		p_.x = p.x + 1;
 		p_.y = p.y + 1;

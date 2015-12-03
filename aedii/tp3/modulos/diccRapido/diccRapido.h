@@ -45,21 +45,22 @@ class DiccRapido {
     }
 
   	bool Definido(const A& a) const {
-      cout<<"Chequeo si estoy definido"<<endl;
-      typename Lista<Item>::const_Iterador it = tabla[FuncionDeHash(a)].CrearIt();
+
+      cout<<"Chequeo si estoy definido estoy buscando con "<<endl;
+      //typename Lista<Item>::const_Iterador it = tabla[FuncionDeHash(a)].CrearIt();
       cout<<"Chequeo si estoy vivo"<<endl;
       bool res = false;
-      while(it.HaySiguiente() && !res) {
+      /*while(it.HaySiguiente() && !res) {
         cout<<"Me itero"<<endl;
         res = it.Siguiente().clave == a;
         it.Avanzar();
       }
-      cout<<"Me voy"<<endl;
+      cout<<"Me voy"<<endl;*/
       return res;
     }
 
   	const B& Significado(const A& a) const {
-      cout<<"Que pasa!!"<<endl;
+      cout<<"Que pasa!!"<<a<<endl;
       assert(Definido(a));
       cout<<"Estoy definido"<<endl;
       typename Lista<Item>::const_Iterador it = tabla[FuncionDeHash(a)].CrearIt();
@@ -133,6 +134,7 @@ class DiccRapido {
   	Arreglo<Lista<Item> > tabla;
 
     Nat FuncionDeHash(const A& a) const {
+      cout<<"Funcion de hash devuelve: "<<a % dimension<<endl;
       return a % dimension;
     }
 

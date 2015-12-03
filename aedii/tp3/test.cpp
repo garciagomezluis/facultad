@@ -401,6 +401,7 @@ void test_rastrillaje_mover_hacia_hippie() {
 	p.y = 1;
 
 	agentes.Definir(a,p);
+	cout<<"Hasta aca todo bien"<<endl;
 	aed2::Posicion p2 = campus.posAgente(a);
 	ASSERT(p.x == p2.x && p.y == p2.y);
 	campus.comenzarRastrillaje(agentes);
