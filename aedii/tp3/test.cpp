@@ -401,9 +401,10 @@ void test_rastrillaje_mover_hacia_hippie() {
 	p.y = 1;
 
 	agentes.Definir(a,p);
-
+	aed2::Posicion p2 = campus.posAgente(a);
+	ASSERT(p.x == p2.x && p.y == p2.y);
 	campus.comenzarRastrillaje(agentes);
-
+/*
 	aed2::Posicion ph;
 	ph.x = 5;
 	ph.y = 1;
@@ -415,7 +416,7 @@ void test_rastrillaje_mover_hacia_hippie() {
 
 	aed2::Posicion p4 = campus.posAgente(a);
 
-	ASSERT(p4.x == 2 && p4.y == 1);
+	ASSERT(p4.x == 2 && p4.y == 1);*/
 
 }
 
@@ -582,7 +583,7 @@ void test_mas_vigilante()
 
 int main(int argc, char **argv)
 {
-    RUN_TEST(test_agregar_obstaculos); //DONE
+    /*RUN_TEST(test_agregar_obstaculos); //DONE
 	RUN_TEST(test_ingresa_estudiante); //DONE
 	RUN_TEST(test_mover_estudiante); //DONE
 	RUN_TEST(test_mover_estudiante_fuera); //DONE
@@ -592,8 +593,8 @@ int main(int argc, char **argv)
 	RUN_TEST(test_mover_hippie_a_ingreso); //DONE
 	RUN_TEST(test_ingresa_hippie_y_convierte); //DONE
 	RUN_TEST(test_mueve_estudiante_y_convierte); //DONE
-	RUN_TEST(test_comenzar_rastrillaje_simple);
-	//RUN_TEST(test_rastrillaje_mover_hacia_hippie);
+	RUN_TEST(test_comenzar_rastrillaje_simple); //DONE*/
+	RUN_TEST(test_rastrillaje_mover_hacia_hippie);
 	//RUN_TEST(test_captura_hippie_entre_agentes);
 	//RUN_TEST(test_captura_estudiante);
 	//RUN_TEST(test_mas_vigilante);

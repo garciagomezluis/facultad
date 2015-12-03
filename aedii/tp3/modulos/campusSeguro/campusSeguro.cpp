@@ -257,6 +257,11 @@ const Posicion& CampusSeguro::PosicionEstudianteYHippie(const Nombre& n) {
 }
 
 const Posicion& CampusSeguro::PosicionAgente(const Agente& a) {
+	cout<<"AHORA ME VES"<<endl;
+	infoAgente agente = agentes.Significado(a);
+	cout<<"YA NO LLEGO"<<endl;
+	cout<<agente.cantSanciones<<endl;
+	
 	return agentes.Significado(a).posAgente;
 
 }

@@ -112,7 +112,7 @@ namespace aed2 {
 	}
 
 	aed2::Posicion Driver::posAgente(Agente pl) const {
-	    return ConversionPosicionVuelta(campusSeguro->PosicionAgente(pl));
+		   return ConversionPosicionVuelta(campusSeguro->PosicionAgente(pl));
 	}
 
 	Nat Driver::cantSanciones(Agente pl) const {
