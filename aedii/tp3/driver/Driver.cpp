@@ -17,10 +17,7 @@ namespace aed2 {
 	}
 
 	void Driver::agregarObstaculo(aed2::Posicion p) {
-		cout<<"hola"<<endl;
-		cout<<campus->EsOcupada(ConversionPosicion(p))<<endl;
 	    campus->AgregarObstaculo(ConversionPosicion(p));
-	    cout<<campus->EsOcupada(ConversionPosicion(p))<<endl;
 	}
 
 	// Observadores del Campus
@@ -34,13 +31,12 @@ namespace aed2 {
 	}
 
 	bool Driver::ocupada(aed2::Posicion p) const {
-		cout<<campus->EsOcupada(ConversionPosicion(p))<<endl;
 	    return campusSeguro->EstaOcupada(ConversionPosicion(p)); 
 	}
 
 	// Generadores de CampusSeguro
 	void  Driver::comenzarRastrillaje(const Dicc<Agente,aed2::Posicion>& d) {
-	    campusSeguro = new CampusSeguro(*campus, ConversionDiccionario(d));
+	    campusSeguro = new CampusSeguro(campus, ConversionDiccionario(d));
 	}
 
 	void Driver::ingresarEstudiante(Nombre n, aed2::Posicion p) {
@@ -111,8 +107,7 @@ namespace aed2 {
 	}
 
 	aed2::Posicion Driver::posEstudianteYHippie(Nombre n) const {
-		tp::Posicion posicion = campusSeguro->PosicionEstudianteYHippie(n);
-	    return ConversionPosicionVuelta(posicion);
+	    return ConversionPosicionVuelta(campusSeguro->PosicionEstudianteYHippie(n));
 	}
 
 	aed2::Posicion Driver::posAgente(Agente pl) const {
@@ -141,15 +136,14 @@ namespace aed2 {
 	    return campusSeguro->ConKSanciones(k); 
 	}
 
-	tp::Posicion Driver::ConversionPosicion(aed2::Posicion p) const{	
-		
-		return tp::Posicion(p.x, p.y);
+	tp::Posicion Driver::ConversionPosicion(aed2::Posicion p) const{
+		return tp::Posicion(p.x - 1, p.y - 1);
 	}
 
 	aed2::Posicion Driver::ConversionPosicionVuelta(tp::Posicion p) const{	
 		aed2::Posicion p_;
-		p_.x = p.x;
-		p_.y = p.y;
+		p_.x = p.x + 1;
+		p_.y = p.y + 1;
 		return p_;
 	}
 

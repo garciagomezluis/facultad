@@ -283,9 +283,9 @@ void testNew(){
 
 int main() {
 	//test interfáz pública de campus
-	//RUN_TEST(campus_constructorFilaColumna);
+	RUN_TEST(campus_constructorFilaColumna);
 	RUN_TEST(campus_constructorCopia);
-	/*RUN_TEST(campus_agregarObstaculo);
+	RUN_TEST(campus_agregarObstaculo);
 	RUN_TEST(campus_filas);
 	RUN_TEST(campus_columnas);
 	RUN_TEST(campus_esOcupada);
@@ -296,7 +296,7 @@ int main() {
 	RUN_TEST(campus_vecinos);
 	RUN_TEST(campus_distancia);
 	RUN_TEST(campus_proxPosicion);
-	RUN_TEST(campus_ingresosMasCercanos);*/
+	RUN_TEST(campus_ingresosMasCercanos);
 	RUN_TEST(testNew);
 
 	return 0;

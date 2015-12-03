@@ -15,7 +15,7 @@ class CampusSeguro {
 
 public:
 
-	CampusSeguro( Campus& c, const Dicc<Agente , tp::Posicion >& d );
+	CampusSeguro( Campus* c, const Dicc<Agente , tp::Posicion >& d );
 
 	void IngresaEstudiante( const Nombre& e , const tp::Posicion& p);
 
@@ -101,7 +101,7 @@ private:
 
 	Agente masVigilante;
 	bool hubieronSanciones;
-	Campus& campus;
+	Campus* campus;
 	Vector <Agente> conKSanciones;
 	Lista <Conj <Agente> > mismasSanciones ;
 	Conj <Nombre> estudiantesAux;

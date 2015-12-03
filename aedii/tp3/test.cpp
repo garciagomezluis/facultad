@@ -42,6 +42,7 @@ void test_ingresa_estudiante(){
 	Driver campus;
 	campus.crearCampus(10,10);
 
+
 	Dicc<Agente,aed2::Posicion> agentes;
 	campus.comenzarRastrillaje(agentes);
 
@@ -54,6 +55,7 @@ void test_ingresa_estudiante(){
 
 
 	aed2::Posicion p3 = campus.posEstudianteYHippie(s);
+
 	ASSERT(p3.x == p2.x && p3.y == p3.x);
 }
 
@@ -572,7 +574,7 @@ void test_mas_vigilante()
 int main(int argc, char **argv)
 {
     RUN_TEST(test_agregar_obstaculos);
-	//RUN_TEST(test_ingresa_estudiante);
+	RUN_TEST(test_ingresa_estudiante);
 	//RUN_TEST(test_mover_estudiante);
 	//RUN_TEST(test_mover_estudiante_fuera);
 	//RUN_TEST(test_ingresa_hippie);
