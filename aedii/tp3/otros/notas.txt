@@ -23,4 +23,4 @@ Puede ser que falte?
 se esta contemplando que se actualicen los estudiantes mas cercanos para los hippies cuando ingresa un estudiante?
 se esta contemplando que se actualicen los estudiantes mas cercanos para los hippies cuando se mueve un estudiante?
 se esta contemplando que se actualicen los estudiantes mas cercanos para los hippies cuando se ingresa un hippie?
-se esta contemplando que se puedan ir del campus los estudiantes? (y los hippies?)
+se esta contemplando que se puedan ir del campus los estudiantes? (y los hippies?) Los hippies no pueden irse del campus segun el diseño

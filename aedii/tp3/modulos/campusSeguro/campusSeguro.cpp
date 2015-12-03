@@ -51,10 +51,10 @@ void CampusSeguro::IngresaEstudiante( const Nombre& e , const Posicion& p){
 	matrizDeChabones[p.x][p.y].nombre = e;
 
 	if(CantPersonasAlrededor(campus->Vecinos(p)).Hippies > 2 ){
-		infoHippie* nuevo = new infoHippie();
-		nuevo->posicion = p;
-		nuevo->itAux = hippiesAux.Agregar(e);
-		hippies.Definir(e,*nuevo);
+		infoHippie nuevo;
+		nuevo.posicion = p;
+		nuevo.itAux = hippiesAux.Agregar(e);
+		hippies.Definir(e,nuevo);
 		ModificarVecinos(p, campus->Vecinos(p));
 		if(TotalOcupados(CantPersonasAlrededor(campus->Vecinos(p))) == campus->Vecinos(p).Cardinal() && CantPersonasAlrededor(campus->Vecinos(p)).Seguridad == 1){
 			
@@ -90,10 +90,18 @@ void CampusSeguro::IngresaHippie(const Nombre& h , const Posicion& p){
 	//assert(campus->EsIngreso(p));
 	//assert(!EstaOcupada(p));
 
-	infoHippie* nuevo = new infoHippie();
+	/*infoHippie* nuevo = new infoHippie();
 	nuevo->posicion = p;
 	nuevo->itAux = hippiesAux.Agregar(h);
 	hippies.Definir(h,*nuevo);
+	matrizDeChabones[p.x][p.y].esHippieOEstudiante = true;
+	matrizDeChabones[p.x][p.y].nombre = h;*/
+
+
+	infoHippie nuevo;
+	nuevo.posicion = p;
+	nuevo.itAux = hippiesAux.Agregar(h);
+	hippies.Definir(h,nuevo);
 	matrizDeChabones[p.x][p.y].esHippieOEstudiante = true;
 	matrizDeChabones[p.x][p.y].nombre = h;
 	//cout<<"i0"<<endl;
@@ -110,10 +118,10 @@ void CampusSeguro::IngresaHippie(const Nombre& h , const Posicion& p){
 		//cout<<"i3"<<endl;
 			hippies.Significado(h).itAux.EliminarSiguiente();
 			hippies.Borrar(h);
-			infoEstudiante* nuevo = new infoEstudiante();
-			nuevo->posicion = p;
-			nuevo->itAux = estudiantesAux.Agregar(h);
-			estudiantes.Definir(h,*nuevo);
+			infoEstudiante nuevo;
+			nuevo.posicion = p;
+			nuevo.itAux = estudiantesAux.Agregar(h);
+			estudiantes.Definir(h,nuevo);
 			ModificarVecinos(p,campus->Vecinos(p));
 	      } else if(CantPersonasAlrededor(campus->Vecinos(p)).Seguridad + CantPersonasAlrededor(campus->Vecinos(p)).Objetos == campus->Vecinos(p).Cardinal() ) {
 	      			//cout<<"i4"<<endl;
@@ -183,7 +191,9 @@ void CampusSeguro::MoverHippie (const Nombre& h){
 		matrizDeChabones[proximaPosicion.x][proximaPosicion.y].nombre = h;
 		matrizDeChabones[p.x][p.y].esHippieOEstudiante = false;
 		datosHippie.posicion = proximaPosicion;
-
+		//Redefino el hippie.
+		//Entiendo que teoricamente no se deberia hacer esto, supuestamente se devuelve una Referencia a info hippie cuando se le pide el significado, pero no estaria funcionando bien. Hacer esto no es lindo pero no rompe complejdades tampoco
+		hippies.Borrar(h); //Esta linea la agrego Julian oara que no haya perdida de memoria por la linea que agrego luis
 		hippies.Definir(h, datosHippie); //esta linea la agregó luis (consultar con los muchachos si esta bien (rompe test_mover_hippie_a_estudiante sino))
 
 		ModificarVecinos(proximaPosicion, campus->Vecinos(proximaPosicion));
@@ -357,7 +367,7 @@ Conj<Agente> CampusSeguro::Buscar(Vector<Agente> v, Nat i ,Nat s ,Nat k){
 }
 
 Conj<Posicion> CampusSeguro::PosicionesMasCercanas(const Posicion& p, Conj<Posicion> c){
-	cout << c << endl;
+	//cout << c << endl;
 
 	Conj<Posicion> posicionesMasCercanas = Conj<Posicion>();
 	Conj<Posicion>::Iterador itPosiciones = c.CrearIt();

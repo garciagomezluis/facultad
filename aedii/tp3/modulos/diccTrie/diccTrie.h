@@ -161,6 +161,7 @@ bool DiccString<T>::Definido(const string s) const{
 
 template<typename T>
 T& DiccString<T>::Significado(const string s){
+	assert(this->Definido(s));
 	Vector<valores*>* aux = vec;
 	Nat i = 1;
 	while(i < s.length()){

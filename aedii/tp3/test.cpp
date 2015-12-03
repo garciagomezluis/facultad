@@ -168,6 +168,7 @@ void test_mover_estudiante() {
 	p3.y = 2;
 
 	aed2::Posicion p = campus.posEstudianteYHippie(s);
+	cout<<p.x<<" - "<<p.y;
 	ASSERT(p3.x == p.x && p3.y == p.y);
 }
 
@@ -228,15 +229,15 @@ void test_ingresa_hippie_y_estudiante() {
 	campus.ingresarHippie(s,p2);	
 
 	aed2::Posicion p3; //me parece que esto no es un ingreso
-	p3.x = 1; 
-	p3.y = 2;
+	p3.y = 1; 
+	p3.x = 2;
 
 	Nombre t = "pepa";
 	campus.ingresarEstudiante(t,p3);
 
 	aed2::Posicion p; //me parece que esto no es un ingreso
-	p.x = 1; 
-	p.y = 3;
+	p.y = 1; 
+	p.x = 3;
 
 	Nombre r = "pepen";
 	campus.ingresarEstudiante(r,p);	
@@ -271,7 +272,7 @@ void test_mover_hippie_a_estudiante() {
 	campus.moverEstudiante(t, abajo);
 	campus.moverEstudiante(t, abajo);
 
-	// Baja el estudiante
+	// Baja el estudiante hasta la pos 1,6
 	aed2::Posicion p3 = campus.posEstudianteYHippie(t);
 	ASSERT(p3.x == 1 && p3.y == 6);
 
@@ -280,7 +281,9 @@ void test_mover_hippie_a_estudiante() {
 	p2.y = 1;
 
 	Nombre s = "pepe";
+	
 	campus.ingresarHippie(s,p2);	
+	
 	campus.moverHippie(s);	
 
 	// El hippie se mueve hacia abajo
@@ -293,13 +296,14 @@ void test_mover_hippie_a_estudiante() {
 
 	Nombre r = "pepo";
 	campus.ingresarEstudiante(r,p5);
-
+	
 	// El hippie se mueve hacia el nuevo estudiante
-	/* a partir de acá rompe.. ver notas
+	// a partir de acá rompe.. ver notas
 	campus.moverHippie(s);	
 	p4 = campus.posEstudianteYHippie(s);
+
 	ASSERT((p4.x == 1 && p4.y == 1) || (p4.x == 2 && p4.y == 2) );
-	*/
+	
 
 }
 
@@ -576,10 +580,10 @@ int main(int argc, char **argv)
     RUN_TEST(test_agregar_obstaculos); //DONE
 	RUN_TEST(test_ingresa_estudiante); //DONE
 	RUN_TEST(test_mover_estudiante); //DONE
-	RUN_TEST(test_mover_estudiante_fuera);
-	//RUN_TEST(test_ingresa_hippie);
-	//RUN_TEST(test_ingresa_hippie_y_estudiante);
-	//RUN_TEST(test_mover_hippie_a_estudiante);
+	RUN_TEST(test_mover_estudiante_fuera); //DONE
+	RUN_TEST(test_ingresa_hippie); //DONE
+	RUN_TEST(test_ingresa_hippie_y_estudiante); //DONE.
+	RUN_TEST(test_mover_hippie_a_estudiante);
 	//RUN_TEST(test_mover_hippie_a_ingreso);
 	//RUN_TEST(test_ingresa_hippie_y_convierte);
 	//RUN_TEST(test_mueve_estudiante_y_convierte);
