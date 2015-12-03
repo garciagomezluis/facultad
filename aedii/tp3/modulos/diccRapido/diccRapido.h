@@ -1,5 +1,5 @@
-#ifndef DICCRAPIDO_H_
-#define DICCRAPIDO_H_
+#ifndef DICCRAPIDON_H_
+#define DICCRAPIDON_H_
 
 #include "../../aed2/includes.h"
 
@@ -9,12 +9,42 @@ using namespace tp;
 #define TAM_TABLA_INI 10
 #define UMBRAL_FC   0.3
 
+namespace aed2{
+
 template<typename A, typename B>
 class DiccRapido {
 
   public:
+    DiccRapido();
+    void Definir(const A& a, const B& b);
+    bool Definido(const A& a) const;
+    const B& Significado(const A& a) const;
+    void Borrar(const A& a);
+    Nat Total() const;
+    Conj<A> Claves() const;
+    Nat Colisiones() const;
+    float FactorDeCarga() const;
+  private:
 
-  	DiccRapido() {
+    struct Item {
+      A clave;
+      B valor;
+
+      Item(const A a, const B b) : clave(a), valor(b) {}
+    };
+
+    Nat dimension;
+    Nat cantidad;
+    Arreglo<Lista<Item> > tabla;
+
+    Nat FuncionDeHash(const A& a) const;
+    void RedimensionarTabla(const Nat d);
+
+
+};
+
+    template<typename A, typename B>
+    DiccRapido<A,B>::DiccRapido() {
       dimension = TAM_TABLA_INI;
       cantidad = 0;
       tabla = Arreglo<Lista<Item> >(dimension);
@@ -24,7 +54,8 @@ class DiccRapido {
       }
     }
 
-  	void Definir(const A& a, const B& b) {
+    template<typename A, typename B>
+    void DiccRapido<A,B>::Definir(const A& a, const B& b) {
       if(FactorDeCarga() > UMBRAL_FC) {
         RedimensionarTabla(2 * dimension);
       }
@@ -44,41 +75,59 @@ class DiccRapido {
       it.AgregarComoSiguiente(Item(a, b));
     }
 
-  	bool Definido(const A& a) const {
+    template<typename A, typename B>
+    void DiccRapido<A,B>::Borrar(const A& a){
+        typename Lista<Item>::Iterador it = tabla[FuncionDeHash(a)].CrearIt();
+        while(it.HaySiguiente() && it.Siguiente().clave != a) {
+          it.Avanzar();
+        }
+        if(!it.HaySiguiente()){
+          cout<<"Aca hay algo raro ya que deberia estar"<<endl;
+        }
+        else{
+          cantidad -=1;
+          it.EliminarSiguiente();
+        }
+    }
 
-      cout<<"Chequeo si estoy definido estoy buscando con "<<endl;
-      //typename Lista<Item>::const_Iterador it = tabla[FuncionDeHash(a)].CrearIt();
-      cout<<"Chequeo si estoy vivo"<<endl;
+    template<typename A, typename B>
+    bool DiccRapido<A,B>::Definido(const A& a) const {
+
+      //cout<<"Chequeo si estoy definido estoy buscando con "<<endl;
+      typename Lista<Item>::const_Iterador it = tabla[FuncionDeHash(a)].CrearIt();
+      //cout<<"Chequeo si estoy vivo"<<endl;
       bool res = false;
-      /*while(it.HaySiguiente() && !res) {
-        cout<<"Me itero"<<endl;
+      while(it.HaySiguiente() && !res) {
+        //cout<<"Me itero"<<endl;
         res = it.Siguiente().clave == a;
         it.Avanzar();
       }
-      cout<<"Me voy"<<endl;*/
+      //cout<<"Me voy"<<endl;
       return res;
     }
 
-  	const B& Significado(const A& a) const {
-      cout<<"Que pasa!!"<<a<<endl;
+    template<typename A, typename B>
+    const B& DiccRapido<A,B>::Significado(const A& a) const {
+      //cout<<"Que pasa!!"<<a<<endl;
       assert(Definido(a));
-      cout<<"Estoy definido"<<endl;
+      //cout<<"Estoy definido"<<endl;
       typename Lista<Item>::const_Iterador it = tabla[FuncionDeHash(a)].CrearIt();
       while(it.HaySiguiente() && it.Siguiente().clave != a) {
-        cout<<"Avanzo"<<endl;
+        //cout<<"Avanzo"<<endl;
         it.Avanzar();
       }
-      cout<<"Voy a retornar"<<endl;
+      //cout<<"Voy a retornar"<<endl;
       return it.Siguiente().valor;
     }
 
     //Para tests ------------------------------------------------------------------------
-
-    Nat Total() const {
+    template<typename A, typename B>
+    Nat DiccRapido<A,B>::Total() const {
       return cantidad;
     }
 
-    Conj<A> Claves() const {
+    template<typename A, typename B>
+    Conj<A> DiccRapido<A,B>::Claves() const {
       Conj<A> res;
       for(Nat i = 0; i < dimension; i++) {
         typename Lista<Item>::const_Iterador it = tabla[i].CrearIt();
@@ -91,7 +140,8 @@ class DiccRapido {
       return res;
     }
     
-    Nat Colisiones() const {
+    template<typename A, typename B>
+    Nat DiccRapido<A,B>::Colisiones() const {
       Nat ret = 0;
       for(Nat i=0; i < tabla.Tamanho(); i++){
           ret = ret + (tabla[i].Longitud() == 0 ? 0 : tabla[i].Longitud() - 1);
@@ -99,11 +149,12 @@ class DiccRapido {
       return ret;
     }
 
-    float FactorDeCarga() const {
+    template<typename A, typename B>
+    float DiccRapido<A,B>::FactorDeCarga() const {
       return (float)cantidad / (float)tabla.Tamanho();
     }
 
-    ostream& mostrar(ostream& os) const {
+    /*ostream& mostrar(ostream& os) const {
 
       os << "\n{\n";
 
@@ -118,27 +169,17 @@ class DiccRapido {
       os << "}\n";
 
       return os;
-    }
+    }*/
 
-  private:
-
-  	struct Item {
-  		A clave;
-  		B valor;
-
-  		Item(const A a, const B b) : clave(a), valor(b) {}
-  	};
-
-  	Nat dimension;
-    Nat cantidad;
-  	Arreglo<Lista<Item> > tabla;
-
-    Nat FuncionDeHash(const A& a) const {
-      cout<<"Funcion de hash devuelve: "<<a % dimension<<endl;
+  
+    template<typename A, typename B>
+    Nat DiccRapido<A,B>::FuncionDeHash(const A& a) const {
+      //cout<<"Funcion de hash devuelve: "<<a % dimension<<endl;
       return a % dimension;
     }
 
-    void RedimensionarTabla(const Nat d) {
+    template<typename A, typename B>
+    void DiccRapido<A,B>::RedimensionarTabla(const Nat d) {
       Arreglo<Lista<Item> > tabla_vieja(tabla);
       cantidad = 0;
       tabla = Arreglo<Lista<Item> >(d);
@@ -155,11 +196,12 @@ class DiccRapido {
       }
     }
 
-};
 
-template<class A, class B>
+/*template<class A, class B>
 ostream& operator<<(ostream& out, const DiccRapido<A, B>& d) {
   return d.mostrar(out);
+}*/
+
 }
 
 #endif //DICCRAPIDO_H_

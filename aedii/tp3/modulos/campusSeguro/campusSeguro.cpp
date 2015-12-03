@@ -32,6 +32,9 @@ CampusSeguro::CampusSeguro( Campus* c, const Dicc<Agente , Posicion >& d ){
 			nuevo.itAux = itAgente; 
 		agentes.Definir(it.SiguienteClave(),nuevo);
 		conKSanciones.AgregarAtras(it.SiguienteClave());
+		matrizDeChabones[nuevo.posAgente.x][nuevo.posAgente.y].esAgente = true;
+		matrizDeChabones[nuevo.posAgente.x][nuevo.posAgente.y].agente = it.SiguienteClave();
+		masVigilante = it.SiguienteClave(); //EL mas vigilante es cualquiera al ppio.
 		it.Avanzar();
 	}
 }
@@ -106,7 +109,8 @@ void CampusSeguro::IngresaHippie(const Nombre& h , const Posicion& p){
 	matrizDeChabones[p.x][p.y].nombre = h;
 	//cout<<"i0"<<endl;
 
-
+	//cout<<campus->Vecinos(p)<<endl;
+	//cout<<CantPersonasAlrededor(campus->Vecinos(p)).Seguridad<<endl;
 	if(TotalOcupados(CantPersonasAlrededor(campus->Vecinos(p))) < campus->Vecinos(p).Cardinal()) {
 
 
@@ -126,9 +130,10 @@ void CampusSeguro::IngresaHippie(const Nombre& h , const Posicion& p){
 	      } else if(CantPersonasAlrededor(campus->Vecinos(p)).Seguridad + CantPersonasAlrededor(campus->Vecinos(p)).Objetos == campus->Vecinos(p).Cardinal() ) {
 	      			//cout<<"i4"<<endl;
 					SumarHippieAAgente(campus->Vecinos(p));
+					//cout<<"i5"<<endl;
 					hippies.Significado(h).itAux.EliminarSiguiente();
 					hippies.Borrar(h);
-					matrizDeChabones[p.x][p.y].esHippieOEstudiante = true;		
+					matrizDeChabones[p.x][p.y].esHippieOEstudiante = false;		
 				} else {
 					//cout<<"i5"<<endl;
 		     		ModificarVecinos(p,campus->Vecinos(p));
@@ -213,6 +218,9 @@ void CampusSeguro::MoverAgente(const Agente& a){
 	}
 	Conj<Posicion> hippiesMasCercanos = PosicionesMasCercanas(p,posicionesHippies);
 	datosAgente.hippiesMasCercanos = hippiesMasCercanos;
+
+
+
 	Posicion proximaPosicion = campus->IngresosMasCercanos(p).CrearIt().Siguiente();//TODO. Revisar si esto está bien. Está mal diseñado, no coinciden los tipos. OJO. para que esto ande el conjunto debe ser no vacio
 	if(hippiesMasCercanos.Cardinal() > 0){
 		proximaPosicion = DamePos(p,hippiesMasCercanos.CrearIt().Siguiente());
@@ -511,8 +519,11 @@ void CampusSeguro::SumarHippieAAgente(const Conj<Posicion>& c){
 	Conj<Posicion>::const_Iterador it = c.CrearIt();
 	while(it.HaySiguiente()){
 		if(matrizDeChabones[it.Siguiente().x][it.Siguiente().y].esAgente){
+			
 			infoAgente agente = agentes.Significado(matrizDeChabones[it.Siguiente().x][it.Siguiente().y].agente);
 			agente.cantHippiesAtrapados++;
+			agentes.Borrar(matrizDeChabones[it.Siguiente().x][it.Siguiente().y].agente);
+			agentes.Definir(matrizDeChabones[it.Siguiente().x][it.Siguiente().y].agente, agente);
 			if(agente.cantHippiesAtrapados > agentes.Significado(masVigilante).cantHippiesAtrapados){
 				masVigilante = matrizDeChabones[it.Siguiente().x][it.Siguiente().y].agente;
 			}
@@ -551,6 +562,7 @@ infoEntorno CampusSeguro::CantPersonasAlrededor(const Conj<Posicion>& c){
 		}
 
 		if(matrizDeChabones[it.Siguiente().x][it.Siguiente().y].esAgente ) {
+
 			res.Seguridad++;
 		}
 

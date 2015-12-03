@@ -143,7 +143,7 @@ namespace aed2 {
 	}
 
 	aed2::Posicion Driver::ConversionPosicionVuelta(tp::Posicion p) const{	
-		cout<<"Convirtiendo posicion"<<endl;
+		//cout<<"Convirtiendo posicion"<<endl;
 		aed2::Posicion p_;
 		p_.x = p.x + 1;
 		p_.y = p.y + 1;
