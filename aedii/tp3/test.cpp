@@ -168,7 +168,7 @@ void test_mover_estudiante() {
 	p3.y = 2;
 
 	aed2::Posicion p = campus.posEstudianteYHippie(s);
-	cout<<p.x<<" - "<<p.y;
+	//cout<<p.x<<" - "<<p.y;
 	ASSERT(p3.x == p.x && p3.y == p.y);
 }
 
@@ -350,12 +350,15 @@ void test_mover_hippie_a_ingreso() {
 
 	// Hago salir al estudiante, lo muevo a la derecha para no pisar el hippie
 	campus.moverEstudiante(t, der);
+	p3 = campus.posEstudianteYHippie(t);
+	ASSERT(p3.x == 2 && p3.y == 6);
+	
 	for (int i=0; i < 6; i++) {
 		campus.moverEstudiante(t, arriba);
 	}
-
+		
 	ASSERT(campus.cantEstudiantes() == 0);	
-
+	
 	// Muevo al hippie , tiene que ir al ingreso mas cercano
 	campus.moverHippie(s);	
 	
@@ -583,8 +586,8 @@ int main(int argc, char **argv)
 	RUN_TEST(test_mover_estudiante_fuera); //DONE
 	RUN_TEST(test_ingresa_hippie); //DONE
 	RUN_TEST(test_ingresa_hippie_y_estudiante); //DONE.
-	RUN_TEST(test_mover_hippie_a_estudiante);
-	//RUN_TEST(test_mover_hippie_a_ingreso);
+	RUN_TEST(test_mover_hippie_a_estudiante); //DONE
+	RUN_TEST(test_mover_hippie_a_ingreso); //DONE
 	//RUN_TEST(test_ingresa_hippie_y_convierte);
 	//RUN_TEST(test_mueve_estudiante_y_convierte);
 	//RUN_TEST(test_comenzar_rastrillaje_simple);

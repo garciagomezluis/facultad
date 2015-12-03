@@ -171,6 +171,7 @@ void CampusSeguro::MoverHippie (const Nombre& h){
 
 	infoHippie datosHippie = hippies.Significado(h);
 	Posicion p = datosHippie.posicion;
+
 	Conj<infoEstudiante*> datosEstudiante = estudiantes.Significados();
 	Conj<infoEstudiante*> :: Iterador itDatosEstudiante = datosEstudiante.CrearIt();
 	Conj<Posicion> posicionesEstudiantes = Conj<Posicion>();
@@ -180,9 +181,9 @@ void CampusSeguro::MoverHippie (const Nombre& h){
 	}
 	Conj<Posicion> estudiantesMasCercanos = PosicionesMasCercanas(p,posicionesEstudiantes);
 	datosHippie.estudiantesMasCercanos = estudiantesMasCercanos;
-	Posicion proximaPosicion = campus->IngresosMasCercanos(p).CrearIt().Siguiente(); //TODO. Revisar si esto está bien. Está mal diseñado, no coinciden los tipos. OJO. para que esto ande el conjunto debe ser no vacio
+	
+	Posicion proximaPosicion = DamePos(p,campus->IngresosMasCercanos(p).CrearIt().Siguiente());
 	if(estudiantesMasCercanos.Cardinal() > 0){
-		//cout << "deberia entrar" << endl;
 		proximaPosicion = DamePos(p,estudiantesMasCercanos.CrearIt().Siguiente());
 		//cout << estudiantesMasCercanos << endl;
 	}
@@ -195,7 +196,7 @@ void CampusSeguro::MoverHippie (const Nombre& h){
 		//Entiendo que teoricamente no se deberia hacer esto, supuestamente se devuelve una Referencia a info hippie cuando se le pide el significado, pero no estaria funcionando bien. Hacer esto no es lindo pero no rompe complejdades tampoco
 		hippies.Borrar(h); //Esta linea la agrego Julian oara que no haya perdida de memoria por la linea que agrego luis
 		hippies.Definir(h, datosHippie); //esta linea la agregó luis (consultar con los muchachos si esta bien (rompe test_mover_hippie_a_estudiante sino))
-
+		
 		ModificarVecinos(proximaPosicion, campus->Vecinos(proximaPosicion));
 	}
 }
@@ -392,6 +393,7 @@ Conj<Posicion> CampusSeguro::PosicionesMasCercanas(const Posicion& p, Conj<Posic
 }*/
 
 void CampusSeguro::ModificarVecinos(const Posicion& p, const Conj<Posicion>& c){
+	//cout<<c<<endl;
 	Conj<Posicion>::const_Iterador it = c.CrearIt();
 	while(it.HaySiguiente()){
 		//cout<<"v1"<<endl;
