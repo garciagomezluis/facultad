@@ -150,8 +150,17 @@ namespace aed2 {
 	}
 
 	Dicc<Agente,tp::Posicion> Driver::ConversionDiccionario(Dicc<Agente, aed2::Posicion> dicc) const{
-		//TODO. HACER
-		return Dicc<Agente,tp::Posicion>();
+		
+		Dicc<Agente,tp::Posicion> nuestro;
+
+		Dicc<Agente, aed2::Posicion>::Iterador it = dicc.CrearIt();
+		while(it.HaySiguiente()){
+			aed2::Posicion p_ = it.SiguienteSignificado();
+			nuestro.DefinirRapido(it.SiguienteClave(),ConversionPosicion(p_));
+			it.Avanzar();
+		}
+
+		return nuestro;
 	}
 
 	tp::Direccion Driver::ConversionDireccion(aed2::Direccion d) const{
