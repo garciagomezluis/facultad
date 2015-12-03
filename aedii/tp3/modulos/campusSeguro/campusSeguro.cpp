@@ -1,5 +1,9 @@
 #include "campusSeguro.h"
 
+CampusSeguro::~CampusSeguro() {
+	//prestar atencion a los news!
+}
+
 CampusSeguro::CampusSeguro( Campus* c, const Dicc<Agente , Posicion >& d ){
 
 	for(Nat i = 0; i < c->Filas(); i++) {
@@ -46,10 +50,10 @@ void CampusSeguro::IngresaEstudiante( const Nombre& e , const Posicion& p){
 	matrizDeChabones[p.x][p.y].nombre = e;
 
 	if(CantPersonasAlrededor(campus->Vecinos(p)).Hippies > 2 ){
-		infoHippie nuevo = infoHippie();
-		nuevo.posicion = p;
-		nuevo.itAux = hippiesAux.Agregar(e);
-		hippies.Definir(e,nuevo);
+		infoHippie* nuevo = new infoHippie();
+		nuevo->posicion = p;
+		nuevo->itAux = hippiesAux.Agregar(e);
+		hippies.Definir(e,*nuevo);
 		ModificarVecinos(p, campus->Vecinos(p));
 		if(TotalOcupados(CantPersonasAlrededor(campus->Vecinos(p))) == campus->Vecinos(p).Cardinal() && CantPersonasAlrededor(campus->Vecinos(p)).Seguridad == 1){
 			
@@ -59,10 +63,10 @@ void CampusSeguro::IngresaEstudiante( const Nombre& e , const Posicion& p){
 			matrizDeChabones[p.x][p.y].esHippieOEstudiante = false;	
 		}
 	}else {
-		infoEstudiante nuevo = infoEstudiante();
-		nuevo.posicion = p;
-		nuevo.itAux = estudiantesAux.Agregar(e);
-		estudiantes.Definir(e,nuevo);
+		infoEstudiante* nuevo = new infoEstudiante();
+		nuevo->posicion = p;
+		nuevo->itAux = estudiantesAux.Agregar(e);
+		estudiantes.Definir(e, *nuevo);
 		//cout << nuevo.posicion << endl;
 		//cout << estudiantes.Significado(e).posicion;
 		if(TotalOcupados(CantPersonasAlrededor(campus->Vecinos(p))) == campus->Vecinos(p).Cardinal() && CantPersonasAlrededor(campus->Vecinos(p)).Seguridad == 1) {
@@ -83,10 +87,10 @@ void CampusSeguro::IngresaHippie(const Nombre& h , const Posicion& p){
 	//assert(campus->EsIngreso(p));
 	//assert(!EstaOcupada(p));
 
-	infoHippie nuevo = infoHippie();
-	nuevo.posicion = p;
-	nuevo.itAux = hippiesAux.Agregar(h);
-	hippies.Definir(h,nuevo);
+	infoHippie* nuevo = new infoHippie();
+	nuevo->posicion = p;
+	nuevo->itAux = hippiesAux.Agregar(h);
+	hippies.Definir(h,*nuevo);
 	matrizDeChabones[p.x][p.y].esHippieOEstudiante = true;
 	matrizDeChabones[p.x][p.y].nombre = h;
 	//cout<<"i0"<<endl;
@@ -103,10 +107,10 @@ void CampusSeguro::IngresaHippie(const Nombre& h , const Posicion& p){
 		//cout<<"i3"<<endl;
 			hippies.Significado(h).itAux.EliminarSiguiente();
 			hippies.Borrar(h);
-			infoEstudiante nuevo = infoEstudiante();
-			nuevo.posicion = p;
-			nuevo.itAux = estudiantesAux.Agregar(h);
-			estudiantes.Definir(h,nuevo);
+			infoEstudiante* nuevo = new infoEstudiante();
+			nuevo->posicion = p;
+			nuevo->itAux = estudiantesAux.Agregar(h);
+			estudiantes.Definir(h,*nuevo);
 			ModificarVecinos(p,campus->Vecinos(p));
 	      } else if(CantPersonasAlrededor(campus->Vecinos(p)).Seguridad + CantPersonasAlrededor(campus->Vecinos(p)).Objetos == campus->Vecinos(p).Cardinal() ) {
 	      			//cout<<"i4"<<endl;
@@ -121,11 +125,13 @@ void CampusSeguro::IngresaHippie(const Nombre& h , const Posicion& p){
 }
 
 void CampusSeguro::MoverEstudiante(const Nombre& e , const Direccion& d ){
-
 	Posicion viejaPos(estudiantes.Significado(e).posicion);
 	Posicion nuevaPos(campus->ProxPosicion(viejaPos,d));
+
+	//acá!! que pasa si el estudiante sale del tablero?? se rompe matrizDeChabones! mirar la pre de moverEstudiante en el diseño
+
 	matrizDeChabones[viejaPos.x][viejaPos.y].esHippieOEstudiante = false;
-	estudiantes.Significado(e).posicion = nuevaPos;	
+	estudiantes.Significado(e).posicion = nuevaPos;
 	matrizDeChabones[nuevaPos.x][nuevaPos.y].esHippieOEstudiante = true;
 	matrizDeChabones[nuevaPos.x][nuevaPos.y].nombre = e;
 	if(CantPersonasAlrededor(campus->Vecinos(nuevaPos)).Hippies >=2){
@@ -149,18 +155,24 @@ void CampusSeguro::MoverHippie (const Nombre& h){
 	Conj<Posicion> posicionesEstudiantes = Conj<Posicion>();
 	while(itDatosEstudiante.HaySiguiente()){
 		posicionesEstudiantes.Agregar(itDatosEstudiante.Siguiente()->posicion);
+		itDatosEstudiante.Avanzar();
 	}
 	Conj<Posicion> estudiantesMasCercanos = PosicionesMasCercanas(p,posicionesEstudiantes);
 	datosHippie.estudiantesMasCercanos = estudiantesMasCercanos;
 	Posicion proximaPosicion = campus->IngresosMasCercanos(p).CrearIt().Siguiente(); //TODO. Revisar si esto está bien. Está mal diseñado, no coinciden los tipos. OJO. para que esto ande el conjunto debe ser no vacio
 	if(estudiantesMasCercanos.Cardinal() > 0){
+		//cout << "deberia entrar" << endl;
 		proximaPosicion = DamePos(p,estudiantesMasCercanos.CrearIt().Siguiente());
+		//cout << estudiantesMasCercanos << endl;
 	}
 	if(!EstaOcupada(proximaPosicion)){
 		matrizDeChabones[proximaPosicion.x][proximaPosicion.y].esHippieOEstudiante = true;
 		matrizDeChabones[proximaPosicion.x][proximaPosicion.y].nombre = h;
 		matrizDeChabones[p.x][p.y].esHippieOEstudiante = false;
 		datosHippie.posicion = proximaPosicion;
+
+		hippies.Definir(h, datosHippie); //esta linea la agregó luis (consultar con los muchachos si esta bien (rompe test_mover_hippie_a_estudiante sino))
+
 		ModificarVecinos(proximaPosicion, campus->Vecinos(proximaPosicion));
 	}
 }
@@ -332,6 +344,8 @@ Conj<Agente> CampusSeguro::Buscar(Vector<Agente> v, Nat i ,Nat s ,Nat k){
 }
 
 Conj<Posicion> CampusSeguro::PosicionesMasCercanas(const Posicion& p, Conj<Posicion> c){
+	cout << c << endl;
+
 	Conj<Posicion> posicionesMasCercanas = Conj<Posicion>();
 	Conj<Posicion>::Iterador itPosiciones = c.CrearIt();
 	if(itPosiciones.HaySiguiente()){
@@ -428,10 +442,10 @@ void CampusSeguro::CorregidoYcapturado(const Nombre& n, const Posicion& p){
 	if(CantPersonasAlrededor(campus->Vecinos(p)).Estudiantes + CantPersonasAlrededor(campus->Vecinos(p)).Objetos == campus->Vecinos(p).Cardinal()) {
 		hippies.Significado(n).itAux.EliminarSiguiente();
 		hippies.Borrar(n);
-		infoEstudiante nuevo;
-		nuevo.posicion = Posicion(p);
-		nuevo.itAux = estudiantesAux.Agregar(n);
-		estudiantes.Definir(n,nuevo);
+		infoEstudiante* nuevo = new infoEstudiante();
+		nuevo->posicion = Posicion(p);
+		nuevo->itAux = estudiantesAux.Agregar(n);
+		estudiantes.Definir(n,*nuevo);
 	} else {
 		CapturadoH(n,p);
 	}
@@ -527,7 +541,7 @@ bool CampusSeguro::EstaOcupada(tp::Posicion p)  const{
 	return campus->EsOcupada(p) || matrizDeChabones[p.x][p.y].esHippieOEstudiante || matrizDeChabones[p.x][p.y].esAgente;
 }
 
-Posicion CampusSeguro::DamePos(const Posicion& p1,const Posicion& p2){
+Posicion CampusSeguro::DamePos(const Posicion& p1, const Posicion& p2){
 	Posicion p;
 
 	if(p1.x > p2.x){
@@ -542,6 +556,8 @@ Posicion CampusSeguro::DamePos(const Posicion& p1,const Posicion& p2){
 	if(p1.y < p2.y){
 		p.x = p1.x; p.y = p1.y + 1;
 	}
+
+	//cout << "damePos" << p << endl;
 
 	return p;
 }

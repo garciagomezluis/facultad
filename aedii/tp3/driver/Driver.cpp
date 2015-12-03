@@ -7,7 +7,8 @@ namespace aed2 {
 	}
 
 	Driver::~Driver() {
-
+		delete campus;
+		delete campusSeguro;
 	}
 
 	// Generadores del Campus
@@ -153,8 +154,14 @@ namespace aed2 {
 	}
 
 	tp::Direccion Driver::ConversionDireccion(aed2::Direccion d) const{
-		//TODO. Hacer
-		return Izquierda;
+		tp::Direccion d_;
+
+		if(d == izq) d_ = Izquierda;
+		if(d == der) d_ = Derecha;
+		if(d == abajo) d_ = Arriba; //mmmm ver aca, para ellos es al revés!
+		if(d == arriba) d_ = Abajo;
+
+		return d_;
 	}
 
 } // namespace aed2

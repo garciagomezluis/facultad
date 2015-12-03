@@ -15,6 +15,8 @@ class CampusSeguro {
 
 public:
 
+	~CampusSeguro();
+
 	CampusSeguro( Campus* c, const Dicc<Agente , tp::Posicion >& d );
 
 	void IngresaEstudiante( const Nombre& e , const tp::Posicion& p);
