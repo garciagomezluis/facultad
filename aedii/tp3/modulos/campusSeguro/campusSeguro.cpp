@@ -211,24 +211,31 @@ void CampusSeguro::MoverAgente(const Agente& a){
 	Posicion p(datosAgente.posAgente);
 	Conj<infoHippie*> datosHippies = hippies.Significados();
 	Conj<infoHippie*>::Iterador itDatosHippies = datosHippies.CrearIt();
+
 	Conj<Posicion> posicionesHippies = Conj<Posicion>();
+
+	//cout<<"A1"<<endl;
 	while(itDatosHippies.HaySiguiente()){
 		posicionesHippies.Agregar(itDatosHippies.Siguiente()->posicion);
 		itDatosHippies.Avanzar();
 	}
+	//cout<<"A2"<<endl;
 	Conj<Posicion> hippiesMasCercanos = PosicionesMasCercanas(p,posicionesHippies);
 	datosAgente.hippiesMasCercanos = hippiesMasCercanos;
 
 
 
-	Posicion proximaPosicion = campus->IngresosMasCercanos(p).CrearIt().Siguiente();//TODO. Revisar si esto está bien. Está mal diseñado, no coinciden los tipos. OJO. para que esto ande el conjunto debe ser no vacio
+	Posicion proximaPosicion = DamePos(p,campus->IngresosMasCercanos(p).CrearIt().Siguiente());
 	if(hippiesMasCercanos.Cardinal() > 0){
 		proximaPosicion = DamePos(p,hippiesMasCercanos.CrearIt().Siguiente());
 	}
 	if(!EstaOcupada(proximaPosicion)){
 		matrizDeChabones[proximaPosicion.x][proximaPosicion.y].esAgente = true;
 		matrizDeChabones[proximaPosicion.x][proximaPosicion.y].agente = a;
-		//datosHippies.posicion = proximaPosicion; //TODO. No tiene sentido pedirle la posicion a un conjunto. ¿A que hippie hay que actualizarle la posicion?
+
+		datosAgente.posAgente = proximaPosicion; 
+		agentes.Borrar(a);
+		agentes.Definir(a,datosAgente);
 		ModificarVecinos(proximaPosicion, campus->Vecinos(proximaPosicion));
 	}
 
@@ -265,10 +272,10 @@ const Posicion& CampusSeguro::PosicionEstudianteYHippie(const Nombre& n) {
 }
 
 const Posicion& CampusSeguro::PosicionAgente(const Agente& a) {
-	cout<<"AHORA ME VES"<<endl;
+	//cout<<"AHORA ME VES"<<endl;
 	infoAgente agente = agentes.Significado(a);
-	cout<<"YA NO LLEGO"<<endl;
-	cout<<agente.cantSanciones<<endl;
+	//cout<<"YA NO LLEGO"<<endl;
+	//cout<<agente.cantSanciones<<endl;
 	
 	return agentes.Significado(a).posAgente;
 
@@ -415,8 +422,12 @@ void CampusSeguro::ModificarVecinos(const Posicion& p, const Conj<Posicion>& c){
 				ModificarAux(matrizDeChabones[p.x][p.y].nombre,matrizDeChabones[it.Siguiente().x][it.Siguiente().y].nombre);
 			}
 			//it.Avanzar();
-		}else if(matrizDeChabones[p.x][p.y].esAgente && hippies.Definido(matrizDeChabones[it.Siguiente().x][it.Siguiente().y].nombre)) {
-				CapturadoH(matrizDeChabones[it.Siguiente().x][it.Siguiente().y].nombre, it.Siguiente());
+		}else if(matrizDeChabones[p.x][p.y].esAgente) {
+
+				if(matrizDeChabones[it.Siguiente().x][it.Siguiente().y].esHippieOEstudiante && hippies.Definido(matrizDeChabones[it.Siguiente().x][it.Siguiente().y].nombre))
+				{
+					CapturadoH(matrizDeChabones[it.Siguiente().x][it.Siguiente().y].nombre, it.Siguiente());
+				}
 				//it.Avanzar();
 			}else{
 				CapturadoE(it.Siguiente());
@@ -442,7 +453,7 @@ void CampusSeguro::ModificarAux(const Nombre& n1, const Nombre& n2){
 	}else if(estudiantes.Definido(n1)){
 			CorregidoYcapturado(n2,hippies.Significado(n2).posicion);
 		}else{
-			cout<<"aux6"<<endl;
+			//cout<<"aux6"<<endl;
 			CapturadoH(n2,hippies.Significado(n2).posicion);
 		}
 }
@@ -454,6 +465,7 @@ void CampusSeguro::CapturadoE(const Posicion& p){
 		SumarSancion(campus->Vecinos(p));
 //		cout<<"e2"<<endl;
 	}
+	//cout<<"e3"<<endl;
 }
 
 void CampusSeguro::CapturadoH(const Nombre& n,const Posicion& p){
