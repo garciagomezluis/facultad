@@ -90,6 +90,8 @@ void test_ingresa_hippie_y_convierte() {
 
 	// Avanzo el estudiante del medio
 	campus.moverEstudiante(s2,abajo);
+	aed2::Posicion p4 = campus.posEstudianteYHippie(s2);
+	ASSERT(p4.x == p2.x && p4.y == p2.y+1);
 
 	// Ahora hago ingresar un hippie,se tiene que convertir a estudiante
 	Nombre h1 = "wololoHippie";
@@ -588,7 +590,7 @@ int main(int argc, char **argv)
 	RUN_TEST(test_ingresa_hippie_y_estudiante); //DONE.
 	RUN_TEST(test_mover_hippie_a_estudiante); //DONE
 	RUN_TEST(test_mover_hippie_a_ingreso); //DONE
-	//RUN_TEST(test_ingresa_hippie_y_convierte);
+	RUN_TEST(test_ingresa_hippie_y_convierte); //DONE
 	//RUN_TEST(test_mueve_estudiante_y_convierte);
 	//RUN_TEST(test_comenzar_rastrillaje_simple);
 	//RUN_TEST(test_rastrillaje_mover_hacia_hippie);
