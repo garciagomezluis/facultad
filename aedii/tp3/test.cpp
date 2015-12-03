@@ -53,7 +53,7 @@ void test_ingresa_estudiante(){
 
 
 	aed2::Posicion p3 = campus.posEstudianteYHippie(s);
-
+	//cout<<p3.x<<", "<<p3.y<<endl;
 	ASSERT(p3.x == p2.x && p3.y == p3.x);
 }
 
@@ -295,11 +295,11 @@ void test_mover_hippie_a_estudiante() {
 	campus.ingresarEstudiante(r,p5);
 
 	// El hippie se mueve hacia el nuevo estudiante
-	/** / a partir de acá rompe.. ver notas
+	/* a partir de acá rompe.. ver notas
 	campus.moverHippie(s);	
 	p4 = campus.posEstudianteYHippie(s);
 	ASSERT((p4.x == 1 && p4.y == 1) || (p4.x == 2 && p4.y == 2) );
-	/**/
+	*/
 
 }
 
@@ -573,11 +573,11 @@ void test_mas_vigilante()
 
 int main(int argc, char **argv)
 {
-    RUN_TEST(test_agregar_obstaculos);
-	RUN_TEST(test_ingresa_estudiante);
-	RUN_TEST(test_mover_estudiante);
-	//RUN_TEST(test_mover_estudiante_fuera);
-	RUN_TEST(test_ingresa_hippie);
+    RUN_TEST(test_agregar_obstaculos); //DONE
+	RUN_TEST(test_ingresa_estudiante); //DONE
+	RUN_TEST(test_mover_estudiante); //DONE
+	RUN_TEST(test_mover_estudiante_fuera);
+	//RUN_TEST(test_ingresa_hippie);
 	//RUN_TEST(test_ingresa_hippie_y_estudiante);
 	//RUN_TEST(test_mover_hippie_a_estudiante);
 	//RUN_TEST(test_mover_hippie_a_ingreso);

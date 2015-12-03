@@ -17,7 +17,7 @@ class DiccString
 	public: 
 	DiccString();
 	~DiccString();
-	void Definir(const string s, /*const*/ T& significado); //Creo que no es const porque se guarda en la estructura interna como referencia no constante.
+	void Definir(const string s, /*const*/ T significado); //Creo que no es const porque se guarda en la estructura interna como referencia no constante.
 	bool Definido(const string s) const;
 	T& Significado(const string s);
 	Conj<T*> Significados();
@@ -62,7 +62,7 @@ DiccString<T>::DiccString(){
 
 template<typename T>
 DiccString<T>::~DiccString(){
-	cout<<"destructor"<<endl;
+	
 	if(!vec->EsVacio())
 		EliminarVec(vec);
 	else
@@ -77,7 +77,7 @@ Conj<T*> DiccString<T>::Significados(){
 }
 
 template<typename T>
-void DiccString<T>::Definir(const string s, /*const*/ T& significado){
+void DiccString<T>::Definir(const string s, /*const*/ T significado){
 	if(vec->EsVacio())
 		DefinirVec(*vec);
 	Vector<valores*>* aux = vec;
@@ -88,11 +88,15 @@ void DiccString<T>::Definir(const string s, /*const*/ T& significado){
 			DefinirVec(*aux);
 		i++;
 	}
-
-	(*aux)[ord(s[i-1])]->significado = &significado;
-	typename Conj<T*>::Iterador it = significados->Agregar(&significado);
+	
+	T* sig = new T();
+	*sig = significado;
+	
+	(*aux)[ord(s[i-1])]->significado = sig;
+	//(*aux)[ord(s[i-1])]->significado = &significado;
+	typename Conj<T*>::Iterador it = significados->Agregar(sig);
 	(*aux)[ord(s[i-1])]->it = it;
-	//delete aux;
+	//delete sig;
 }
 
 template<typename T>
@@ -117,9 +121,9 @@ void DiccString<T>::EliminarVec(Vector<valores*>*& vector){
 		
 		//cout<<"destructor de struct"<<endl;
 				if((*vector)[i]->significado != NULL){
-					//cout<<"llego?"<<endl;
-					//delete (*vector)[i]->significado;
-					//cout<<"paso?"<<endl;
+				//	cout<<"llego?"<<endl;
+					delete (*vector)[i]->significado;
+				//	cout<<"paso?"<<endl;
 				}
 				
 				EliminarVec((*vector)[i]->vec);
@@ -178,6 +182,8 @@ void DiccString<T>::Borrar(const string s){
 		i++;
 	}
 	
+	//No estaria del todo bien desde el punto teorico esto, lo se
+	delete (*aux)[ord(s[i-1])]->significado;
 	(*aux)[ord(s[i-1])]->significado = NULL;
 	((*aux)[ord(s[i-1])]->it).EliminarSiguiente();
 }

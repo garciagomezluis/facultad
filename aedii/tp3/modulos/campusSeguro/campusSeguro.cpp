@@ -2,6 +2,7 @@
 
 CampusSeguro::~CampusSeguro() {
 	//prestar atencion a los news!
+	//delete campus;
 }
 
 CampusSeguro::CampusSeguro( Campus* c, const Dicc<Agente , Posicion >& d ){
@@ -63,11 +64,13 @@ void CampusSeguro::IngresaEstudiante( const Nombre& e , const Posicion& p){
 			matrizDeChabones[p.x][p.y].esHippieOEstudiante = false;	
 		}
 	}else {
-		infoEstudiante* nuevo = new infoEstudiante();
-		nuevo->posicion = p;
-		nuevo->itAux = estudiantesAux.Agregar(e);
-		estudiantes.Definir(e, *nuevo);
-		//cout << nuevo.posicion << endl;
+		
+		infoEstudiante nuevo;
+		nuevo.posicion = p;
+		nuevo.itAux = estudiantesAux.Agregar(e);
+		estudiantes.Definir(e, nuevo);
+
+		
 		//cout << estudiantes.Significado(e).posicion;
 		if(TotalOcupados(CantPersonasAlrededor(campus->Vecinos(p))) == campus->Vecinos(p).Cardinal() && CantPersonasAlrededor(campus->Vecinos(p)).Seguridad == 1) {
 			//cout << "entra" << endl;
@@ -126,24 +129,34 @@ void CampusSeguro::IngresaHippie(const Nombre& h , const Posicion& p){
 
 void CampusSeguro::MoverEstudiante(const Nombre& e , const Direccion& d ){
 	Posicion viejaPos(estudiantes.Significado(e).posicion);
-	Posicion nuevaPos(campus->ProxPosicion(viejaPos,d));
+	
 
-	//acá!! que pasa si el estudiante sale del tablero?? se rompe matrizDeChabones! mirar la pre de moverEstudiante en el diseño
-
-	matrizDeChabones[viejaPos.x][viejaPos.y].esHippieOEstudiante = false;
-	estudiantes.Significado(e).posicion = nuevaPos;
-	matrizDeChabones[nuevaPos.x][nuevaPos.y].esHippieOEstudiante = true;
-	matrizDeChabones[nuevaPos.x][nuevaPos.y].nombre = e;
-	if(CantPersonasAlrededor(campus->Vecinos(nuevaPos)).Hippies >=2){
+	if((campus->EsIngresoSuperior(viejaPos) && d == Arriba) || (campus->EsIngresoInferior(viejaPos) && d == Abajo)){
+		//cout<<"SE ESTA YENDO";
 		estudiantes.Significado(e).itAux.EliminarSiguiente();
 		estudiantes.Borrar(e);
-		infoHippie nuevo = infoHippie();
-		nuevo.posicion = nuevaPos;
-		nuevo.itAux = hippiesAux.Agregar(e);
-		ModificarVecinos(nuevaPos, campus->Vecinos(nuevaPos));	
-	}else{
-		ModificarVecinos(nuevaPos, campus->Vecinos(nuevaPos));
-	     }
+	}
+	else{
+		Posicion nuevaPos(campus->ProxPosicion(viejaPos,d));	
+		//cout<<"Es ingreso donde estaba parado? "<<campus->EsIngreso(estudiantes.Significado(e).posicion)<<endl;
+		//cout<<"Intentando mover estudiante a"<<nuevaPos<<endl;
+		//acá!! que pasa si el estudiante sale del tablero?? se rompe matrizDeChabones! mirar la pre de moverEstudiante en el diseño
+
+		matrizDeChabones[viejaPos.x][viejaPos.y].esHippieOEstudiante = false;
+		estudiantes.Significado(e).posicion = nuevaPos;
+		matrizDeChabones[nuevaPos.x][nuevaPos.y].esHippieOEstudiante = true;
+		matrizDeChabones[nuevaPos.x][nuevaPos.y].nombre = e;
+		if(CantPersonasAlrededor(campus->Vecinos(nuevaPos)).Hippies >=2){
+			estudiantes.Significado(e).itAux.EliminarSiguiente();
+			estudiantes.Borrar(e);
+			infoHippie nuevo = infoHippie();
+			nuevo.posicion = nuevaPos;
+			nuevo.itAux = hippiesAux.Agregar(e);
+			ModificarVecinos(nuevaPos, campus->Vecinos(nuevaPos));	
+		}else{
+			ModificarVecinos(nuevaPos, campus->Vecinos(nuevaPos));
+		     }
+	 }
 }
 //revisar
 void CampusSeguro::MoverHippie (const Nombre& h){
@@ -226,7 +239,7 @@ const Posicion& CampusSeguro::PosicionEstudianteYHippie(const Nombre& n) {
 	if(hippies.Definido(n)){
 		return hippies.Significado(n).posicion;
 	}else{
-		//cout << estudiantes.Significado(n).posicion;
+		//cout<<"Posicion de "<<n<<" es " << estudiantes.Significado(n).posicion<<endl;
 		return estudiantes.Significado(n).posicion;
 	}
 
