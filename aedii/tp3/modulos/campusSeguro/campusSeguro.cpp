@@ -399,16 +399,13 @@ void CampusSeguro::ModificarVecinos(const Posicion& p, const Conj<Posicion>& c){
 		//cout<<"v1"<<endl;
 		if(matrizDeChabones[it.Siguiente().x][it.Siguiente().y].esHippieOEstudiante){
 			if(matrizDeChabones[p.x][p.y].esHippieOEstudiante){
-				//cout<<"Modificar Vecinos"<<endl;
 				ModificarAux(matrizDeChabones[p.x][p.y].nombre,matrizDeChabones[it.Siguiente().x][it.Siguiente().y].nombre);
 			}
 			//it.Avanzar();
 		}else if(matrizDeChabones[p.x][p.y].esAgente && hippies.Definido(matrizDeChabones[it.Siguiente().x][it.Siguiente().y].nombre)) {
-				//cout<<"v3"<<endl;
 				CapturadoH(matrizDeChabones[it.Siguiente().x][it.Siguiente().y].nombre, it.Siguiente());
 				//it.Avanzar();
 			}else{
-				//cout<<"v4"<<endl;
 				CapturadoE(it.Siguiente());
 				//it.Avanzar();
 			}
@@ -430,7 +427,6 @@ void CampusSeguro::ModificarAux(const Nombre& n1, const Nombre& n2){
 				CapturadoE(estudiantes.Significado(n2).posicion); //Sofi asegura que n2 esta bien
 			}
 	}else if(estudiantes.Definido(n1)){
-			//cout<<"aux5"<<endl;
 			CorregidoYcapturado(n2,hippies.Significado(n2).posicion);
 		}else{
 			cout<<"aux6"<<endl;
@@ -465,12 +461,12 @@ void CampusSeguro::CapturadoH(const Nombre& n,const Posicion& p){
 
 void CampusSeguro::CorregidoYcapturado(const Nombre& n, const Posicion& p){
 	if(CantPersonasAlrededor(campus->Vecinos(p)).Estudiantes + CantPersonasAlrededor(campus->Vecinos(p)).Objetos == campus->Vecinos(p).Cardinal()) {
+		infoEstudiante nuevo;
+		nuevo.posicion = p;
+		nuevo.itAux = estudiantesAux.Agregar(n);
 		hippies.Significado(n).itAux.EliminarSiguiente();
 		hippies.Borrar(n);
-		infoEstudiante* nuevo = new infoEstudiante();
-		nuevo->posicion = Posicion(p);
-		nuevo->itAux = estudiantesAux.Agregar(n);
-		estudiantes.Definir(n,*nuevo);
+		estudiantes.Definir(n,nuevo);
 	} else {
 		CapturadoH(n,p);
 	}
