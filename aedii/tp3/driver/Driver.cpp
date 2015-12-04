@@ -3,7 +3,8 @@
 namespace aed2 {
 
 	Driver::Driver()  {
-
+		campus = NULL;
+		campusSeguro = NULL;
 	}
 
 	Driver::~Driver() {

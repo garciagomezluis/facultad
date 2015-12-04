@@ -15,7 +15,7 @@ CampusSeguro::CampusSeguro( Campus* c, const Dicc<Agente , Posicion >& d ){
 	}
 
 	campus = c;
-
+	hubieronSanciones = false;
 	mismasSanciones.AgregarAtras(Conj<Agente>());
 	Lista<Conj<Agente> > :: Iterador itMismasSanciones = mismasSanciones.CrearIt();
 	Dicc<Agente,Posicion>:: const_Iterador it = d.CrearIt();
@@ -75,10 +75,13 @@ void CampusSeguro::IngresaEstudiante( const Nombre& e , const Posicion& p){
 
 		
 		//cout << estudiantes.Significado(e).posicion;
-		if(TotalOcupados(CantPersonasAlrededor(campus->Vecinos(p))) == campus->Vecinos(p).Cardinal() && CantPersonasAlrededor(campus->Vecinos(p)).Seguridad == 1) {
+		if(TotalOcupados(CantPersonasAlrededor(campus->Vecinos(p))) == campus->Vecinos(p).Cardinal() && CantPersonasAlrededor(campus->Vecinos(p)).Seguridad >= 1) {
 			//cout << "entra" << endl;
+			//cout << "suma sancion" << endl;
 			SumarSancion(campus->Vecinos(p));
+			//cout << "modificar vecninos" << endl;
 			ModificarVecinos(p, campus->Vecinos(p));
+			//cout << "termina" << endl;
 		}
 	}
 
@@ -311,22 +314,47 @@ const Agente& CampusSeguro::MasVigilante() const{
 
 void CampusSeguro::Sancionar(Nat p, Nat cs){
 
-	infoAgente agente = agentes.Significado(cs);
+	infoAgente agente = agentes.Significado(p);
 	Lista<Conj<Agente>>::Iterador it = agente.mismasSanciones;
-	Nat i = 0;
-	while(i < cs){
-		if(!it.HaySiguiente()){
+
+	//cout << p << mismasSanciones << endl;
+	//cout << agente.mismasSanciones.Siguiente() << endl;
+
+	//Nat i = 0;
+	//while(i < cs){
+		if(!it.HaySiguiente()) {
+		//	cout << "paso por aca" << endl;
 			it = mismasSanciones.AgregarAtras(Conj<Agente>());
 		}else{
 			it.Avanzar();
 		}
-		i++;
+	//	i++;
+	//}
+
+	//if(!it.HaySiguiente()) it = mismasSanciones.AgregarAtras(Conj<Agente>());
+
+
+	if(!it.HaySiguiente()) {
+		it = mismasSanciones.AgregarAtras(Conj<Agente>());
 	}
+
 	Conj<Agente>::Iterador itMismasSanciones = it.Siguiente().Agregar(p);
+
+	//cout << "llega ok" << endl;
 	agente.mismaSancion.EliminarSiguiente();
 	agente.cantSanciones = agente.cantSanciones + cs;
 	agente.mismasSanciones = it;
+
+	if(p == 1) {
+		//cout << p << endl;
+		//cout << agente.mismasSanciones.Siguiente() << endl;
+		//cout << mismasSanciones << endl;
+	}
+
 	agente.mismaSancion = itMismasSanciones;
+
+	agentes.Definir(p, agente);
+
 	hubieronSanciones = true ;
 
 }
@@ -352,9 +380,9 @@ const Conj<Agente> CampusSeguro::ConMismasSanciones(Agente a) const{
 }
 
 void CampusSeguro::InsertarOrdenado(Vector<Nat>& v, const Nat& a){
-	Nat i = 1;
+	Nat i = 0;
 	bool posicionEncontrada = false;
-	while(i <= v.Longitud() && !posicionEncontrada){
+	while(i < v.Longitud() && !posicionEncontrada){
 		Nat sancionesAgente = agentes.Significado(v[i]).cantSanciones;
 		if(agentes.Significado(a).cantSanciones <= sancionesAgente){
 			v.Agregar(i,a);
@@ -368,23 +396,41 @@ void CampusSeguro::InsertarOrdenado(Vector<Nat>& v, const Nat& a){
 }
 
 Conj<Agente> CampusSeguro::BusquedaRapida(Nat n , Vector<Agente> v){
+
+	//cout << Buscar(v,0,v.Longitud()-1,n) << endl;
+
+	//return Conj<Agente>();
+
 	return Buscar(v,0,v.Longitud()-1,n);
 }
 
-Conj<Agente> CampusSeguro::Buscar(Vector<Agente> v, Nat i ,Nat s ,Nat k){
-	if(v.Longitud() != 1){
+Conj<Agente> CampusSeguro::Buscar(Vector<Agente> v, Nat min ,Nat max ,Nat k){
+	int intermedio = (int)((min+max)/2);
+	
+	//cout << v << endl;
+	//cout << "intermedio " << intermedio << endl;
+	//cout << agentes.Significado(v[intermedio]).cantSanciones << endl;
+	//cout << min << " " << max << endl;
+	//cout << "fin" << endl;
 
-		int intermedio = (int)((i+s)/2);
-		if(agentes.Significado(v[intermedio]).cantSanciones < k){
-			Buscar(v,i,intermedio,k);
-		}else{
-			Buscar(v,intermedio,s,k);
-		}
+	if( k < agentes.Significado(v[0]).cantSanciones || k > agentes.Significado(v[v.Longitud() - 1]).cantSanciones ) return Conj<Agente>();
 
+	if(agentes.Significado(v[intermedio]).cantSanciones == k) {
+		return ConMismasSanciones(v[intermedio]);
+	} else if (agentes.Significado(v[intermedio]).cantSanciones < k) {
+		return Buscar(v,intermedio + 1,max,k);
+	} else {
+		return Buscar(v,min,intermedio - 1,k);
 	}
-
-	return agentes.Significado(v[0]).cantSanciones == k ? ConMismasSanciones(v[0]) : Conj<Agente>();
-
+/*
+	if(agentes.Significado(v[intermedio]).cantSanciones < k){
+				return Buscar(v,intermedio + 1,max,k);
+	}else if (agentes.Significado(v[intermedio]).cantSanciones > k) {
+		return Buscar(v,min,intermedio - 1,k);
+	} else {
+		//cout << "caso base" << endl;
+		return ConMismasSanciones(v[intermedio]);
+	}*/
 }
 
 Conj<Posicion> CampusSeguro::PosicionesMasCercanas(const Posicion& p, Conj<Posicion> c){
@@ -417,19 +463,27 @@ void CampusSeguro::ModificarVecinos(const Posicion& p, const Conj<Posicion>& c){
 	Conj<Posicion>::const_Iterador it = c.CrearIt();
 	while(it.HaySiguiente()){
 		//cout<<"v1"<<endl;
+
+
 		if(matrizDeChabones[it.Siguiente().x][it.Siguiente().y].esHippieOEstudiante){
+			//cout << "i1" << endl;
 			if(matrizDeChabones[p.x][p.y].esHippieOEstudiante){
+				
+				//cout << "i5" << endl;
 				ModificarAux(matrizDeChabones[p.x][p.y].nombre,matrizDeChabones[it.Siguiente().x][it.Siguiente().y].nombre);
 			}
 			//it.Avanzar();
 		}else if(matrizDeChabones[p.x][p.y].esAgente) {
+			//cout << "i2" << endl;
 
 				if(matrizDeChabones[it.Siguiente().x][it.Siguiente().y].esHippieOEstudiante && hippies.Definido(matrizDeChabones[it.Siguiente().x][it.Siguiente().y].nombre))
 				{
+					//cout << "i3" << endl;
 					CapturadoH(matrizDeChabones[it.Siguiente().x][it.Siguiente().y].nombre, it.Siguiente());
 				}
 				//it.Avanzar();
 			}else{
+					//cout << "i4" << endl;
 				CapturadoE(it.Siguiente());
 				//it.Avanzar();
 			}
@@ -517,11 +571,11 @@ void CampusSeguro::ConvertidoYCapturado(const Nombre& n, const Posicion& p){
 void CampusSeguro::SumarSancion(const Conj<Posicion>& c){
 	Conj<Posicion>::const_Iterador it = c.CrearIt();
 	//int n = agentes.Significado(matrizDeChabones[it.Siguiente().x][it.Siguiente().y].placa).cantSanciones;
-	int m = matrizDeChabones[it.Siguiente().x][it.Siguiente().y].agente;
+	//int m = matrizDeChabones[it.Siguiente().x][it.Siguiente().y].agente;
 	while(it.HaySiguiente()){
 		if(matrizDeChabones[it.Siguiente().x][it.Siguiente().y].esAgente){
-			Sancionar(m,1);
-			it.Avanzar();
+			Sancionar(matrizDeChabones[it.Siguiente().x][it.Siguiente().y].agente,1);
+			//it.Avanzar();
 		}	
 		it.Avanzar();
 	}

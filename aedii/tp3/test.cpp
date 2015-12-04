@@ -468,6 +468,7 @@ void test_captura_hippie_entre_agentes()
 
 void test_captura_estudiante()
 {
+
 	Driver campus;
 	campus.crearCampus(10,10);
 
@@ -501,16 +502,20 @@ void test_captura_estudiante()
 	Nombre e = "pepe";
 	campus.ingresarEstudiante(e,pe);
 
+	//cout << campus.conMismasSanciones(a) << endl;
+
 	ASSERT(campus.conMismasSanciones(a).Cardinal() == 3 );
 	ASSERT(campus.conMismasSanciones(a2).Cardinal() == 3 );
 	ASSERT(campus.conMismasSanciones(a3).Cardinal() == 3 );
 	Nat c = campus.conKSanciones(1).Cardinal();
+	//cout << c << endl;
 	ASSERT(c == 3);
 
 	Nat c2 = campus.conKSanciones(0).Cardinal();
 	ASSERT(c2 == 0 );
+	/** /
 
-
+	/**/ 
 }
 
 void test_mas_vigilante()
@@ -598,7 +603,7 @@ int main(int argc, char **argv)
 	RUN_TEST(test_comenzar_rastrillaje_simple); //DONE
 	RUN_TEST(test_rastrillaje_mover_hacia_hippie); //VER ESTE TEST. DESCOMENTAR DONDE DICE. SIN DESCOMENTAR FUNCIONA OK.
 	RUN_TEST(test_captura_hippie_entre_agentes); //DONE.
-	//RUN_TEST(test_captura_estudiante);
+	RUN_TEST(test_captura_estudiante); //DONE
 	//RUN_TEST(test_mas_vigilante);
 
 	/********************************************************************
