@@ -56,7 +56,7 @@ template<typename T>
 DiccString<T>::DiccString(){
 	this->vec = new Vector<valores*>();
 	this->significados = new Conj<T*>();
-	LONG_ALPH = 26; //TODO. Ver por que no puedo definir como const.
+	LONG_ALPH = 36; //TODO. Ver por que no puedo definir como const.
 }
 
 
@@ -245,7 +245,17 @@ int DiccString<T>::ord(const char c) const{
 		case 'y': result=24; break;
 		case 'Z':
 		case 'z': result=25; break;
-		default: result=26; break;
+		case '1': result=26; break;
+		case '2': result=27; break;
+		case '3': result=28; break;
+		case '4': result=29; break;
+		case '5': result=30; break;
+		case '6': result=31; break;
+		case '7': result=32; break;
+		case '8': result=33; break;
+		case '9': result=34; break;
+		case '0': result=35; break;
+		default: result=36; break;
 	}
 	return result;
 }
