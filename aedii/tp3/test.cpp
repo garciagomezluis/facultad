@@ -402,9 +402,9 @@ void test_rastrillaje_mover_hacia_hippie() {
 
 	agentes.Definir(a,p);
 	//TODO. DESCOMENTAR ESTAS 3 LINEAS Y SE ACABA EL MUNDO
-	//cout<<"Hasta aca todo bien"<<endl;
-	//aed2::Posicion p2 = campus.posAgente(a);
-	//ASSERT(p.x == p2.x && p.y == p2.y);
+	/*cout<<"Hasta aca todo bien"<<endl;
+	aed2::Posicion p2 = campus.posAgente(a);
+	ASSERT(p.x == p2.x && p.y == p2.y);*/
 	campus.comenzarRastrillaje(agentes);
 
 	aed2::Posicion ph;
@@ -513,9 +513,7 @@ void test_captura_estudiante()
 
 	Nat c2 = campus.conKSanciones(0).Cardinal();
 	ASSERT(c2 == 0 );
-	/** /
-
-	/**/ 
+	
 }
 
 void test_mas_vigilante()
@@ -590,7 +588,7 @@ void test_mas_vigilante()
 
 int main(int argc, char **argv)
 {
-    RUN_TEST(test_agregar_obstaculos); //DONE
+   RUN_TEST(test_agregar_obstaculos); //DONE
 	RUN_TEST(test_ingresa_estudiante); //DONE
 	RUN_TEST(test_mover_estudiante); //DONE
 	RUN_TEST(test_mover_estudiante_fuera); //DONE
@@ -604,7 +602,7 @@ int main(int argc, char **argv)
 	RUN_TEST(test_rastrillaje_mover_hacia_hippie); //VER ESTE TEST. DESCOMENTAR DONDE DICE. SIN DESCOMENTAR FUNCIONA OK.
 	RUN_TEST(test_captura_hippie_entre_agentes); //DONE.
 	RUN_TEST(test_captura_estudiante); //DONE
-	//RUN_TEST(test_mas_vigilante);
+	RUN_TEST(test_mas_vigilante);
 
 	/********************************************************************
 	 * TODO: escribir casos de test exhaustivos para todas              *

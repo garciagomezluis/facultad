@@ -137,9 +137,12 @@ void LetsBreakYou(){
 void Varios(){
 	int uno = 1;
 	int dos = 2;
+	int tres = 3;
 	DiccString<int> d = DiccString<int>();
 	d.Definir("lu",uno);
 	d.Definir("luis",dos);
+	d.Definir("A3",tres);
+	ASSERT_EQ(d.Significados().Cardinal(),3);
 }
 
 int main(int argc, char **argv)

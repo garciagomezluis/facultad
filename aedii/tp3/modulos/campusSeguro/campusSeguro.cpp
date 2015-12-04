@@ -91,6 +91,7 @@ void CampusSeguro::IngresaEstudiante( const Nombre& e , const Posicion& p){
 
 void CampusSeguro::IngresaHippie(const Nombre& h , const Posicion& p){
 	assert(!estudiantes.Definido(h) && !hippies.Definido(h) && campus->EsIngreso(p) && !EstaOcupada(p));
+	
 	//assert(!estudiantes.Definido(h));
 	//assert(!hippies.Definido(h));
 	//assert(campus->EsIngreso(p));
