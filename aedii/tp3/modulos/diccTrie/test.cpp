@@ -42,7 +42,7 @@ void DefinirValores(){
 	ASSERT_EQ(dicc->Significados().Pertenece(&tres),false);
 	
 	dicc->Definir("a",uno);
-	cout<<dicc->Significado("a")<<endl;
+	//cout<<dicc->Significado("a")<<endl;
 	ASSERT_EQ(dicc->Significados().EsVacio(),false);
 	//ASSERT_EQ(dicc->Significados().Pertenece(&uno),true);
 

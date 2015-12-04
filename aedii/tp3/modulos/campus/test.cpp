@@ -276,7 +276,7 @@ void campus_ingresosMasCercanos() {
 	ASSERT_EQ(remove_spaces(to_s(c.IngresosMasCercanos(p4))), remove_spaces("{ [9, 14] }"));
 }
 
-void testNew(){
+void campus_constructor_new(){
 	Campus* campus = new Campus(3,3);
 	delete campus;
 }
@@ -297,7 +297,7 @@ int main() {
 	RUN_TEST(campus_distancia);
 	RUN_TEST(campus_proxPosicion);
 	RUN_TEST(campus_ingresosMasCercanos);
-	RUN_TEST(testNew);
+	RUN_TEST(campus_constructor_new);
 
 	return 0;
 }

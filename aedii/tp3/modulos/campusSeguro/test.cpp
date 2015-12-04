@@ -48,13 +48,8 @@ void IngresarHippies(){
 	agentes.Definir(2,Posicion(2,2));
 
 	CampusSeguro* c = new CampusSeguro(campus,agentes);
-	//cout<<"1"<<endl;
-	//c->IngresaHippie("lu", Posicion(0,2));
-	//cout<<"2"<<endl;
 	c->IngresaHippie("luis", Posicion(2,0));
-	cout<<"CAMBIO DE PERSONA"<<endl;
 	c->IngresaHippie("julian", Posicion(1,0));
-	cout<<"4"<<endl;
 
 	delete c;
 	delete campus;
@@ -62,7 +57,6 @@ void IngresarHippies(){
 
 int main(int argc, char **argv)
 {
-
 	RUN_TEST(Inicializacion);
 	RUN_TEST(IngresarEstudiantes);
 	RUN_TEST(IngresarHippies);

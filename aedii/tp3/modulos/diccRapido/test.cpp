@@ -104,11 +104,36 @@ void diccRapido_significado() {
 	ASSERT_EQ(d.Significado(103), 3);
 }
 
+void diccRapido_borrar() {
+	DiccRapido<int, int> d;
+	d.Definir(1, 1);
+	d.Borrar(1);
+	ASSERT_EQ(d.Definido(1), false);
+
+	d.Definir(1, 1);
+	d.Definir(2, 1);
+	d.Definir(1, 3);
+	d.Definir(102, 5);
+	d.Definir(103, 3);
+
+	d.Borrar(102);
+	ASSERT_EQ(d.Definido(102), false);
+	ASSERT_EQ(d.Definido(2), true);
+	d.Borrar(103);
+	ASSERT_EQ(d.Definido(3), false);
+	d.Borrar(2);
+	ASSERT_EQ(d.Definido(2), false);
+	d.Borrar(1);
+	ASSERT_EQ(d.Definido(1), false);
+
+}
+
 int main() {
 	//test interfáz pública de campus
 	RUN_TEST(diccRapido_constructor);
 	RUN_TEST(diccRapido_definir);
 	RUN_TEST(diccRapido_definido);
 	RUN_TEST(diccRapido_significado);
+	RUN_TEST(diccRapido_borrar);
 	return 0;
 }
