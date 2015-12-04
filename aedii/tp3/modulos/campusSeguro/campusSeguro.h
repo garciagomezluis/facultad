@@ -94,13 +94,6 @@ private:
 		Conj <Nombre> :: Iterador itAux;
 	};
 
-	/*struct infoEntorno{
-		Nat Estudiantes;
-		Nat Hippies;
-		Nat Seguridad;
-		Nat Objetos;
-	};*/
-
 	Agente masVigilante;
 	bool hubieronSanciones;
 	Campus* campus;
@@ -114,10 +107,7 @@ private:
 	DiccString <infoHippie> hippies;
 	DiccRapido <Agente , infoAgente> agentes;
 
-	//funciones auxiliares;
-
-	void Sancionar(Nat p, Nat cs);
-	
+	void Sancionar(Nat p, Nat cs);	
 	void InsertarOrdenado(Vector<Nat>& v,const Nat& a);
 	Conj<Agente> BusquedaRapida(Nat n, Vector<Agente> v);
 	Conj<Agente> Buscar(Vector<Agente> v,Nat i,Nat s,Nat k);
